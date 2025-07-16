@@ -1,0 +1,40 @@
+.commerciale-container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.commerciale-title {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #0c4c91;
+}
+
+.commerciale-blocks {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.commerciale-card {
+  background-color: #f0f4f8;
+  padding: 25px;
+  border-radius: 12px;
+  width: 250px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.commerciale-card:hover {
+  background-color: #e0edf7;
+  transform: translateY(-5px);
+}
+
+.card-icon {
+  font-size: 2.2rem;
+  color: #1b74e4;
+  margin-bottom: 15px;
+}

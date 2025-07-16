@@ -48,6 +48,11 @@ async def get_all_leads():
     leads = await db.leads.find().to_list(100)
     return [convert_mongo_doc(l) for l in leads]
 
+@leads_router.get("/", response_model=List[Leads])
+async def get_all_leads():
+    leads = await db.leads.find().to_list(100)
+    return [convert_mongo_doc(l) for l in leads]
+
 @leads_router.get("/paginated", response_model=dict)
 async def get_leads_paginated(
     page: int = Query(1, ge=1),
@@ -55,6 +60,7 @@ async def get_leads_paginated(
     nom_client: Optional[str] = None,
     besoin: Optional[str] = None,
     affectation: Optional[str] = None,
+    date_creation: Optional[str] = None,
 ):
     skip = (page - 1) * limit
     query_filter = {}
@@ -65,6 +71,14 @@ async def get_leads_paginated(
         query_filter["besoin"] = {"$regex": besoin, "$options": "i"}
     if affectation:
         query_filter["affectation"] = {"$regex": affectation, "$options": "i"}
+    if date_creation:
+        try:
+            date_obj = datetime.strptime(date_creation, "%Y-%m-%d")
+            start = datetime.combine(date_obj, time.min)
+            end = datetime.combine(date_obj, time.max)
+            query_filter["date_creation"] = {"$gte": start, "$lte": end}
+        except ValueError:
+            raise HTTPException(status_code=400, detail="Format de date invalide (YYYY-MM-DD)")
 
     total = await db.leads.count_documents(query_filter)
     leads = await (
@@ -79,14 +93,10 @@ async def get_leads_paginated(
     for l in leads:
         l["id"] = str(l["_id"])
         del l["_id"]
-        # Convertir dates en ISO si elles existent
         for key in ["date_creation", "date_traitement"]:
             if key in l and l[key]:
                 if isinstance(l[key], (datetime, date)):
                     l[key] = l[key].isoformat()
-                else:
-                    # si date en string stockée, on peut tenter de parser sinon laisser
-                    pass
 
     return {
         "status_code": 200,

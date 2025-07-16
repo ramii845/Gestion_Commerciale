@@ -11,17 +11,26 @@ export const getAllLeads = async () => {
   return await axios.get(`${API_BASE_URL}/`);
 };
 
-export const getPaginatedLeads = async (page = 1, limit = 7, nom_client = "", besoin = "", affectation = "") => {
+export const getPaginatedLeads = async (
+  page = 1,
+  limit = 7,
+  nom_client = "",
+  besoin = "",
+  affectation = "",
+  date_creation = ""
+) => {
   return await axios.get(`${API_BASE_URL}/paginated`, {
     params: {
       page,
       limit,
       nom_client: nom_client || undefined,
       besoin: besoin || undefined,
-      affectation: affectation || undefined
+      affectation: affectation || undefined,
+      date_creation: date_creation || undefined
     }
   });
 };
+
 
 export const getLeadById = async (leadId) => {
   return await axios.get(`${API_BASE_URL}/${leadId}`);

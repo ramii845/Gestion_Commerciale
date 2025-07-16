@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { ToastContainer } from "react-toastify";
 import Login from './components/authentification/login';
+import CommercialeHome from './components/commerciales/commercileHome';
+import ListLeads from './components/commerciales/commercialeLeads/ListLeads';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -26,6 +28,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Login/>} />
+          <Route path="/commerciale" element={<CommercialeHome/>} />
+          <Route path="/commerciale/leads" element={<ListLeads/>} />
        </Routes>
       </Router>
 

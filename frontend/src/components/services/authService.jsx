@@ -29,7 +29,7 @@ export const updateUser = async (userId, updatedUserData) => {
 };
 
 // ✅ Obtenir un utilisateur par ID
-export const getUserById = async (userId) => {
+export const getUserbyId = async (userId) => {
   return await axios.get(`${API_BASE_URL}/${userId}`);
 };
 
