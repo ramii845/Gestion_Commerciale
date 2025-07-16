@@ -90,12 +90,9 @@ const Login = () => {
         </div>
 
         {/* Bouton */}
-        <button type="submit" className="button">Se connecter</button>
+        <button type="submit" className="button1">Se connecter</button>
 
-        {/* Lien mot de passe oublié */}
-        <div className="below-button-links">
-          <Link className="custom-link" to="/reset-password">Mot de passe oublié ?</Link>
-        </div>
+       
       </form>
 
       <ToastContainer position="top-right" autoClose={3000} />
