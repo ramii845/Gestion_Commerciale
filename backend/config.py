@@ -1,0 +1,5 @@
+MONGO_URI = "mongodb://127.0.0.1:27017"
+MONGO_DB = "Gestion_Commerciale_db"
+SECRET_KEY = "rami0000"
+CLOUDINARY_UPLOAD_PRESET = "iit2024G4"
+CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/ditzf19gl/image/upload"
