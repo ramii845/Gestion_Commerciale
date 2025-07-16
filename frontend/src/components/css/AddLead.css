@@ -1,0 +1,63 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+.add-lead-container {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.add-lead-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.add-lead-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-lead-container label {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.add-lead-container input,
+.add-lead-container select {
+  padding: 10px 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s;
+}
+
+.add-lead-container input:focus,
+.add-lead-container select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.add-lead-container button {
+  margin-top: 2rem;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-lead-container button:hover {
+  background-color: #0056b3;
+}

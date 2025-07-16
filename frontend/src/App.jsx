@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import Login from './components/authentification/login';
 import CommercialeHome from './components/commerciales/commercileHome';
 import ListLeads from './components/commerciales/commercialeLeads/ListLeads';
+import AddLead from './components/commerciales/commercialeLeads/AddLead';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -30,6 +31,8 @@ function App() {
           <Route path="/" element={<Login/>} />
           <Route path="/commerciale" element={<CommercialeHome/>} />
           <Route path="/commerciale/leads" element={<ListLeads/>} />
+ <Route path='/add-lead' element={<AddLead/>} />
+          
        </Routes>
       </Router>
 
