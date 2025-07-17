@@ -83,8 +83,8 @@ const ListPromesse = () => {
   return (
     <>
       <Navbar />
-      <div className="list-promesse-container" style={{ marginTop: "100px" }}>
-        <div className="list-promesse-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+      <div className="list-promesse-container" >
+        <div className="list-promesse-header" >
           <h2 className="list-promesse-title">Liste des promesses</h2>
              <button onClick={() => navigate('/add-promesse')}>Ajouter</button>
         </div>
@@ -134,7 +134,7 @@ const ListPromesse = () => {
           </tbody>
         </table>
 
-        <div className="pagination" style={{ marginTop: 20, display: "flex", justifyContent: "center", alignItems: "center", gap: "10px" }}>
+        <div className="pagination" >
           <button onClick={onPrev} disabled={page === 1}>←</button>
           <span>{page} / {totalPages}</span>
           <button onClick={onNext} disabled={page === totalPages}>→</button>
