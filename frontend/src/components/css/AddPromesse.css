@@ -1,0 +1,116 @@
+/* AddPromesse.css */
+
+.add-promesse-container{
+  max-width: 500px;
+  margin-top: 180px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
+  padding: 20px 30px;
+  background-color: #fff;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.add-promesse-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #007bff;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.form-group select,
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="password"],
+.form-group input[type="file"] {
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group select:focus,
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group input[type="password"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Centrage du bouton */
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+button.submit-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 40px;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+button.submit-btn:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+button.submit-btn:disabled {
+  background-color: #a0c5ff;
+  cursor: not-allowed;
+}
+
+
+
+
+
+/* Password toggle icon */
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper i {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  font-size: 1.2rem;
+  user-select: none;
+}
+
+/* Responsive */
+@media (max-width: 550px) {
+  .add-promesse-container {
+    margin: 60px 15px;
+    padding: 15px 20px;
+  }
+
+  button.submit-btn {
+    width: 100%;
+    padding: 12px 0;
+  }
+}

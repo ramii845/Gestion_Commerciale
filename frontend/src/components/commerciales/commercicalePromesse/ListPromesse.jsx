@@ -3,6 +3,7 @@ import { getPaginatedPromesses } from "../../services/promesseService";
 import { getUsersPaginated } from "../../services/authService";
 import { toast } from "react-toastify";
 import '../../css/ListPromesses.css';
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
 
 const decodeJWT = (token) => {
@@ -29,6 +30,7 @@ const ListPromesse = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [userId, setUserId] = useState(null);
+   const navigate = useNavigate();
 
   // Charger utilisateurs au montage (pas besoin à chaque page)
   useEffect(() => {
@@ -84,7 +86,7 @@ const ListPromesse = () => {
       <div className="list-promesse-container" style={{ marginTop: "100px" }}>
         <div className="list-promesse-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
           <h2 className="list-promesse-title">Liste des promesses</h2>
-          <button>Ajouter</button>
+             <button onClick={() => navigate('/add-promesse')}>Ajouter</button>
         </div>
 
         <div style={{ marginBottom: 15 }}>

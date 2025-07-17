@@ -9,6 +9,7 @@ import CommercialeHome from './components/commerciales/commercileHome';
 import ListLeads from './components/commerciales/commercialeLeads/ListLeads';
 import AddLead from './components/commerciales/commercialeLeads/AddLead';
 import ListPromesse from './components/commerciales/commercicalePromesse/ListPromesse';
+import AddPromesse from './components/commerciales/commercicalePromesse/AddPromesse';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -34,6 +35,7 @@ function App() {
           <Route path="/commerciale/leads" element={<ListLeads/>} />
  <Route path='/add-lead' element={<AddLead/>} />
 <Route path='/commerciale/promesses' element={<ListPromesse/>} />
+ <Route path='/add-promesse' element={<AddPromesse/>} />
  
           
        </Routes>
