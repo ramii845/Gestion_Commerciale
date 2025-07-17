@@ -12,6 +12,7 @@ import ListPromesse from './components/commerciales/commercicalePromesse/ListPro
 import AddPromesse from './components/commerciales/commercicalePromesse/AddPromesse';
 import ListeVentes from './components/commerciales/commercialeVente/ListeVents';
 import AddVente from './components/commerciales/commercialeVente/AddVente';
+import EditVente from './components/commerciales/commercialeVente/EditVente';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -41,7 +42,7 @@ function App() {
  <Route path='/add-promesse' element={<AddPromesse/>} />
  <Route path='/commerciale/ventes' element={<ListeVentes/>} />
  <Route path='/add-vente' element={<AddVente/>} />
-
+ <Route path='/edit-vente/:id' element={<EditVente/>} />
  
           
        </Routes>

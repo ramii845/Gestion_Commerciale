@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
-from datetime import date
+from datetime import datetime
 
 
 class Vente(BaseModel):
@@ -10,7 +10,8 @@ class Vente(BaseModel):
     matricule: str = ""
     nom_client:str=""  
     tel_client:str=""  
-    date_creation:Optional[date] = None
-    date_modification:Optional[date] = None
+    date_creation: Optional[datetime]
+    date_modification: Optional[datetime]
+
     commentaire:str=""
     statut:str=""

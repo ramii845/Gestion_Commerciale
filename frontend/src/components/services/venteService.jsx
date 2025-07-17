@@ -30,7 +30,7 @@ export const updateVente = async (venteId, updatedVente) => {
 // ✅ Pagination + recherche
 export const getPaginatedVentes = async (
   page = 1,
-  limit = 7,
+  limit = 14,
   nom_client = ""
 ) => {
   return await axios.get(`${API_BASE_URL}/paginated`, {

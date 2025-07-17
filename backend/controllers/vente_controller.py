@@ -46,7 +46,7 @@ async def get_all_ventes():
 @vente_router.get("/paginated", response_model=dict)
 async def get_ventes_paginated(
     page: int = Query(1, ge=1),
-    limit: int = Query(10, ge=1),
+    limit: int = Query(14, ge=1),
     nom_client: Optional[str] = None,
     matricule: Optional[str] = None,
     statut: Optional[str] = None,
