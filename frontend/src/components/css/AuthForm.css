@@ -12,11 +12,13 @@
 }
 
 .icon-left {
+  pointer-events: none; /* Laisse les clics passer à travers l'icône */
   position: absolute;
   left: 10px;
   color: #999;
   font-size: 1rem;
 }
+
 
 .icon-toggle:hover {
   color: #0c6b84;
