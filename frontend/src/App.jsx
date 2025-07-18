@@ -13,6 +13,13 @@ import AddPromesse from './components/commerciales/commercicalePromesse/AddProme
 import ListeVentes from './components/commerciales/commercialeVente/ListeVents';
 import AddVente from './components/commerciales/commercialeVente/AddVente';
 import EditVente from './components/commerciales/commercialeVente/EditVente';
+import ResponsableHome from './components/responsable_vente/responsableHome';
+import ListeResVentes from './components/responsable_vente/Ventes/ListeResVentes';
+import AddResVente from './components/responsable_vente/Ventes/addResVente';
+import EditResVente from './components/responsable_vente/Ventes/EditResVente';
+import ListResPromesse from './components/responsable_vente/promesse/ListResPromesse';
+import AddResPromesse from './components/responsable_vente/promesse/addResPromesse';
+import AddResLead from './components/responsable_vente/leads/addResLead';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -35,6 +42,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Login/>} />
 
+          {/* Commerciale */}
+
           <Route path="/commerciale" element={<CommercialeHome/>} />
           <Route path="/commerciale/leads" element={<ListLeads/>} />
  <Route path='/add-lead' element={<AddLead/>} />
@@ -44,7 +53,16 @@ function App() {
  <Route path='/add-vente' element={<AddVente/>} />
  <Route path='/edit-vente/:id' element={<EditVente/>} />
  
-          
+          {/* responsable*/}
+          <Route path="/responsable" element={<ResponsableHome/>} />
+           <Route path='/responsable/ventes' element={<ListeResVentes/>} />
+            <Route path='/add-vente-res' element={<AddResVente/>} />
+            <Route path='/edit-vente-res/:id' element={<EditResVente/>} />
+            <Route path='/responsable/promesses' element={<ListResPromesse/>} />
+             <Route path='/add-promesse-res' element={<AddResPromesse/>} />
+             <Route path="/responsable/leads" element={<ListLeads/>} />
+ <Route path='/add-lead-res' element={<AddResLead/>} />
+             
        </Routes>
       </Router>
 
