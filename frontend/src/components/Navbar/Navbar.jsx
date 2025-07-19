@@ -82,7 +82,7 @@ const Navbar = () => {
       navigate("/commerciale");
     }
     if (role === "Manager") {
-      navigate("/adminPage");
+      navigate("/ManagerPage");
     }
     if (role === "Responsable Vente") {
       navigate("/responsable");

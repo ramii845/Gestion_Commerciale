@@ -1,0 +1,53 @@
+.manager-container {
+  max-width: 900px;
+  margin: 40px auto 60px; /* centré avec un peu d’espace en bas */
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.manager-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.manager-blocks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+}
+
+.manager-card {
+  background-color: #3f51b5;
+  color: white;
+  width: 220px;
+  height: 160px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  user-select: none;
+}
+
+.manager-card:hover {
+  background-color: #303f9f;
+  transform: translateY(-5px);
+}
+
+.card-icon {
+  font-size: 3.5rem;
+  margin-bottom: 12px;
+}
+
+.manager-card h3 {
+  font-weight: 600;
+  font-size: 1.2rem;
+  text-align: center;
+  margin: 0;
+}

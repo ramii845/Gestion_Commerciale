@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "../../css/ListUsers.css";
 import Navbar from "../../Navbar/Navbar";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const ListUsers = () => {
   const [users, setUsers] = useState([]);
@@ -30,17 +32,52 @@ const ListUsers = () => {
     fetchUsers();
   }, [page, searchNom]);
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
-      try {
-        await deleteUser(id);
-        toast.success("Utilisateur supprimé !");
-        fetchUsers();
-      } catch {
-        toast.error("Erreur lors de la suppression !");
+const handleDelete = (id) => {
+  confirmAlert({
+    title: 'Suppression',
+    message: 'Voulez-vous vraiment supprimer cet utilisateur ?',
+    buttons: [
+      {
+        label: 'Oui',
+        onClick: async () => {
+          try {
+            await deleteUser(id);
+            toast.success('Utilisateur supprimé !');
+            fetchUsers();
+          } catch {
+            toast.error('Erreur lors de la suppression !');
+          }
+        },
+        style: {
+          backgroundColor: '#28a745',
+          color: 'white',
+          padding: '8px 20px',
+          borderRadius: '6px',
+          border: 'none',
+          fontWeight: '500',
+          fontSize: '15px',
+          cursor: 'pointer'
+        }
+      },
+      {
+        label: 'Non',
+        onClick: () => {},
+        style: {
+          backgroundColor: '#dc3545',
+          color: 'white',
+          padding: '8px 20px',
+          borderRadius: '6px',
+          border: 'none',
+          fontWeight: '500',
+          fontSize: '15px',
+          cursor: 'pointer'
+        }
       }
-    }
-  };
+    ],
+    closeOnEscape: true,
+    closeOnClickOutside: true
+  });
+};
 
   return (
     <>
@@ -50,7 +87,7 @@ const ListUsers = () => {
       <h2 className="title">Liste des utilisateurs</h2>
 
       <div className="user-list-actions">
-        <button className="btn add" onClick={() => navigate("/add")}>
+        <button className="btn add" onClick={() => navigate("/add-user")}>
           ➕ Ajouter
         </button>
 

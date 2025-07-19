@@ -1,0 +1,83 @@
+/* EditUser.css */
+
+.edit-container {
+  max-width: 450px;
+  margin: 80px auto 40px; /* augmente la marge en haut (80px au lieu de 40px) */
+ padding:7rem;
+
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.edit-title {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.edit-form input[type="text"],
+.edit-form select,
+.edit-form input[type="file"] {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 18px;
+  border: 1.8px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.edit-form input[type="text"]:focus,
+.edit-form select:focus,
+.edit-form input[type="file"]:focus {
+  border-color: #3f51b5;
+  outline: none;
+}
+
+.edit-form label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  color: #555;
+}
+
+.edit-preview {
+  display: block;
+  margin: 10px auto 20px;
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.uploading-text {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+.edit-button {
+  width: 100%;
+  padding: 12px 0;
+  background-color: #3f51b5;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button:disabled {
+  background-color: #8c8cbe;
+  cursor: not-allowed;
+}
+
+.edit-button:hover:not(:disabled) {
+  background-color: #303f9f;
+}
