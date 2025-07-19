@@ -1,0 +1,98 @@
+.user-list-container {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.title {
+  text-align: center;
+  color: #0c6b84;
+  margin-bottom: 1.5rem;
+}
+
+.user-list-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.user-list-actions input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn.add {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn.edit {
+  background-color: #ffc107;
+  color: black;
+  margin-right: 5px;
+}
+
+.btn.delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.user-table th,
+.user-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.user-photo {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.empty-msg {
+  text-align: center;
+  font-style: italic;
+  color: #888;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  border: none;
+  background-color: #0c6b84;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

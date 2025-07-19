@@ -6,4 +6,4 @@ class User(BaseModel):
     motdepasse: str
     photo: Optional[str] =""
     role: str = ""
-    confirm: bool = False
+ 

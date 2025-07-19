@@ -20,6 +20,8 @@ import EditResVente from './components/responsable_vente/Ventes/EditResVente';
 import ListResPromesse from './components/responsable_vente/promesse/ListResPromesse';
 import AddResPromesse from './components/responsable_vente/promesse/addResPromesse';
 import AddResLead from './components/responsable_vente/leads/addResLead';
+import ListUsers from './components/admin/users/ListUsers';
+import AddUser from './components/admin/users/AddUsers';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -62,6 +64,12 @@ function App() {
              <Route path='/add-promesse-res' element={<AddResPromesse/>} />
              <Route path="/responsable/leads" element={<ListLeads/>} />
  <Route path='/add-lead-res' element={<AddResLead/>} />
+ 
+          {/* responsable*/}
+          <Route path="/list" element={<ListUsers/>} />
+             <Route path="/add" element={<AddUser/>} />
+
+
              
        </Routes>
       </Router>
