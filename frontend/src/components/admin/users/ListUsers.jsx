@@ -7,6 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "../../css/ListUsers.css";
+import Navbar from "../../Navbar/Navbar";
 
 const ListUsers = () => {
   const [users, setUsers] = useState([]);
@@ -42,6 +43,8 @@ const ListUsers = () => {
   };
 
   return (
+    <>
+   <Navbar/>
     <div className="user-list-container">
       <ToastContainer />
       <h2 className="title">Liste des utilisateurs</h2>
@@ -119,6 +122,7 @@ const ListUsers = () => {
         </button>
       </div>
     </div>
+    </>
   );
 };
 

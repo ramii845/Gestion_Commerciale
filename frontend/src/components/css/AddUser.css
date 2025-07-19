@@ -1,0 +1,115 @@
+.adduser-container {
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+  margin-top: 60px;
+}
+
+.adduser-form-wrapper {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+}
+
+.adduser-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.adduser-title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #007bff;
+}
+
+.adduser-photo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.adduser-photo-preview {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+  transition: border-color 0.3s ease;
+}
+
+.adduser-photo-preview:hover {
+  border-color: #007bff;
+}
+
+.adduser-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.adduser-group label {
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.adduser-group input,
+.adduser-group select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.adduser-group input:focus,
+.adduser-group select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.adduser-password {
+  position: relative;
+}
+
+.adduser-password input {
+  width: 100%;
+  padding-right: 2.5rem;
+}
+
+.adduser-password i {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #888;
+}
+
+.adduser-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.adduser-button:hover {
+  background-color: #0056b3;
+}
+
+.adduser-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
