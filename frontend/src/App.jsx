@@ -24,6 +24,9 @@ import ListUsers from './components/admin/users/ListUsers';
 import AddUser from './components/admin/users/AddUsers';
 import EditUser from './components/admin/users/EditUser';
 import ManagerHome from './components/admin/ManagerHome';
+import CommercialeRoute from './components/utils/ComercialeRoute';
+import ResponsableVenteRoute from './components/utils/ResponsableVenteRoute';
+import ManagerRoute from './components/utils/ManagerRoute';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -48,30 +51,31 @@ function App() {
 
           {/* Commerciale */}
 
-          <Route path="/commerciale" element={<CommercialeHome/>} />
-          <Route path="/commerciale/leads" element={<ListLeads/>} />
- <Route path='/add-lead' element={<AddLead/>} />
-<Route path='/commerciale/promesses' element={<ListPromesse/>} />
- <Route path='/add-promesse' element={<AddPromesse/>} />
- <Route path='/commerciale/ventes' element={<ListeVentes/>} />
- <Route path='/add-vente' element={<AddVente/>} />
- <Route path='/edit-vente/:id' element={<EditVente/>} />
- 
+     <Route path="/commerciale" element={<CommercialeRoute element={<CommercialeHome />} />} />
+<Route path="/commerciale/leads" element={<CommercialeRoute element={<ListLeads />} />} />
+<Route path="/add-lead" element={<CommercialeRoute element={<AddLead />} />} />
+<Route path="/commerciale/promesses" element={<CommercialeRoute element={<ListPromesse />} />} />
+<Route path="/add-promesse" element={<CommercialeRoute element={<AddPromesse />} />} />
+<Route path="/commerciale/ventes" element={<CommercialeRoute element={<ListeVentes />} />} />
+<Route path="/add-vente" element={<CommercialeRoute element={<AddVente />} />} />
+<Route path="/edit-vente/:id" element={<CommercialeRoute element={<EditVente />} />} />
+
           {/* responsable*/}
-          <Route path="/responsable" element={<ResponsableHome/>} />
-           <Route path='/responsable/ventes' element={<ListeResVentes/>} />
-            <Route path='/add-vente-res' element={<AddResVente/>} />
-            <Route path='/edit-vente-res/:id' element={<EditResVente/>} />
-            <Route path='/responsable/promesses' element={<ListResPromesse/>} />
-             <Route path='/add-promesse-res' element={<AddResPromesse/>} />
-             <Route path="/responsable/leads" element={<ListLeads/>} />
- <Route path='/add-lead-res' element={<AddResLead/>} />
+       <Route path="/responsable" element={<ResponsableVenteRoute element={<ResponsableHome />} />} />
+<Route path="/responsable/ventes" element={<ResponsableVenteRoute element={<ListeResVentes />} />} />
+<Route path="/add-vente-res" element={<ResponsableVenteRoute element={<AddResVente />} />} />
+<Route path="/edit-vente-res/:id" element={<ResponsableVenteRoute element={<EditResVente />} />} />
+<Route path="/responsable/promesses" element={<ResponsableVenteRoute element={<ListResPromesse />} />} />
+<Route path="/add-promesse-res" element={<ResponsableVenteRoute element={<AddResPromesse />} />} />
+<Route path="/responsable/leads" element={<ResponsableVenteRoute element={<ListLeads />} />} />
+<Route path="/add-lead-res" element={<ResponsableVenteRoute element={<AddResLead />} />} />
  
-          {/* responsable*/}
-            <Route path="/ManagerPage" element={<ManagerHome/>} />
-          <Route path="/list" element={<ListUsers/>} />
-             <Route path="/add-user" element={<AddUser/>} />
-               <Route path="/edit-user/:id" element={<EditUser/>} />
+          {/* Manager*/}
+          
+<Route path="/ManagerPage" element={<ManagerRoute element={<ManagerHome />} />} />
+<Route path="/list" element={<ManagerRoute element={<ListUsers />} />} />
+<Route path="/add-user" element={<ManagerRoute element={<AddUser />} />} />
+<Route path="/edit-user/:id" element={<ManagerRoute element={<EditUser />} />} />
 
              
 
