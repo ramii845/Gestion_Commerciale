@@ -157,6 +157,9 @@ const handleDelete = (id) => {
         >
           ▶
         </button>
+        <button className="btn-password" onClick={() => navigate("/reset-password")}>
+  Gérer mots de passe
+</button>
       </div>
     </div>
     </>

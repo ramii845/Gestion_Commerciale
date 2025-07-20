@@ -27,6 +27,7 @@ import ManagerHome from './components/admin/ManagerHome';
 import CommercialeRoute from './components/utils/ComercialeRoute';
 import ResponsableVenteRoute from './components/utils/ResponsableVenteRoute';
 import ManagerRoute from './components/utils/ManagerRoute';
+import ResetPasswordPage from './components/authentification/ResetPasswordPage';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -76,6 +77,7 @@ function App() {
 <Route path="/list" element={<ManagerRoute element={<ListUsers />} />} />
 <Route path="/add-user" element={<ManagerRoute element={<AddUser />} />} />
 <Route path="/edit-user/:id" element={<ManagerRoute element={<EditUser />} />} />
+<Route path="/reset-password" element={<ResetPasswordPage/>} />
 
              
 
