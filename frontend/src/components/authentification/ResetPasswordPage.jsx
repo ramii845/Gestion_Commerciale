@@ -4,6 +4,7 @@ import { resetPassword } from '../services/authService';
 import { toast,ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../css/ResetPasswordPage.css';
+import Navbar from '../Navbar/Navbar';
 
 
 
@@ -43,6 +44,8 @@ const ResetPasswordPage = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="auth-container">
       <form onSubmit={handleSubmit} className="auth-form-container">
         <h2 className="text-xl font-bold text-center mb-6">Réinitialiser le mot de passe</h2>
@@ -127,15 +130,16 @@ const ResetPasswordPage = () => {
         <button className="button1" type="submit">
           Réinitialiser
         </button>
-         <button className="button2" type="submit">
-          Retour
-        </button>
+       <button className="button2" type="button" onClick={() => navigate('/list')}>
+      Retour
+    </button>
 
 
        
       </form>
         <ToastContainer position="top-right" autoClose={3000} />
     </div>
+    </>
   );
 };
 

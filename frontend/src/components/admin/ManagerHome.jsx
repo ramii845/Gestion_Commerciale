@@ -15,7 +15,7 @@ const ManagerHome = () => {
         <div className="manager-blocks">
           <div
             className="manager-card"
-            onClick={() => navigate('/commerciale/ventes')}
+            onClick={() => navigate('/manager/ventes')}
             role="button"
             tabIndex={0}
           >
@@ -25,7 +25,7 @@ const ManagerHome = () => {
 
           <div
             className="manager-card"
-            onClick={() => navigate('/commerciale/leads')}
+            onClick={() => navigate('/manager/leads')}
             role="button"
             tabIndex={0}
           >
@@ -35,7 +35,7 @@ const ManagerHome = () => {
 
           <div
             className="manager-card"
-            onClick={() => navigate('/commerciale/promesses')}
+            onClick={() => navigate('/manager/promesses')}
             role="button"
             tabIndex={0}
           >

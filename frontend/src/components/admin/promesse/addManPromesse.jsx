@@ -5,7 +5,7 @@ import { createPromesse } from "../../services/promesseService";
 import '../../css/AddPromesse.css';
 import Navbar from "../../Navbar/Navbar";
 
-const AddResPromesse = () => {
+const AddManPromesse = () => {
   const navigate = useNavigate();
 
   const modelesParMarque = {
@@ -102,7 +102,7 @@ const AddResPromesse = () => {
         user_id: userId,
       });
       toast.success("Promesse créée avec succès !");
-      setTimeout(() => navigate("/manager/promesses"), 1500);
+      setTimeout(() => navigate("/responsable/promesses"), 1500);
     } catch (error) {
       toast.error(error.response?.data?.detail || "Erreur lors de la création de la promesse");
     } finally {
@@ -189,4 +189,4 @@ const AddResPromesse = () => {
 
 
 
-export default AddResPromesse;
+export default AddManPromesse;

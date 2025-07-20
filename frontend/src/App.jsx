@@ -28,6 +28,14 @@ import CommercialeRoute from './components/utils/ComercialeRoute';
 import ResponsableVenteRoute from './components/utils/ResponsableVenteRoute';
 import ManagerRoute from './components/utils/ManagerRoute';
 import ResetPasswordPage from './components/authentification/ResetPasswordPage';
+import ListeManVentes from './components/admin/ventes/ListeManVentes';
+import AddManVente from './components/admin/ventes/addManVente';
+import EditManVente from './components/admin/ventes/EditManVente';
+import ListManPromesse from './components/admin/promesse/ListManPromesse';
+import AddManPromesse from './components/admin/promesse/addManPromesse';
+import ListManLeads from './components/admin/leads/ListManLeads';
+import AddManLead from './components/admin/leads/addManLead';
+import NotFoundPage from './components/utils/NotFoundPage';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -77,9 +85,27 @@ function App() {
 <Route path="/list" element={<ManagerRoute element={<ListUsers />} />} />
 <Route path="/add-user" element={<ManagerRoute element={<AddUser />} />} />
 <Route path="/edit-user/:id" element={<ManagerRoute element={<EditUser />} />} />
-<Route path="/reset-password" element={<ResetPasswordPage/>} />
+<Route path="/reset-password" element={<ManagerRoute element={<ResetPasswordPage />} />} />
 
-             
+<Route path="/manager/ventes" element={<ManagerRoute element={<ListeManVentes />} />} />
+<Route path="/add-vente-man" element={<ManagerRoute element={<AddManVente />} />} />
+<Route path="/edit-vente-man/:id" element={<ManagerRoute element={<EditManVente />} />} />
+
+<Route path="/manager/promesses" element={<ManagerRoute element={<ListManPromesse />} />} />
+<Route path="/add-promesse-man" element={<ManagerRoute element={<AddManPromesse />} />} />
+
+<Route path="/manager/leads" element={<ManagerRoute element={<ListManLeads />} />} />
+<Route path="/add-lead-man" element={<ManagerRoute element={<AddManLead />} />} />
+
+
+
+
+
+
+<Route path="*" element={<NotFoundPage/>} />
+
+
+
 
 
              

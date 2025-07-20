@@ -23,7 +23,7 @@ const decodeJWT = (token) => {
   }
 };
 
-const ListResPromesse = () => {
+const ListManPromesse = () => {
   const [promesses, setPromesses] = useState([]);
   const [usersMap, setUsersMap] = useState({});
   const [filterMatricule, setFilterMatricule] = useState("");
@@ -86,7 +86,7 @@ const ListResPromesse = () => {
       <div className="list-promesse-container" >
         <div className="list-promesse-header" >
           <h2 className="list-promesse-title">Liste des promesses</h2>
-             <button onClick={() => navigate('/add-promesse-man')}>Ajouter</button>
+             <button onClick={() => navigate('/add-promesse-res')}>Ajouter</button>
         </div>
 
         <div style={{ marginBottom: 15 }}>
@@ -144,4 +144,4 @@ const ListResPromesse = () => {
   );
 };
 
-export default ListResPromesse;
+export default ListManPromesse;
