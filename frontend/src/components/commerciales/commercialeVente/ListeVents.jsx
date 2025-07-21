@@ -1,30 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { getPaginatedVentes } from "../../services/venteService";
+import { getPaginatedVentes, addVente, updateVente } from "../../services/venteService";
 import { getUsersPaginated } from "../../services/authService";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
 import "../../css/ListeVentes.css";
 
-// Fonction pour décoder le token JWT
 const decodeJWT = (token) => {
   try {
     const base64Url = token.split(".")[1];
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
     const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split("")
-        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-        .join("")
+      atob(base64).split("").map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)).join("")
     );
     return JSON.parse(jsonPayload);
   } catch (e) {
-    console.error("Erreur décodage JWT :", e);
     return null;
   }
 };
 
-// Associe un statut à une classe CSS
 const getStatutClass = (statut) => {
   if (!statut) return "";
   return `statut-${statut.toLowerCase()}`;
@@ -37,9 +30,9 @@ const ListeVentes = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [userId, setUserId] = useState(null);
-  const navigate = useNavigate();
+  const [editingId, setEditingId] = useState(null);
+  const [newVente, setNewVente] = useState(null);
 
-  // Récupération des utilisateurs
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -50,14 +43,13 @@ const ListeVentes = () => {
           map[u.id || u._id] = u.nom;
         });
         setUsersMap(map);
-      } catch (error) {
+      } catch {
         toast.error("Erreur chargement utilisateurs");
       }
     };
     fetchUsers();
   }, []);
 
-  // Décodage du token
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -66,26 +58,82 @@ const ListeVentes = () => {
     }
   }, []);
 
-  // Récupération des ventes
-  useEffect(() => {
-    if (!userId) return;
+  const fetchVentes = async () => {
+    try {
+      const res = await getPaginatedVentes(page, 14, "", filterMatricule);
+      const filtered = res.data.ventes.filter(
+        (v) =>
+          v.user_id === userId &&
+          v.matricule.toLowerCase().includes(filterMatricule.toLowerCase())
+      );
+      setVentes(filtered);
+      setTotalPages(res.data.total_pages);
+    } catch {
+      toast.error("Erreur chargement ventes");
+    }
+  };
 
-    const fetchVentes = async () => {
-      try {
-        const res = await getPaginatedVentes(page, 14, "",filterMatricule);
-        const filtered = res.data.ventes.filter(
-          (v) =>
-            v.user_id === userId &&
-            v.matricule.toLowerCase().includes(filterMatricule.toLowerCase())
-        );
-        setVentes(filtered);
-        setTotalPages(res.data.total_pages);
-      } catch (error) {
-        toast.error("Erreur chargement ventes");
-      }
-    };
-    fetchVentes();
+  useEffect(() => {
+    if (userId) fetchVentes();
   }, [page, filterMatricule, userId]);
+
+  const handleChange = (e, id) => {
+    const { name, value } = e.target;
+    if (id === "new") {
+      setNewVente((prev) => ({ ...prev, [name]: value }));
+    } else {
+      setVentes((prev) =>
+        prev.map((v) => (v.id === id ? { ...v, [name]: value } : v))
+      );
+    }
+  };
+
+  const handleEdit = (id) => {
+    setEditingId(id);
+  };
+
+  const handleCancel = () => {
+    setEditingId(null);
+    setNewVente(null);
+  };
+
+  const handleSave = async (id) => {
+    try {
+      const venteToUpdate = ventes.find((v) => v.id === id);
+      await updateVente(id, { ...venteToUpdate, date_modification: new Date().toISOString() });
+      toast.success("Vente modifiée");
+      setEditingId(null);
+      fetchVentes();
+    } catch {
+      toast.error("Erreur lors de la modification");
+    }
+  };
+
+  const handleAddRow = () => {
+    setNewVente({
+      marque: "",
+      modele: "",
+      matricule: "",
+      matriculation: "",
+      nom_client: "",
+      tel_client: "",
+      commentaire: "",
+      statut: "",
+      date_creation: new Date().toISOString(),
+      user_id: userId
+    });
+  };
+
+  const handleAdd = async () => {
+    try {
+      await addVente(newVente);
+      toast.success("Vente ajoutée");
+      setNewVente(null);
+      fetchVentes();
+    } catch {
+      toast.error("Erreur lors de l'ajout");
+    }
+  };
 
   const onPrev = () => setPage((p) => Math.max(p - 1, 1));
   const onNext = () => setPage((p) => Math.min(p + 1, totalPages));
@@ -96,7 +144,7 @@ const ListeVentes = () => {
       <div className="liste-ventes-container">
         <div className="liste-ventes-header">
           <h2 style={{ textAlign: "center", flexGrow: 1 }}>Mes ventes</h2>
-          <button style={{ alignSelf: "flex-start" }} onClick={() => navigate("/add-vente")}>
+          <button style={{ alignSelf: "flex-start" }} onClick={handleAddRow}>
             Ajouter
           </button>
         </div>
@@ -122,6 +170,7 @@ const ListeVentes = () => {
               <th>Marque</th>
               <th>Modèle</th>
               <th>Matricule</th>
+              <th>Matriculation</th>
               <th>Commentaire</th>
               <th>Statut</th>
               <th>Date création</th>
@@ -130,44 +179,99 @@ const ListeVentes = () => {
             </tr>
           </thead>
           <tbody>
+            {newVente && (
+              <tr>
+                <td>{usersMap[newVente.user_id]}</td>
+                <td><input name="nom_client" value={newVente.nom_client} onChange={(e) => handleChange(e, "new")} /></td>
+                <td><input name="tel_client" value={newVente.tel_client} onChange={(e) => handleChange(e, "new")} /></td>
+                <td><input name="marque" value={newVente.marque} onChange={(e) => handleChange(e, "new")} /></td>
+                <td><input name="modele" value={newVente.modele} onChange={(e) => handleChange(e, "new")} /></td>
+                <td><input name="matricule" value={newVente.matricule} onChange={(e) => handleChange(e, "new")} /></td>
+                <td><input name="matriculation" value={newVente.matriculation} onChange={(e) => handleChange(e, "new")} /></td>
+                <td><input name="commentaire" value={newVente.commentaire} onChange={(e) => handleChange(e, "new")} /></td>
+                <td>
+                  <select name="statut" value={newVente.statut} onChange={(e) => handleChange(e, "new")}>
+                    <option value="">--</option>
+                    <option>Prospection</option>
+                    <option>Devis</option>
+                    <option>Commande</option>
+                    <option>Facturation</option>
+                    <option>Livraison</option>
+                    <option>Blocage</option>
+                    <option>Relance</option>
+                  </select>
+                </td>
+                <td>-</td>
+                <td>-</td>
+                <td>
+                  <button onClick={handleAdd}>Enregistrer</button>
+                  <button onClick={handleCancel}>Annuler</button>
+                </td>
+              </tr>
+            )}
             {ventes.length > 0 ? (
               ventes.map((v) => (
                 <tr key={v.id} className={getStatutClass(v.statut)}>
                   <td>{usersMap[v.user_id] || "Inconnu"}</td>
-                  <td>{v.nom_client}</td>
-                  <td>{v.tel_client}</td>
-                  <td>{v.marque}</td>
-                  <td>{v.modele}</td>
-                  <td>{v.matricule}</td>
-                  <td>{v.commentaire || "-"}</td>
-                  <td>{v.statut || "-"}</td>
-                  <td>{v.date_creation ? new Date(v.date_creation).toLocaleDateString() : "-"}</td>
-                  <td>{v.date_modification ? new Date(v.date_modification).toLocaleDateString() : "-"}</td>
-                  <td>
-                    <button className='btn-modf' onClick={() => navigate(`/edit-vente/${v.id}`)}>Modifier</button>
-                  </td>
+                  {editingId === v.id ? (
+                    <>
+                      <td><input name="nom_client" value={v.nom_client} onChange={(e) => handleChange(e, v.id)} /></td>
+                      <td><input name="tel_client" value={v.tel_client} onChange={(e) => handleChange(e, v.id)} /></td>
+                      <td><input name="marque" value={v.marque} onChange={(e) => handleChange(e, v.id)} /></td>
+                      <td><input name="modele" value={v.modele} onChange={(e) => handleChange(e, v.id)} /></td>
+                      <td><input name="matricule" value={v.matricule} onChange={(e) => handleChange(e, v.id)} /></td>
+                      <td><input name="matriculation" value={v.matriculation} onChange={(e) => handleChange(e, v.id)} /></td>
+                      <td><input name="commentaire" value={v.commentaire} onChange={(e) => handleChange(e, v.id)} /></td>
+                      <td>
+                        <select name="statut" value={v.statut} onChange={(e) => handleChange(e, v.id)}>
+                          <option value="">--</option>
+                          <option>Prospection</option>
+                          <option>Devis</option>
+                          <option>Commande</option>
+                          <option>Facturation</option>
+                          <option>Livraison</option>
+                          <option>Blocage</option>
+                          <option>Relance</option>
+                        </select>
+                      </td>
+                      <td>{v.date_creation ? new Date(v.date_creation).toLocaleDateString() : "-"}</td>
+                      <td>{v.date_modification ? new Date(v.date_modification).toLocaleDateString() : "-"}</td>
+                      <td>
+                        <button onClick={() => handleSave(v.id)}>Enregistrer</button>
+                        <button onClick={handleCancel}>Annuler</button>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td>{v.nom_client}</td>
+                      <td>{v.tel_client}</td>
+                      <td>{v.marque}</td>
+                      <td>{v.modele}</td>
+                      <td>{v.matricule}</td>
+                      <td>{v.matriculation}</td>
+                      <td>{v.commentaire || "-"}</td>
+                      <td>{v.statut || "-"}</td>
+                      <td>{v.date_creation ? new Date(v.date_creation).toLocaleDateString() : "-"}</td>
+                      <td>{v.date_modification ? new Date(v.date_modification).toLocaleDateString() : "-"}</td>
+                      <td>
+                        <button className="btn-modf" onClick={() => handleEdit(v.id)}>Modifier</button>
+                      </td>
+                    </>
+                  )}
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={11} className="empty-row">
-                  Aucune vente trouvée.
-                </td>
+                <td colSpan={12} className="empty-row">Aucune vente trouvée.</td>
               </tr>
             )}
           </tbody>
         </table>
 
         <div className="pagination">
-          <button onClick={onPrev} disabled={page === 1}>
-            ←
-          </button>
-          <span>
-            {page} / {totalPages}
-          </span>
-          <button onClick={onNext} disabled={page === totalPages}>
-            →
-          </button>
+          <button onClick={onPrev} disabled={page === 1}>←</button>
+          <span>{page} / {totalPages}</span>
+          <button onClick={onNext} disabled={page === totalPages}>→</button>
         </div>
       </div>
     </>

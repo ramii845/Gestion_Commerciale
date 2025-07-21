@@ -30,13 +30,13 @@ async def create_vente(vente: Vente):
 
     vente_dict = vente.model_dump()
 
-    # Ajouter dates par défaut si non fournies
-    now = datetime.now()
-    vente_dict["date_creation"] = datetime.combine(vente.date_creation or now.date(), time.min)
-    vente_dict["date_modification"] = datetime.combine(vente.date_modification or now.date(), time.min)
+    for key in ["date_creation", "date_modification"]:
+        if vente_dict.get(key) is None:
+            vente_dict.pop(key, None)
 
     result = await db.ventes.insert_one(vente_dict)
     return {"id": str(result.inserted_id), "message": "Vente créée avec succès"}
+
 
 @vente_router.get("/", response_model=List[Vente])
 async def get_all_ventes():

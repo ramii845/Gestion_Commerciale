@@ -11,8 +11,7 @@ class Vente(BaseModel):
     matriculation:str=""
     nom_client:str=""  
     tel_client:str=""  
-    date_creation: Optional[datetime]
-    date_modification: Optional[datetime]
-
+    date_creation: Optional[datetime] = None
+    date_modification: Optional[datetime] = None
     commentaire:str=""
     statut:str=""
