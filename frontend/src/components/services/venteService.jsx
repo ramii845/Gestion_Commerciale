@@ -31,13 +31,15 @@ export const updateVente = async (venteId, updatedVente) => {
 export const getPaginatedVentes = async (
   page = 1,
   limit = 14,
-  nom_client = ""
+  nom_client = "",
+  matricule = ""
 ) => {
   return await axios.get(`${API_BASE_URL}/paginated`, {
     params: {
       page,
       limit,
-      nom_client: nom_client || undefined
+      nom_client: nom_client || undefined,
+      matricule: matricule || undefined
     }
   });
 };

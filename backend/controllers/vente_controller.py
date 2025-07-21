@@ -49,7 +49,10 @@ async def get_ventes_paginated(
     limit: int = Query(14, ge=1),
     nom_client: Optional[str] = None,
     matricule: Optional[str] = None,
+    matriculation: Optional[str] = None,
     statut: Optional[str] = None,
+
+    
 ):
     skip = (page - 1) * limit
     query_filter = {}
@@ -58,6 +61,8 @@ async def get_ventes_paginated(
         query_filter["nom_client"] = {"$regex": nom_client, "$options": "i"}
     if matricule:
         query_filter["matricule"] = {"$regex": matricule, "$options": "i"}
+    if matriculation:
+        query_filter["matriculation"] = {"$regex": matriculation, "$options": "i"}
     if statut:
         query_filter["statut"] = {"$regex": statut, "$options": "i"}
 

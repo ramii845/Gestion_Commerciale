@@ -8,6 +8,7 @@ class Vente(BaseModel):
     marque: str = ""
     modele: str = ""
     matricule: str = ""
+    matriculation:str=""
     nom_client:str=""  
     tel_client:str=""  
     date_creation: Optional[datetime]

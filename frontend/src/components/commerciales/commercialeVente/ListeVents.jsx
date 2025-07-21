@@ -72,7 +72,7 @@ const ListeVentes = () => {
 
     const fetchVentes = async () => {
       try {
-        const res = await getPaginatedVentes(page, 14, "");
+        const res = await getPaginatedVentes(page, 14, "",filterMatricule);
         const filtered = res.data.ventes.filter(
           (v) =>
             v.user_id === userId &&
