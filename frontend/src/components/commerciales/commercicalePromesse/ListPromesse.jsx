@@ -102,16 +102,19 @@ const ListPromesse = () => {
         </div>
 
         <table>
-          <thead>
-            <tr>
-              <th>Commercial</th>
-              <th>Marque</th>
-              <th>Modèle</th>
-              <th>Matricule</th>
-              <th>Promesse</th>
-              <th>Frais</th>
-            </tr>
-          </thead>
+  <thead>
+  <tr>
+    <th>Commercial</th>
+    <th>Marque</th>
+    <th>Modèle</th>
+    <th>Matricule</th>
+    <th>Promesse</th>
+    <th>Société</th>
+    <th>Service concerné</th>
+    <th>Frais</th>
+  </tr>
+</thead>
+
           <tbody>
             {promesses.length > 0 ? (
               promesses.map((promesse) => (
@@ -121,12 +124,15 @@ const ListPromesse = () => {
                   <td>{promesse.modele}</td>
                   <td>{promesse.matricule}</td>
                   <td>{promesse.promesse}</td>
-                  <td>{promesse.frais} DT</td>
+          <td>{promesse.societe || '-'}</td>
+           <td>{promesse.service_concerne || '-'}</td>
+                 <td>{promesse.frais} DT</td>
+
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
+                <td colSpan={8} style={{ textAlign: "center", padding: "20px" }}>
                   Aucune promesse trouvée.
                 </td>
               </tr>

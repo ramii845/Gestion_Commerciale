@@ -164,6 +164,13 @@ const AddLead = () => {
         <button type="submit" style={{ marginTop: 20 }}>
           Ajouter
         </button>
+            <button
+    className="submit-retour"
+    type="button"
+    onClick={() => navigate('/commerciale/leads')}
+  >
+    Retour
+  </button>
       </form>
     </div>
   );
