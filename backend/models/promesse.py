@@ -9,4 +9,4 @@ class Promesse(BaseModel):
     promesse: str = ""
     societe: str = ""
     service_concerne: str = ""
-    frais: float  
+    frais: float =0 

@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { getPaginatedLeads } from '../../services/leadsService';
-import { getUserbyId } from '../../services/authService';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import Navbar from '../../Navbar/Navbar';
-import '../../css/ListLeads.css';
+import React, { useEffect, useState } from "react";
+import { getPaginatedLeads } from "../../services/leadsService";
+import { getUsersPaginated } from "../../services/authService";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../../Navbar/Navbar";
+import '../../css/ListLeads.css'
 
+
+// Fonction pour décoder le token JWT
 const decodeJWT = (token) => {
   try {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
     const jsonPayload = decodeURIComponent(
       atob(base64)
-        .split('')
-        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-        .join('')
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
     );
     return JSON.parse(jsonPayload);
   } catch (e) {
@@ -23,102 +25,168 @@ const decodeJWT = (token) => {
   }
 };
 
-const ListLeads = () => {
+const ListeLeads = () => {
   const [leads, setLeads] = useState([]);
+  const [usersMap, setUsersMap] = useState({});
+  const [filterNomClient, setFilterNomClient] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [filterDate, setFilterDate] = useState("");
+  const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
 
+  // Récupération des utilisateurs
   useEffect(() => {
-    fetchLeads();
-  }, [page, filterDate]);
+    const fetchUsers = async () => {
+      try {
+        const res = await getUsersPaginated(1, 1000);
+        const usersData = res.data.users || res.data;
+        const map = {};
+        usersData.forEach((u) => {
+          map[u.id || u._id] = u.nom;
+        });
+        setUsersMap(map);
+      } catch (error) {
+        toast.error("Erreur chargement utilisateurs");
+      }
+    };
+    fetchUsers();
+  }, []);
 
-  const fetchLeads = async () => {
-    try {
-      const res = await getPaginatedLeads(page, 7, "", "", "", filterDate);
-      const allLeads = res.data.leads;
-
-      const leadsWithCommerciale = await Promise.all(
-        allLeads.map(async (lead) => {
-          try {
-            const userRes = await getUserbyId(lead.user_id);
-            return {
-              ...lead,
-              commerciale: userRes.data.nom || "Inconnu"
-            };
-          } catch {
-            return {
-              ...lead,
-              commerciale: "Inconnu"
-            };
-          }
-        })
-      );
-
-      setLeads(leadsWithCommerciale);
-      setTotalPages(res.data.total_pages);
-    } catch (err) {
-      toast.error("Erreur lors du chargement des leads");
+  // Décodage token JWT
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decoded = decodeJWT(token);
+      setUserId(decoded?.user_id || null);
     }
-  };
+  }, []);
+
+  // Récupération des leads
+  useEffect(() => {
+    if (!userId) return;
+
+    const fetchLeads = async () => {
+      try {
+        const res = await getPaginatedLeads(page, 8, filterNomClient, "", "", "", userId);
+
+        const filtered = res.data.leads.filter(
+          (lead) =>
+            lead.user_id === userId &&
+            lead.nom_client.toLowerCase().includes(filterNomClient.toLowerCase())
+        );
+        setLeads(filtered);
+        setTotalPages(res.data.total_pages);
+      } catch (error) {
+        toast.error("Erreur chargement des leads");
+      }
+    };
+    fetchLeads();
+  }, [page, filterNomClient, userId]);
+
+  const onPrev = () => setPage((p) => Math.max(p - 1, 1));
+  const onNext = () => setPage((p) => Math.min(p + 1, totalPages));
 
   return (
     <>
       <Navbar />
-      <div className="leads-container" style={{ marginTop: '80px' }}>
-        <h2 className="leads-title">Liste des Leads</h2>
+      <div className="liste-leads-container">
+        <div className="liste-leads-header">
+          <h2 className="titleLeads">Mes Leads</h2>
+          <button className="btn-ajout-leads" onClick={() => navigate("/add-lead")}>
+            Ajouter
+          </button>
+        </div>
 
-        <button
-          onClick={() => navigate('/add-lead')}
-          style={{ marginBottom: '1rem' }}
-        >
-          Ajouter un lead
-        </button>
-
-        <div className="filter-bar">
+        <div className="filter-container-nom">
           <input
-            type="date"
-            value={filterDate}
+            type="text"
+            placeholder="Filtrer par nom du client"
+            value={filterNomClient}
             onChange={(e) => {
               setPage(1);
-              setFilterDate(e.target.value);
+              setFilterNomClient(e.target.value);
             }}
           />
         </div>
 
-        <div className="leads-table">
-          <div className="leads-header">
-            <span>Commerciale</span>
-            <span>Nom Client</span>
-            <span>Date Création</span>
-            <span>Date Traitement</span>
-            <span>Besoin</span>
-            <span>Affectation</span>
-            <span>Relance</span>
-          </div>
+        <table className="liste-leads-table">
+          <thead>
+            <tr>
+              <th>Commercial</th>
+              <th>Date Création</th>
+              <th>Nom Client</th>
+              <th>Téléphone</th>
+              <th>Marque</th>
+              <th>Besoin</th>
+              <th>Date Traitement</th>
+              <th>Affectation</th>
+              <th>Relance</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {leads.length > 0 ? (
+              leads.map((lead) => (
+                <tr key={lead.id}>
+                  <td>{usersMap[lead.user_id] || "Inconnu"}</td>
+           <td>{lead.date_creation ? new Date(lead.date_creation).toLocaleString("fr-FR", {
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit'
+}) : "-"}</td>
+                  <td>{lead.nom_client}</td>
+                  <td>{lead.telephone}</td>
+                  <td>{lead.marque}</td> 
+                  <td>{lead.besoin}</td>
+            <td>
 
-          {leads.map((lead, index) => (
-            <div className="leads-row" key={index}>
-              <span>{lead.commerciale}</span>
-              <span>{lead.nom_client}</span>
-              <span>{lead.date_creation ? new Date(lead.date_creation).toLocaleDateString("fr-FR") : "-"}</span>
-              <span>{lead.date_traitement ? new Date(lead.date_traitement).toLocaleDateString("fr-FR") : "-"}</span>
-              <span>{lead.besoin}</span>
-              <span>{lead.affectation}</span>
-              <span>{lead.relance}</span>
-            </div>
-          ))}
-        </div>
+               {lead.date_traitement 
+    ? new Date(lead.date_traitement).toLocaleString("fr-FR", {
+        hour: "2-digit",
+        minute: "2-digit",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      })
+    : "-"}
+            </td>
+                  <td>{lead.affectation}</td>
+                <td>
+  {lead.relance
+    ? new Date(lead.relance).toLocaleString("fr-FR", {
+        hour: "2-digit",
+        minute: "2-digit",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      })
+    : "-"}
+</td>
+                  <td>
+                    <button onClick={() => navigate(`/edit-lead/${lead.id}`)}>Modifier</button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={10} className="empty-row">
+                  Aucun lead trouvé.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
 
         <div className="pagination">
-          <button disabled={page === 1} onClick={() => setPage((p) => p - 1)}>←</button>
+          <button onClick={onPrev} disabled={page === 1}>←</button>
           <span>{page} / {totalPages}</span>
-          <button disabled={page === totalPages} onClick={() => setPage((p) => p + 1)}>→</button>
+          <button onClick={onNext} disabled={page === totalPages}>→</button>
         </div>
       </div>
     </>
   );
 };
 
-export default ListLeads;
+export default ListeLeads;

@@ -144,7 +144,7 @@ const ListeVentes = () => {
                   <td>{v.date_creation ? new Date(v.date_creation).toLocaleDateString() : "-"}</td>
                   <td>{v.date_modification ? new Date(v.date_modification).toLocaleDateString() : "-"}</td>
                   <td>
-                    <button onClick={() => navigate(`/edit-vente/${v.id}`)}>Modifier</button>
+                    <button className='btn-modf' onClick={() => navigate(`/edit-vente/${v.id}`)}>Modifier</button>
                   </td>
                 </tr>
               ))

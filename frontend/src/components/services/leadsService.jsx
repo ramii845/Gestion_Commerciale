@@ -13,11 +13,12 @@ export const getAllLeads = async () => {
 
 export const getPaginatedLeads = async (
   page = 1,
-  limit = 7,
+  limit = 8,
   nom_client = "",
   besoin = "",
   affectation = "",
-  date_creation = ""
+  date_creation = "",
+  user_id = ""
 ) => {
   return await axios.get(`${API_BASE_URL}/paginated`, {
     params: {
@@ -26,10 +27,12 @@ export const getPaginatedLeads = async (
       nom_client: nom_client || undefined,
       besoin: besoin || undefined,
       affectation: affectation || undefined,
-      date_creation: date_creation || undefined
-    }
+      date_creation: date_creation || undefined,
+      user_id: user_id || undefined,  // IMPORTANT : passer user_id
+    },
   });
 };
+
 
 
 export const getLeadById = async (leadId) => {

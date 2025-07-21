@@ -1,12 +1,14 @@
 from pydantic import BaseModel
 from typing import Optional
-from datetime import date
+from datetime import datetime
 
 class Leads(BaseModel):
     user_id: str
     nom_client: str = ""
-    date_creation: Optional[date] = None
-    date_traitement: Optional[date] = None
+    telephone:str=""
+    marque:str=""
+    date_creation: Optional[datetime ] = None
+    date_traitement: Optional[datetime ] = None
     besoin: str = ""
     affectation: str = ""
-    relance: str = ""
+    relance: Optional[datetime] = None

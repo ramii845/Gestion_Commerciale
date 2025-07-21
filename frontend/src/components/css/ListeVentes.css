@@ -72,34 +72,34 @@
 
 /* Couleurs de ligne selon le statut */
 .statut-prospection {
-  background-color: green; /* cyan clair */
+  background-color: rgb(0, 128, 111); /* cyan clair */
 }
 .statut-prospection :hover {
-  background-color: green; /* cyan clair */
+  background-color: rgb(0, 128, 111);
 }
 
 .statut-devis {
-  background-color: rgb(167, 237, 15); /* bleu très clair */
+  background-color: rgb(100, 15, 237); /* bleu très clair */
 }
 .statut-devis:hover {
-  background-color: rgb(167, 237, 15);; /* bleu très clair */
+  background-color: rgb(100, 15, 237); /* bleu très clair */
 }
 
 .statut-commande {
-  background-color: rgb(255, 0, 98); /* vert très clair */
+  background-color: rgb(246, 255, 0); /* vert très clair */
 }
 
 .statut-commande:hover {
-  background-color: rgb(255, 0, 98); /* vert très clair */
+  background-color: rgb(246, 255, 0); /* vert très clair */
 }
 
 
 .statut-facturation {
-  background-color: orange; /* orange très clair */
+  background-color: rgb(13, 255, 0); /* orange très clair */
 }
 
 .statut-facturation:hover {
-  background-color: orange; /* orange très clair */
+  background-color: rgb(13, 255, 0); /* orange très clair */
 }
 
 .statut-livraison {
@@ -111,10 +111,10 @@
 }
 
 .statut-blocage {
-  background-color: red; /* rouge très clair */
+  background-color: rgb(255, 51, 0); /* rouge très clair */
 }
 .statut-blocage:hover {
-  background-color: red; /* rouge très clair */
+  background-color: rgb(255, 51, 0); /* rouge très clair */
 }
 
 .statut-relance {
