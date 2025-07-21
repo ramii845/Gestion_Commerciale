@@ -22,6 +22,12 @@ const getStatutClass = (statut) => {
   if (!statut) return "";
   return `statut-${statut.toLowerCase()}`;
 };
+const modelesParMarque = {
+  Peugeot: ['LANDTREK', 'EXPERT', 'Boxer', 'Traveller', '208', '301', '2008', '308', '3008', '508', '5008', 'Rifter', 'Partner'],
+  Citroen: ['C3 POPULAIRE', 'JUMPY FOURGON', 'Berlingo', 'BERLINGO VAN', 'C4 X', 'Jumper'],
+  Opel: ['Corsa', 'Astra', 'Mokka', 'Crossland', 'Grandland', 'COMBO CARGO'],
+  Autre: ['Autre']
+};
 
 const ListeVentes = () => {
   const [ventes, setVentes] = useState([]);
@@ -32,6 +38,8 @@ const ListeVentes = () => {
   const [userId, setUserId] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [newVente, setNewVente] = useState(null);
+  const [modelesDisponibles, setModelesDisponibles] = useState([]);
+
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -49,6 +57,7 @@ const ListeVentes = () => {
     };
     fetchUsers();
   }, []);
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -123,6 +132,21 @@ const ListeVentes = () => {
       user_id: userId
     });
   };
+  useEffect(() => {
+  if (editingId) {
+    const vente = ventes.find(v => v.id === editingId);
+    if (vente?.marque && modelesParMarque[vente.marque]) {
+      setModelesDisponibles(modelesParMarque[vente.marque]);
+    } else {
+      setModelesDisponibles([]);
+    }
+  } else if (newVente?.marque && modelesParMarque[newVente.marque]) {
+    setModelesDisponibles(modelesParMarque[newVente.marque]);
+  } else {
+    setModelesDisponibles([]);
+  }
+}, [newVente?.marque, editingId, ventes]);
+
 
   const handleAdd = async () => {
     try {
@@ -186,13 +210,25 @@ const ListeVentes = () => {
         <input name="nom_client" value={newVente.nom_client} onChange={(e) => handleChange(e, "new")} />
       </td>
       <td>
-        <input name="tel_client" value={newVente.tel_client} onChange={(e) => handleChange(e, "new")} />
+        <input name="tel_client" type="number"  min="19999999" max="99999999" minLength={8} maxLength={8} value={newVente.tel_client} onChange={(e) => handleChange(e, "new")} />
       </td>
       <td>
-        <input name="marque" value={newVente.marque} onChange={(e) => handleChange(e, "new")} />
+    <select name="marque" value={newVente.marque} onChange={(e) => handleChange(e, "new")}>
+  <option value="">--</option>
+  {Object.keys(modelesParMarque).map((marque) => (
+    <option key={marque} value={marque}>{marque}</option>
+  ))}
+</select>
+
       </td>
       <td>
-        <input name="modele" value={newVente.modele} onChange={(e) => handleChange(e, "new")} />
+      <select name="modele" value={newVente.modele} onChange={(e) => handleChange(e, "new")}>
+  <option value="">--</option>
+  {modelesDisponibles.map((modele) => (
+    <option key={modele} value={modele}>{modele}</option>
+  ))}
+</select>
+
       </td>
       <td>
         <input
@@ -243,13 +279,25 @@ const ListeVentes = () => {
               <input name="nom_client" value={v.nom_client} onChange={(e) => handleChange(e, v.id)} />
             </td>
             <td>
-              <input name="tel_client" value={v.tel_client} onChange={(e) => handleChange(e, v.id)} />
+              <input name="tel_client" type="number"  min="19999999" max="99999999" minLength={8} maxLength={8} value={v.tel_client} onChange={(e) => handleChange(e, v.id)} />
             </td>
             <td>
-              <input name="marque" value={v.marque} onChange={(e) => handleChange(e, v.id)} />
+             <select name="marque" value={v.marque} onChange={(e) => handleChange(e, v.id)}>
+  <option value="">--</option>
+  {Object.keys(modelesParMarque).map((marque) => (
+    <option key={marque} value={marque}>{marque}</option>
+  ))}
+</select>
+
             </td>
             <td>
-              <input name="modele" value={v.modele} onChange={(e) => handleChange(e, v.id)} />
+             <select name="modele" value={v.modele} onChange={(e) => handleChange(e, v.id)}>
+  <option value="">--</option>
+  {modelesDisponibles.map((modele) => (
+    <option key={modele} value={modele}>{modele}</option>
+  ))}
+</select>
+
             </td>
             <td>
               <input

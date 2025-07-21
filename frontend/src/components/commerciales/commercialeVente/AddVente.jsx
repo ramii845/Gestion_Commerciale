@@ -177,7 +177,7 @@ const AddVente = () => {
               value={formData.tel_client}
               onChange={handleChange}
               placeholder="8 chiffres"
-              min="0"
+              min="19999999"
               max="99999999"
             />
           </label>
