@@ -178,118 +178,187 @@ const ListeVentes = () => {
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
-            {newVente && (
-              <tr>
-                <td>{usersMap[newVente.user_id]}</td>
-                <td><input name="nom_client" value={newVente.nom_client} onChange={(e) => handleChange(e, "new")} /></td>
-                <td><input name="tel_client" value={newVente.tel_client} onChange={(e) => handleChange(e, "new")} /></td>
-                <td><input name="marque" value={newVente.marque} onChange={(e) => handleChange(e, "new")} /></td>
-                <td><input name="modele" value={newVente.modele} onChange={(e) => handleChange(e, "new")} /></td>
-                <td><input name="matricule" value={newVente.matricule} onChange={(e) => handleChange(e, "new")} disabled/></td>
-                <td><input name="matriculation" value={newVente.matriculation} onChange={(e) => handleChange(e, "new")}disabled /></td>
-                <td><input name="commentaire" value={newVente.commentaire} onChange={(e) => handleChange(e, "new")} /></td>
-                <td>
-                  <select name="statut" value={newVente.statut} onChange={(e) => handleChange(e, "new")}>
-                    <option value="">--</option>
-                    <option>Prospection</option>
-                    <option>Devis</option>
-                    <option>Commande</option>
-                    <option>Facturation</option>
-                    <option>Livraison</option>
-                    <option>Blocage</option>
-                    <option>Relance</option>
-                  </select>
-                </td>
-                <td>-</td>
-                <td>-</td>
-                <td>
-                  <button onClick={handleAdd}>Enregistrer</button>
-                  <button onClick={handleCancel}>Annuler</button>
-                </td>
-              </tr>
-            )}
-            {ventes.length > 0 ? (
-              ventes.map((v) => (
-                <tr key={v.id} className={getStatutClass(v.statut)}>
-                  <td>{usersMap[v.user_id] || "Inconnu"}</td>
-                  {editingId === v.id ? (
-                    <>
-                      <td><input name="nom_client" value={v.nom_client} onChange={(e) => handleChange(e, v.id)} /></td>
-                      <td><input name="tel_client" value={v.tel_client} onChange={(e) => handleChange(e, v.id)} /></td>
-                      <td><input name="marque" value={v.marque} onChange={(e) => handleChange(e, v.id)} /></td>
-                      <td><input name="modele" value={v.modele} onChange={(e) => handleChange(e, v.id)} /></td>
-                      <td><input name="matricule" value={v.matricule} onChange={(e) => handleChange(e, v.id)} /></td>
-                      <td><input name="matriculation" value={v.matriculation} onChange={(e) => handleChange(e, v.id)} /></td>
-                      <td><input name="commentaire" value={v.commentaire} onChange={(e) => handleChange(e, v.id)} /></td>
-                      <td>
-                        <select name="statut" value={v.statut} onChange={(e) => handleChange(e, v.id)}>
-                          <option value="">--</option>
-                          <option>Prospection</option>
-                          <option>Devis</option>
-                          <option>Commande</option>
-                          <option>Facturation</option>
-                          <option>Livraison</option>
-                          <option>Blocage</option>
-                          <option>Relance</option>
-                        </select>
-                      </td>
-                         <td>{v.date_creation ? new Date(v.date_creation).toLocaleString("fr-FR", { 
-  day: '2-digit',
-  month: '2-digit',
-  year: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit'
-}) : "-"}</td>
-                                          <td>{v.date_modification ? new Date(v.date_modification).toLocaleString("fr-FR", { 
-  day: '2-digit',
-  month: '2-digit',
-  year: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit'
-}) : "-"}</td>
-                      <td>
-                        <button onClick={() => handleSave(v.id)}>Enregistrer</button>
-                        <button onClick={handleCancel}>Annuler</button>
-                      </td>
-                    </>
-                  ) : ( 
-                    <>
-                      <td>{v.nom_client}</td>
-                      <td>{v.tel_client}</td>
-                      <td>{v.marque}</td>
-                      <td>{v.modele}</td>
-                      <td>{v.matricule}</td>
-                      <td>{v.matriculation}</td>
-                      <td>{v.commentaire || "-"}</td>
-                      <td>{v.statut || "-"}</td>
-                             <td>{v.date_creation ? new Date(v.date_creation).toLocaleString("fr-FR", {
-  day: '2-digit',
-  month: '2-digit',
-  year: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit'
-}) : "-"}</td>
-                                                          <td>{v.date_modification ? new Date(v.date_modification).toLocaleString("fr-FR", { 
-  day: '2-digit',
-  month: '2-digit',
-  year: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit'
-}) : "-"}</td>
-                      <td>
-                        <button className="btn-modf" onClick={() => handleEdit(v.id)}>Modifier</button>
-                      </td>
-                    </>
-                  )}
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={12} className="empty-row">Aucune vente trouvée.</td>
-              </tr>
-            )}
-          </tbody>
+         <tbody>
+  {newVente && (
+    <tr>
+      <td>{usersMap[newVente.user_id]}</td>
+      <td>
+        <input name="nom_client" value={newVente.nom_client} onChange={(e) => handleChange(e, "new")} />
+      </td>
+      <td>
+        <input name="tel_client" value={newVente.tel_client} onChange={(e) => handleChange(e, "new")} />
+      </td>
+      <td>
+        <input name="marque" value={newVente.marque} onChange={(e) => handleChange(e, "new")} />
+      </td>
+      <td>
+        <input name="modele" value={newVente.modele} onChange={(e) => handleChange(e, "new")} />
+      </td>
+      <td>
+        <input
+          name="matricule"
+          value={newVente.matricule}
+          onChange={(e) => handleChange(e, "new")}
+          disabled={newVente.statut !== "Commande"}
+        />
+      </td>
+      <td>
+        <input
+          name="matriculation"
+          value={newVente.matriculation}
+          onChange={(e) => handleChange(e, "new")}
+          disabled={newVente.statut !== "Commande"}
+        />
+      </td>
+      <td>
+        <input name="commentaire" value={newVente.commentaire} onChange={(e) => handleChange(e, "new")} />
+      </td>
+      <td>
+        <select name="statut" value={newVente.statut} onChange={(e) => handleChange(e, "new")}>
+          <option value="">--</option>
+          <option>Prospection</option>
+          <option>Devis</option>
+          <option>Commande</option>
+          <option>Facturation</option>
+          <option>Livraison</option>
+          <option>Blocage</option>
+          <option>Relance</option>
+        </select>
+      </td>
+      <td>-</td>
+      <td>-</td>
+      <td>
+        <button onClick={handleAdd}>Enregistrer</button>
+        <button onClick={handleCancel}>Annuler</button>
+      </td>
+    </tr>
+  )}
+  {ventes.length > 0 ? (
+    ventes.map((v) => (
+      <tr key={v.id} className={getStatutClass(v.statut)}>
+        <td>{usersMap[v.user_id] || "Inconnu"}</td>
+        {editingId === v.id ? (
+          <>
+            <td>
+              <input name="nom_client" value={v.nom_client} onChange={(e) => handleChange(e, v.id)} />
+            </td>
+            <td>
+              <input name="tel_client" value={v.tel_client} onChange={(e) => handleChange(e, v.id)} />
+            </td>
+            <td>
+              <input name="marque" value={v.marque} onChange={(e) => handleChange(e, v.id)} />
+            </td>
+            <td>
+              <input name="modele" value={v.modele} onChange={(e) => handleChange(e, v.id)} />
+            </td>
+            <td>
+              <input
+                name="matricule"
+                value={v.matricule}
+                onChange={(e) => handleChange(e, v.id)}
+                disabled={v.statut !== "Commande"}
+              />
+            </td>
+            <td>
+              <input
+                name="matriculation"
+                value={v.matriculation}
+                onChange={(e) => handleChange(e, v.id)}
+                disabled={v.statut !== "Commande"}
+              />
+            </td>
+            <td>
+              <input name="commentaire" value={v.commentaire} onChange={(e) => handleChange(e, v.id)} />
+            </td>
+            <td>
+              <select name="statut" value={v.statut} onChange={(e) => handleChange(e, v.id)}>
+                <option value="">--</option>
+                <option>Prospection</option>
+                <option>Devis</option>
+                <option>Commande</option>
+                <option>Facturation</option>
+                <option>Livraison</option>
+                <option>Blocage</option>
+                <option>Relance</option>
+              </select>
+            </td>
+            <td>
+              {v.date_creation
+                ? new Date(v.date_creation).toLocaleString("fr-FR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : "-"}
+            </td>
+            <td>
+              {v.date_modification
+                ? new Date(v.date_modification).toLocaleString("fr-FR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : "-"}
+            </td>
+            <td>
+              <button onClick={() => handleSave(v.id)}>Enregistrer</button>
+              <button onClick={handleCancel}>Annuler</button>
+            </td>
+          </>
+        ) : (
+          <>
+            <td>{v.nom_client}</td>
+            <td>{v.tel_client}</td>
+            <td>{v.marque}</td>
+            <td>{v.modele}</td>
+            <td>{v.matricule}</td>
+            <td>{v.matriculation}</td>
+            <td>{v.commentaire || "-"}</td>
+            <td>{v.statut || "-"}</td>
+            <td>
+              {v.date_creation
+                ? new Date(v.date_creation).toLocaleString("fr-FR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : "-"}
+            </td>
+            <td>
+              {v.date_modification
+                ? new Date(v.date_modification).toLocaleString("fr-FR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : "-"}
+            </td>
+            <td>
+              <button className="btn-modf" onClick={() => handleEdit(v.id)}>
+                Modifier
+              </button>
+            </td>
+          </>
+        )}
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan={12} className="empty-row">
+        Aucune vente trouvée.
+      </td>
+    </tr>
+  )}
+</tbody>
+
         </table>
 
         <div className="pagination">
