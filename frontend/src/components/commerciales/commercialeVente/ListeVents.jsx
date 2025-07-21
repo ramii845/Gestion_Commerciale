@@ -186,8 +186,8 @@ const ListeVentes = () => {
                 <td><input name="tel_client" value={newVente.tel_client} onChange={(e) => handleChange(e, "new")} /></td>
                 <td><input name="marque" value={newVente.marque} onChange={(e) => handleChange(e, "new")} /></td>
                 <td><input name="modele" value={newVente.modele} onChange={(e) => handleChange(e, "new")} /></td>
-                <td><input name="matricule" value={newVente.matricule} onChange={(e) => handleChange(e, "new")} /></td>
-                <td><input name="matriculation" value={newVente.matriculation} onChange={(e) => handleChange(e, "new")} /></td>
+                <td><input name="matricule" value={newVente.matricule} onChange={(e) => handleChange(e, "new")} disabled/></td>
+                <td><input name="matriculation" value={newVente.matriculation} onChange={(e) => handleChange(e, "new")}disabled /></td>
                 <td><input name="commentaire" value={newVente.commentaire} onChange={(e) => handleChange(e, "new")} /></td>
                 <td>
                   <select name="statut" value={newVente.statut} onChange={(e) => handleChange(e, "new")}>
@@ -234,14 +234,26 @@ const ListeVentes = () => {
                           <option>Relance</option>
                         </select>
                       </td>
-                      <td>{v.date_creation ? new Date(v.date_creation).toLocaleDateString() : "-"}</td>
-                      <td>{v.date_modification ? new Date(v.date_modification).toLocaleDateString() : "-"}</td>
+                         <td>{v.date_creation ? new Date(v.date_creation).toLocaleString("fr-FR", { 
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit'
+}) : "-"}</td>
+                                          <td>{v.date_modification ? new Date(v.date_modification).toLocaleString("fr-FR", { 
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit'
+}) : "-"}</td>
                       <td>
                         <button onClick={() => handleSave(v.id)}>Enregistrer</button>
                         <button onClick={handleCancel}>Annuler</button>
                       </td>
                     </>
-                  ) : (
+                  ) : ( 
                     <>
                       <td>{v.nom_client}</td>
                       <td>{v.tel_client}</td>
@@ -251,8 +263,20 @@ const ListeVentes = () => {
                       <td>{v.matriculation}</td>
                       <td>{v.commentaire || "-"}</td>
                       <td>{v.statut || "-"}</td>
-                      <td>{v.date_creation ? new Date(v.date_creation).toLocaleDateString() : "-"}</td>
-                      <td>{v.date_modification ? new Date(v.date_modification).toLocaleDateString() : "-"}</td>
+                             <td>{v.date_creation ? new Date(v.date_creation).toLocaleString("fr-FR", {
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit'
+}) : "-"}</td>
+                                                          <td>{v.date_modification ? new Date(v.date_modification).toLocaleString("fr-FR", { 
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit'
+}) : "-"}</td>
                       <td>
                         <button className="btn-modf" onClick={() => handleEdit(v.id)}>Modifier</button>
                       </td>
