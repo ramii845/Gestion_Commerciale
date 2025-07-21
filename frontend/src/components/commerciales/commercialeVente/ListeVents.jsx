@@ -305,8 +305,8 @@ const ListeVentes = () => {
                 : "-"}
             </td>
             <td>
-              <button onClick={() => handleSave(v.id)}>Enregistrer</button>
-              <button onClick={handleCancel}>Annuler</button>
+              <button className="enregister" onClick={() => handleSave(v.id)}>Enregistrer</button>
+              <button className="anuuler" onClick={handleCancel}>Annuler</button>
             </td>
           </>
         ) : (
