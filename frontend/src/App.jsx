@@ -36,6 +36,7 @@ import AddManPromesse from './components/admin/promesse/addManPromesse';
 import ListManLeads from './components/admin/leads/ListManLeads';
 import AddManLead from './components/admin/leads/addManLead';
 import NotFoundPage from './components/utils/NotFoundPage';
+import ListeResLeads from './components/responsable_vente/leads/ListResLeads';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -76,8 +77,8 @@ function App() {
 <Route path="/edit-vente-res/:id" element={<ResponsableVenteRoute element={<EditResVente />} />} />
 <Route path="/responsable/promesses" element={<ResponsableVenteRoute element={<ListResPromesse />} />} />
 <Route path="/add-promesse-res" element={<ResponsableVenteRoute element={<AddResPromesse />} />} />
-<Route path="/responsable/leads" element={<ResponsableVenteRoute element={<ListLeads />} />} />
 <Route path="/add-lead-res" element={<ResponsableVenteRoute element={<AddResLead />} />} />
+<Route path="/responsable/leads" element={<ResponsableVenteRoute element={<ListeResLeads />} />} />
  
           {/* Manager*/}
           
