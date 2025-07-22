@@ -23,7 +23,7 @@ const decodeJWT = (token) => {
   }
 };
 
-const ListManPromesse = () => {
+const ListResPromesse = () => {
   const [promesses, setPromesses] = useState([]);
   const [usersMap, setUsersMap] = useState({});
   const [filterMatricule, setFilterMatricule] = useState("");
@@ -60,22 +60,19 @@ const ListManPromesse = () => {
   }, []);
 
   // Charger promesses à chaque changement page ou filtre ou userId
-  useEffect(() => {
-    if (!userId) return;
-    const fetchPromesses = async () => {
-      try {
-        const res = await getPaginatedPromesses(page, 7, "", "", filterMatricule);
-        // Filter coté backend ne filtre pas user_id, donc on filtre ici localement
-        setPromesses(res.data.promesses);
+ useEffect(() => {
+  const fetchPromesses = async () => {
+    try {
+      const res = await getPaginatedPromesses(page, 7, "", "", filterMatricule);
+      setPromesses(res.data.promesses);
+      setTotalPages(res.data.total_pages);
+    } catch (error) {
+      toast.error("Erreur chargement promesses");
+    }
+  };
 
-        setTotalPages(res.data.total_pages);
-      } catch (error) {
-        toast.error("Erreur chargement promesses");
-      }
-    };
-    fetchPromesses();
-  }, [page, filterMatricule, userId]);
-
+  fetchPromesses();
+}, [page, filterMatricule]);
   // Pagination controls
   const onPrev = () => setPage(p => Math.max(p - 1, 1));
   const onNext = () => setPage(p => Math.min(p + 1, totalPages));
@@ -86,7 +83,7 @@ const ListManPromesse = () => {
       <div className="list-promesse-container" >
         <div className="list-promesse-header" >
           <h2 className="list-promesse-title">Liste des promesses</h2>
-             <button onClick={() => navigate('/add-promesse-res')}>Ajouter</button>
+             <button onClick={() => navigate('/add-promesse-man')}>Ajouter</button>
         </div>
 
         <div style={{ marginBottom: 15 }}>
@@ -102,16 +99,19 @@ const ListManPromesse = () => {
         </div>
 
         <table>
-          <thead>
-            <tr>
-              <th>Commercial</th>
-              <th>Marque</th>
-              <th>Modèle</th>
-              <th>Matricule</th>
-              <th>Promesse</th>
-              <th>Frais</th>
-            </tr>
-          </thead>
+  <thead>
+  <tr>
+    <th>Commercial</th>
+    <th>Marque</th>
+    <th>Modèle</th>
+    <th>Matricule</th>
+    <th>Promesse</th>
+    <th>Société</th>
+    <th>Service concerné</th>
+    <th>Frais</th>
+  </tr>
+</thead>
+
           <tbody>
             {promesses.length > 0 ? (
               promesses.map((promesse) => (
@@ -121,12 +121,15 @@ const ListManPromesse = () => {
                   <td>{promesse.modele}</td>
                   <td>{promesse.matricule}</td>
                   <td>{promesse.promesse}</td>
-                  <td>{promesse.frais} DT</td>
+          <td>{promesse.societe || '-'}</td>
+           <td>{promesse.service_concerne || '-'}</td>
+                 <td>{promesse.frais} DT</td>
+
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
+                <td colSpan={8} style={{ textAlign: "center", padding: "20px" }}>
                   Aucune promesse trouvée.
                 </td>
               </tr>
@@ -144,4 +147,4 @@ const ListManPromesse = () => {
   );
 };
 
-export default ListManPromesse;
+export default ListResPromesse;

@@ -1,33 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { getPaginatedVentes } from "../../services/venteService";
+import { getPaginatedVentes, addVente, updateVente } from "../../services/venteService";
 import { getUsersPaginated } from "../../services/authService";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
 import "../../css/ListeVentes.css";
 
-// Fonction pour décoder le token JWT
 const decodeJWT = (token) => {
   try {
     const base64Url = token.split(".")[1];
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
     const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split("")
-        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-        .join("")
+      atob(base64).split("").map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)).join("")
     );
     return JSON.parse(jsonPayload);
   } catch (e) {
-    console.error("Erreur décodage JWT :", e);
     return null;
   }
 };
 
-// Associe un statut à une classe CSS
 const getStatutClass = (statut) => {
   if (!statut) return "";
   return `statut-${statut.toLowerCase()}`;
+};
+const modelesParMarque = {
+  Peugeot: ['LANDTREK', 'EXPERT', 'Boxer', 'Traveller', '208', '301', '2008', '308', '3008', '508', '5008', 'Rifter', 'Partner'],
+  Citroen: ['C3 POPULAIRE', 'JUMPY FOURGON', 'Berlingo', 'BERLINGO VAN', 'C4 X', 'Jumper'],
+  Opel: ['Corsa', 'Astra', 'Mokka', 'Crossland', 'Grandland', 'COMBO CARGO'],
+  Autre: ['Autre']
 };
 
 const ListeManVentes = () => {
@@ -37,9 +36,11 @@ const ListeManVentes = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [userId, setUserId] = useState(null);
-  const navigate = useNavigate();
+  const [editingId, setEditingId] = useState(null);
+  const [newVente, setNewVente] = useState(null);
+  const [modelesDisponibles, setModelesDisponibles] = useState([]);
 
-  // Récupération des utilisateurs
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -50,14 +51,14 @@ const ListeManVentes = () => {
           map[u.id || u._id] = u.nom;
         });
         setUsersMap(map);
-      } catch (error) {
+      } catch {
         toast.error("Erreur chargement utilisateurs");
       }
     };
     fetchUsers();
   }, []);
 
-  // Décodage du token
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -66,25 +67,97 @@ const ListeManVentes = () => {
     }
   }, []);
 
-  // Récupération des ventes
+const fetchVentes = async () => {
+  try {
+    const res = await getPaginatedVentes(page, 14, "", filterMatricule);
+    setVentes(res.data.ventes);  // pas de filtre user_id ici
+    setTotalPages(res.data.total_pages);
+  } catch {
+    toast.error("Erreur chargement ventes");
+  }
+};
+useEffect(() => {
+  fetchVentes();
+}, [page, filterMatricule]);
+
+
+
   useEffect(() => {
-
-    const fetchVentes = async () => {
-      try {
-        const res = await getPaginatedVentes(page, 14, "");
-    const filtered = res.data.ventes.filter(
-  (v) => v.matricule.toLowerCase().includes(filterMatricule.toLowerCase())
-);
-setVentes(filtered);
-
-        setVentes(filtered);
-        setTotalPages(res.data.total_pages);
-      } catch (error) {
-        toast.error("Erreur chargement ventes");
-      }
-    };
-    fetchVentes();
+    if (userId) fetchVentes();
   }, [page, filterMatricule, userId]);
+
+  const handleChange = (e, id) => {
+    const { name, value } = e.target;
+    if (id === "new") {
+      setNewVente((prev) => ({ ...prev, [name]: value }));
+    } else {
+      setVentes((prev) =>
+        prev.map((v) => (v.id === id ? { ...v, [name]: value } : v))
+      );
+    }
+  };
+
+  const handleEdit = (id) => {
+    setEditingId(id);
+  };
+
+  const handleCancel = () => {
+    setEditingId(null);
+    setNewVente(null);
+  };
+
+  const handleSave = async (id) => {
+    try {
+      const venteToUpdate = ventes.find((v) => v.id === id);
+      await updateVente(id, { ...venteToUpdate, date_modification: new Date().toISOString() });
+      toast.success("Vente modifiée");
+      setEditingId(null);
+      fetchVentes();
+    } catch {
+      toast.error("Erreur lors de la modification");
+    }
+  };
+
+  const handleAddRow = () => {
+    setNewVente({
+      marque: "",
+      modele: "",
+      matricule: "",
+      matriculation: "",
+      nom_client: "",
+      tel_client: "",
+      commentaire: "",
+      statut: "",
+      date_creation: new Date().toISOString(),
+      user_id: userId
+    });
+  };
+  useEffect(() => {
+  if (editingId) {
+    const vente = ventes.find(v => v.id === editingId);
+    if (vente?.marque && modelesParMarque[vente.marque]) {
+      setModelesDisponibles(modelesParMarque[vente.marque]);
+    } else {
+      setModelesDisponibles([]);
+    }
+  } else if (newVente?.marque && modelesParMarque[newVente.marque]) {
+    setModelesDisponibles(modelesParMarque[newVente.marque]);
+  } else {
+    setModelesDisponibles([]);
+  }
+}, [newVente?.marque, editingId, ventes]);
+
+
+  const handleAdd = async () => {
+    try {
+      await addVente(newVente);
+      toast.success("Vente ajoutée");
+      setNewVente(null);
+      fetchVentes();
+    } catch {
+      toast.error("Erreur lors de l'ajout");
+    }
+  };
 
   const onPrev = () => setPage((p) => Math.max(p - 1, 1));
   const onNext = () => setPage((p) => Math.min(p + 1, totalPages));
@@ -95,7 +168,7 @@ setVentes(filtered);
       <div className="liste-ventes-container">
         <div className="liste-ventes-header">
           <h2 style={{ textAlign: "center", flexGrow: 1 }}>Mes ventes</h2>
-          <button style={{ alignSelf: "flex-start" }} onClick={() => navigate("/add-vente-man")}>
+          <button style={{ alignSelf: "flex-start" }} onClick={handleAddRow}>
             Ajouter
           </button>
         </div>
@@ -121,6 +194,7 @@ setVentes(filtered);
               <th>Marque</th>
               <th>Modèle</th>
               <th>Matricule</th>
+              <th>Matriculation</th>
               <th>Commentaire</th>
               <th>Statut</th>
               <th>Date création</th>
@@ -128,45 +202,217 @@ setVentes(filtered);
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
-            {ventes.length > 0 ? (
-              ventes.map((v) => (
-                <tr key={v.id} className={getStatutClass(v.statut)}>
-                  <td>{usersMap[v.user_id] || "Inconnu"}</td>
-                  <td>{v.nom_client}</td>
-                  <td>{v.tel_client}</td>
-                  <td>{v.marque}</td>
-                  <td>{v.modele}</td>
-                  <td>{v.matricule}</td>
-                  <td>{v.commentaire || "-"}</td>
-                  <td>{v.statut || "-"}</td>
-                  <td>{v.date_creation ? new Date(v.date_creation).toLocaleDateString() : "-"}</td>
-                  <td>{v.date_modification ? new Date(v.date_modification).toLocaleDateString() : "-"}</td>
-                  <td>
-                    <button onClick={() => navigate(`/edit-vente-man/${v.id}`)}>Modifier</button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={11} className="empty-row">
-                  Aucune vente trouvée.
-                </td>
-              </tr>
-            )}
-          </tbody>
+         <tbody>
+  {newVente && (
+    <tr>
+      <td>{usersMap[newVente.user_id]}</td>
+      <td>
+        <input name="nom_client" value={newVente.nom_client} onChange={(e) => handleChange(e, "new")} />
+      </td>
+      <td>
+        <input name="tel_client" type="number"  min="19999999" max="99999999" minLength={8} maxLength={8} value={newVente.tel_client} onChange={(e) => handleChange(e, "new")} />
+      </td>
+      <td>
+    <select name="marque" value={newVente.marque} onChange={(e) => handleChange(e, "new")}>
+  <option value="">--</option>
+  {Object.keys(modelesParMarque).map((marque) => (
+    <option key={marque} value={marque}>{marque}</option>
+  ))}
+</select>
+
+      </td>
+      <td>
+      <select name="modele" value={newVente.modele} onChange={(e) => handleChange(e, "new")}>
+  <option value="">--</option>
+  {modelesDisponibles.map((modele) => (
+    <option key={modele} value={modele}>{modele}</option>
+  ))}
+</select>
+
+      </td>
+      <td>
+        <input
+          name="matricule"
+          value={newVente.matricule}
+          onChange={(e) => handleChange(e, "new")}
+          disabled={newVente.statut !== "Commande"}
+        />
+      </td>
+      <td>
+        <input
+          name="matriculation"
+          value={newVente.matriculation}
+          onChange={(e) => handleChange(e, "new")}
+          disabled={newVente.statut !== "Commande"}
+        />
+      </td>
+      <td>
+        <input name="commentaire" value={newVente.commentaire} onChange={(e) => handleChange(e, "new")} />
+      </td>
+      <td>
+        <select name="statut" value={newVente.statut} onChange={(e) => handleChange(e, "new")}>
+          <option value="">--</option>
+          <option>Prospection</option>
+          <option>Devis</option>
+          <option>Commande</option>
+          <option>Facturation</option>
+          <option>Livraison</option>
+          <option>Blocage</option>
+          <option>Relance</option>
+        </select>
+      </td>
+      <td>-</td>
+      <td>-</td>
+      <td>
+        <button onClick={handleAdd}>Enregistrer</button>
+        <button onClick={handleCancel}>Annuler</button>
+      </td>
+    </tr>
+  )}
+  {ventes.length > 0 ? (
+    ventes.map((v) => (
+      <tr key={v.id} className={getStatutClass(v.statut)}>
+        <td>{usersMap[v.user_id] || "Inconnu"}</td>
+        {editingId === v.id ? (
+          <>
+            <td>
+              <input name="nom_client" value={v.nom_client} onChange={(e) => handleChange(e, v.id)} />
+            </td>
+            <td>
+              <input name="tel_client" type="number"  min="19999999" max="99999999" minLength={8} maxLength={8} value={v.tel_client} onChange={(e) => handleChange(e, v.id)} />
+            </td>
+            <td>
+             <select name="marque" value={v.marque} onChange={(e) => handleChange(e, v.id)}>
+  <option value="">--</option>
+  {Object.keys(modelesParMarque).map((marque) => (
+    <option key={marque} value={marque}>{marque}</option>
+  ))}
+</select>
+
+            </td>
+            <td>
+             <select name="modele" value={v.modele} onChange={(e) => handleChange(e, v.id)}>
+  <option value="">--</option>
+  {modelesDisponibles.map((modele) => (
+    <option key={modele} value={modele}>{modele}</option>
+  ))}
+</select>
+
+            </td>
+            <td>
+              <input
+                name="matricule"
+                value={v.matricule}
+                onChange={(e) => handleChange(e, v.id)}
+                disabled={v.statut !== "Commande"}
+              />
+            </td>
+            <td>
+              <input
+                name="matriculation"
+                value={v.matriculation}
+                onChange={(e) => handleChange(e, v.id)}
+                disabled={v.statut !== "Commande"}
+              />
+            </td>
+            <td>
+              <input name="commentaire" value={v.commentaire} onChange={(e) => handleChange(e, v.id)} />
+            </td>
+            <td>
+              <select name="statut" value={v.statut} onChange={(e) => handleChange(e, v.id)}>
+                <option value="">--</option>
+                <option>Prospection</option>
+                <option>Devis</option>
+                <option>Commande</option>
+                <option>Facturation</option>
+                <option>Livraison</option>
+                <option>Blocage</option>
+                <option>Relance</option>
+              </select>
+            </td>
+            <td>
+              {v.date_creation
+                ? new Date(v.date_creation).toLocaleString("fr-FR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : "-"}
+            </td>
+            <td>
+              {v.date_modification
+                ? new Date(v.date_modification).toLocaleString("fr-FR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : "-"}
+            </td>
+            <td>
+              <button className="enregister" onClick={() => handleSave(v.id)}>Enregistrer</button>
+              <button className="anuuler" onClick={handleCancel}>Annuler</button>
+            </td>
+          </>
+        ) : (
+          <>
+            <td>{v.nom_client}</td>
+            <td>{v.tel_client}</td>
+            <td>{v.marque}</td>
+            <td>{v.modele}</td>
+            <td>{v.matricule}</td>
+            <td>{v.matriculation}</td>
+            <td>{v.commentaire || "-"}</td>
+            <td>{v.statut || "-"}</td>
+            <td>
+              {v.date_creation
+                ? new Date(v.date_creation).toLocaleString("fr-FR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : "-"}
+            </td>
+            <td>
+              {v.date_modification
+                ? new Date(v.date_modification).toLocaleString("fr-FR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : "-"}
+            </td>
+            <td>
+              <button className="btn-modf" onClick={() => handleEdit(v.id)}>
+                Modifier
+              </button>
+            </td>
+          </>
+        )}
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan={12} className="empty-row">
+        Aucune vente trouvée.
+      </td>
+    </tr>
+  )}
+</tbody>
+
         </table>
 
         <div className="pagination">
-          <button onClick={onPrev} disabled={page === 1}>
-            ←
-          </button>
-          <span>
-            {page} / {totalPages}
-          </span>
-          <button onClick={onNext} disabled={page === totalPages}>
-            →
-          </button>
+          <button onClick={onPrev} disabled={page === 1}>←</button>
+          <span>{page} / {totalPages}</span>
+          <button onClick={onNext} disabled={page === totalPages}>→</button>
         </div>
       </div>
     </>

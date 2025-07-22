@@ -74,7 +74,7 @@ const AddResLead = () => {
       });
 
       toast.success("Lead ajouté avec succès !");
-      navigate("/responsable/leads");
+      navigate("/manager/leads");
     } catch (err) {
       toast.error("Erreur lors de l'ajout du lead.");
     }
@@ -167,7 +167,7 @@ const AddResLead = () => {
             <button
     className="submit-retour"
     type="button"
-    onClick={() => navigate('/responsable/leads')}
+    onClick={() => navigate('/manager/leads')}
   >
     Retour
   </button>
