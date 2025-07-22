@@ -12,16 +12,19 @@ const AddResPromesse = () => {
     Peugeot: ['LANDTREK', 'EXPERT', 'Boxer', 'Traveller', '208', '301', '2008', '308', '3008', '508', '5008', 'Rifter', 'Partner'],
     Citroen: ['C3 POPULAIRE', 'JUMPY FOURGON', 'Berlingo', 'BERLINGO VAN', 'C4 X', 'Jumper'],
     Opel: ['Corsa', 'Astra', 'Mokka', 'Crossland', 'Grandland', 'COMBO CARGO'],
+    Honda:['Honda City LX','Honda Jazz','Honda HR-V EX','Honda ZRV','Honda Civic','Honda Accord','Honda CR-V','Honda Civic'],
     Autre: ['Autre']
   };
 
-  const [form, setForm] = useState({
-    marque: "",
-    modele: "",
-    matricule: "",
-    promesse: "",
-    frais: ""
-  });
+ const [form, setForm] = useState({
+  marque: "",
+  modele: "",
+  matricule: "",
+  promesse: "",
+  societe: "",
+  service_concerne: "",
+  frais: ""
+});
 
   const [loading, setLoading] = useState(false);
 
@@ -65,10 +68,11 @@ const AddResPromesse = () => {
       toast.warning("Veuillez saisir une promesse");
       return;
     }
-    if (!form.frais || isNaN(parseFloat(form.frais))) {
-      toast.warning("Veuillez saisir un montant valide pour les frais");
-      return;
-    }
+   if (form.frais && isNaN(parseFloat(form.frais))) {
+  toast.warning("Le montant des frais doit être un nombre");
+  return;
+}
+
 
     setLoading(true);
 
@@ -93,16 +97,19 @@ const AddResPromesse = () => {
     }
 
     try {
-      await createPromesse({
-        marque: form.marque,
-        modele: form.modele,
-        matricule: form.matricule,
-        promesse: form.promesse,
-        frais: parseFloat(form.frais),
-        user_id: userId,
-      });
+     await createPromesse({
+  marque: form.marque,
+  modele: form.modele,
+  matricule: form.matricule,
+  promesse: form.promesse,
+  societe: form.societe,
+  service_concerne: form.service_concerne,
+  frais: form.frais ? parseFloat(form.frais) : undefined,
+  user_id: userId,
+});
+
       toast.success("Promesse créée avec succès !");
-      setTimeout(() => navigate("/manager/promesses"), 1500);
+      setTimeout(() => navigate("/responsable/promesses"), 1500);
     } catch (error) {
       toast.error(error.response?.data?.detail || "Erreur lors de la création de la promesse");
     } finally {
@@ -161,6 +168,31 @@ const AddResPromesse = () => {
             required
           />
         </div>
+        <div className="form-group">
+  <label>Société</label>
+<select
+  name="societe"
+  value={form.societe}
+  onChange={handleChange}
+  required
+>
+  <option value="">-- Sélectionnez une société --</option>
+  <option value="STAFIM">STAFIM</option>
+  <option value="AUTO-LION">AUTO-LION</option>
+</select>
+
+</div>
+
+<div className="form-group">
+  <label>Service concerné</label>
+  <input
+    type="text"
+    name="service_concerne"
+    value={form.service_concerne}
+    onChange={handleChange}
+    required
+  />
+</div>
 
         <div className="form-group">
           <label>Frais (DT)</label>
@@ -171,12 +203,18 @@ const AddResPromesse = () => {
             name="frais"
             value={form.frais}
             onChange={handleChange}
-            required
           />
         </div>
 
        <div className="button-wrapper">
   <button className="submit-btn" type="submit">Ajouter la promesse</button>
+    <button
+    className="submit-retour"
+    type="button"
+    onClick={() => navigate('/responsable/promesses')}
+  >
+    Retour
+  </button>
 </div>
 
       </form>
