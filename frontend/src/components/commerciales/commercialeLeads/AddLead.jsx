@@ -104,7 +104,7 @@ const AddLead = () => {
 
         <label>Telephone*</label>
         <input
-          type="number"
+          type="number"  min="19999999" max="99999999" minLength={8} maxLength={8}
           name="telephone"
           value={formData.telephone}
           onChange={handleChange}

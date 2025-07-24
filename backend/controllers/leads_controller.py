@@ -6,7 +6,9 @@ from typing import List, Optional
 from datetime import datetime, date
 from models.leads import Leads
 from bson.errors import InvalidId  
-from datetime import datetime, time# Assure-toi d'avoir ce modèle dans models/leads.py
+from datetime import datetime, time# 
+from fastapi import APIRouter, Depends
+
 
 leads_router = APIRouter()
 client = AsyncIOMotorClient(MONGO_URI)
@@ -120,6 +122,76 @@ async def get_leads_paginated(
         "leads": leads,
     }
 
+
+
+@leads_router.get("/getHistogrammeLeads")
+async def getHistogrammeLeads():
+    pipeline = [
+        {
+            "$match": {
+                "affectation": "Affecté",
+                "user_id": { "$type": "string", "$regex": "^[a-fA-F0-9]{24}$" },
+                "date_creation": { "$ne": None }
+            }
+        },
+        {
+            "$addFields": {
+                "user_id_object": { "$toObjectId": "$user_id" }
+            }
+        },
+        {
+            "$lookup": {
+                "from": "users",
+                "localField": "user_id_object",
+                "foreignField": "_id",
+                "as": "user"
+            }
+        },
+        { "$unwind": "$user" },
+        {
+            "$project": {
+                "date_creation": 1,
+                "user.nom": 1  # Utilise "nom" au lieu de "username"
+            }
+        },
+        {
+            "$group": {
+                "_id": {
+                    "nom": "$user.nom",
+                    "month": { "$month": "$date_creation" },
+                    "year": { "$year": "$date_creation" }
+                },
+                "total": { "$sum": 1 }
+            }
+        },
+        {
+            "$group": {
+                "_id": "$_id.nom",
+                "data": {
+                    "$push": {
+                        "month": "$_id.month",
+                        "year": "$_id.year",
+                        "total": "$total"
+                    }
+                }
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "nom": "$_id",
+                "data": 1
+            }
+        }
+    ]
+
+    try:
+        results = await db.leads.aggregate(pipeline).to_list(length=None)
+        return results
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur serveur : {str(e)}")
+
+
 @leads_router.get("/{lead_id}", response_model=Leads)
 async def get_lead_by_id(lead_id: str):
     lead = await db.leads.find_one({"_id": ObjectId(lead_id)})
@@ -155,3 +227,4 @@ async def delete_lead(lead_id: str):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Lead non trouvé")
     return {"message": "Lead supprimé avec succès"}
+

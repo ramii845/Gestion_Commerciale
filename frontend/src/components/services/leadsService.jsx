@@ -50,3 +50,13 @@ export const updateLead = async (leadId, updatedLead) => {
 export const deleteLead = async (leadId) => {
   return await axios.delete(`${API_BASE_URL}/${leadId}`);
 };
+
+export const getHistogrammeLeads = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/getHistogrammeLeads`);
+    return response.data; // on retourne directement les données
+  } catch (error) {
+    console.error("Erreur lors de la récupération de l'histogramme des leads :", error);
+    throw error;
+  }
+};

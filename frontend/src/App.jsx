@@ -37,6 +37,7 @@ import ListManLeads from './components/admin/leads/ListManLeads';
 import AddManLead from './components/admin/leads/addManLead';
 import NotFoundPage from './components/utils/NotFoundPage';
 import ListeResLeads from './components/responsable_vente/leads/ListResLeads';
+import LeadsStats from './components/Dashboard/LeadsStats';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -97,6 +98,9 @@ function App() {
 
 <Route path="/manager/leads" element={<ManagerRoute element={<ListManLeads />} />} />
 <Route path="/add-lead-man" element={<ManagerRoute element={<AddManLead />} />} />
+
+<Route path="/stat" element={<LeadsStats/>}  />
+
 
 
 

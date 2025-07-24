@@ -74,7 +74,7 @@ const AddResLead = () => {
       });
 
       toast.success("Lead ajouté avec succès !");
-      navigate("/manager/leads");
+      navigate("/responsable/leads");
     } catch (err) {
       toast.error("Erreur lors de l'ajout du lead.");
     }
@@ -104,7 +104,7 @@ const AddResLead = () => {
 
         <label>Telephone*</label>
         <input
-          type="number"
+          type="number"  min="19999999" max="99999999" minLength={8} maxLength={8}
           name="telephone"
           value={formData.telephone}
           onChange={handleChange}
@@ -167,7 +167,7 @@ const AddResLead = () => {
             <button
     className="submit-retour"
     type="button"
-    onClick={() => navigate('/manager/leads')}
+    onClick={() => navigate('/responsable/leads')}
   >
     Retour
   </button>
