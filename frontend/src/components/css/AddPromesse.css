@@ -1,80 +1,128 @@
-/* AddPromesse.css */
+/* Import Google Font - Poppins for a modern look */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
-.add-promesse-container{
-  max-width: 500px;
-  margin-top: 180px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 40px;
-  padding: 20px 30px;
-  background-color: #fff;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  border-radius: 8px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+/* Basic reset for consistent box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+  color: #4a5568; /* Softer dark gray for body text */
+  background-color: #f8fafc; /* Very light, clean background */
+  display: flex; /* Ensure body takes full height for centering */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full viewport height */
+  padding: 20px; /* Add some padding around the form */
+}
+
+.add-promesse-container {
+  max-width: 700px; /* Adjusted max-width to match screenshot's proportions */
+  width: 100%; /* Ensure it takes full width up to max-width */
+  margin: auto; /* Center horizontally */
+  padding: 2.5rem 3.5rem; /* More generous horizontal padding */
+  background-color: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Softer, deeper shadow */
+  border-radius: 16px; /* More rounded corners */
+  border: 1px solid #e2e8f0; /* Subtle border */
+}
 
 .add-promesse-container h2 {
   text-align: center;
-  margin-bottom: 25px;
-  color: #007bff;
-  font-weight: 700;
-  font-size: 1.8rem;
+  margin-bottom: 2.5rem; /* More space below title */
+  font-size: 2.2rem; /* Larger, more prominent title */
+  font-weight: 700; /* Bold title */
+  color: #1a202c; /* Deep, professional dark color */
+  letter-spacing: -0.02em; /* Tighter letter spacing */
+}
+
+.add-promesse-container form {
+  display: grid; /* Use CSS Grid for a more organized layout */
+  grid-template-columns: max-content 1fr; /* Labels take content width, inputs take remaining */
+  gap: 1.5rem 2rem; /* Vertical and horizontal gap between grid items */
+  align-items: center; /* Vertically align items in the grid */
 }
 
 .form-group {
-  margin-bottom: 15px;
-  display: flex;
-  flex-direction: column;
+  /* This class wraps label and input/select */
+  display: contents; /* Makes children participate directly in the grid */
 }
 
 .form-group label {
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: #333;
+  font-weight: 600; /* Semi-bold labels */
+  color: #2d3748; /* Darker label color */
+  font-size: 0.95rem; /* Slightly smaller label font */
+  text-align: left; /* Ensure labels are left-aligned */
+  padding-right: 10px; /* Small gap between label and input */
 }
 
-.form-group select,
 .form-group input[type="text"],
 .form-group input[type="number"],
-.form-group input[type="password"],
-.form-group input[type="file"] {
-  padding: 10px 12px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  transition: border-color 0.3s ease;
+.form-group select {
+  padding: 12px 15px; /* More padding */
+  font-size: 1rem; /* Standard font size */
+  border-radius: 8px; /* Rounded input fields */
+  border: 1px solid #cbd5e1; /* Light grey border */
+  outline: none; /* Remove default outline */
+  color: #4a5568;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  width: 100%; /* Ensure inputs take full width of their grid column */
+  background-color: #ffffff; /* Explicit white background */
 }
 
-.form-group select:focus,
-.form-group input[type="text"]:focus,
-.form-group input[type="number"]:focus,
-.form-group input[type="password"]:focus {
-  border-color: #007bff;
-  outline: none;
+.form-group input::placeholder {
+  color: #a0aec0; /* Lighter placeholder text */
 }
 
-/* Centrage du bouton */
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #2563eb; /* Blue border on focus */
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); /* Subtle blue glow on focus */
+}
+
+/* Specific styling for number input to remove arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+/* Button Wrapper for "Ajouter la promesse" and "Retour" */
 .button-wrapper {
+  grid-column: 1 / span 2; /* Span both columns in the grid */
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
+  flex-direction: column; /* Stack buttons vertically */
+  justify-content: center; /* Center buttons horizontally */
+  align-items: center; /* Center items within the column */
+  gap: 1rem; /* Space between stacked buttons */
+  margin-top: 2rem; /* Space above the button group */
 }
 
 button.submit-btn {
-  background-color: #007bff;
+  background-color: #2563eb; /* Vibrant blue for primary action */
   color: white;
+  padding: 14px 28px; /* More generous padding for a prominent button */
+  font-size: 1.1rem; /* Larger font size */
+  font-weight: 600; /* Semi-bold text */
   border: none;
-  padding: 12px 40px;
-  font-size: 1.1rem;
-  border-radius: 6px;
+  border-radius: 10px; /* More rounded button */
   cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  width: 100%; /* Make button take full width of its container */
+  max-width: 300px; /* Limit max width for a cleaner look */
 }
 
 button.submit-btn:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: #1d4ed8; /* Slightly darker blue on hover */
+  transform: translateY(-1px);
 }
 
 button.submit-btn:disabled {
@@ -82,35 +130,69 @@ button.submit-btn:disabled {
   cursor: not-allowed;
 }
 
-
-
-
-
-/* Password toggle icon */
-.input-wrapper {
-  position: relative;
-}
-
-.input-wrapper i {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
+button.submit-retourr {
+  /* Updated class name */
+  background: none; /* No background */
+  color: #2563eb; /* Blue text color */
+  border: none; /* No border */
+  padding: 0; /* No padding */
+  font-size: 1rem; /* Standard font size */
+  font-weight: 500; /* Medium font weight */
   cursor: pointer;
-  color: #888;
-  font-size: 1.2rem;
-  user-select: none;
+  text-decoration: none; /* Remove underline */
+  transition: color 0.2s ease, text-decoration 0.2s ease; /* Add transition for underline */
+  /* No need for align-self here as parent is column and items are centered */
 }
 
-/* Responsive */
-@media (max-width: 550px) {
+button.submit-retourr:hover {
+  color: #1d4ed8; /* Darker blue on hover */
+  text-decoration: underline; /* Underline on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .add-promesse-container {
-    margin: 60px 15px;
-    padding: 15px 20px;
+    padding: 1.5rem;
+    margin: 20px; /* Adjust margin for smaller screens */
   }
 
-  button.submit-btn {
-    width: 100%;
-    padding: 12px 0;
+  .add-promesse-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .add-promesse-container form {
+    grid-template-columns: 1fr; /* Single column layout on small screens */
+    gap: 1rem; /* Reduced gap */
+  }
+
+  .button-wrapper {
+    /* Already column, but ensure full width */
+    gap: 1rem;
+  }
+
+  button.submit-btn,
+  button.submit-retourr {
+    width: 100%; /* Full width buttons on small screens */
+    max-width: 300px; /* Limit max width even when full width */
+    margin: 0 auto; /* Center buttons when stacked */
+  }
+}
+
+@media (max-width: 480px) {
+  .add-promesse-container {
+    padding: 1rem;
+  }
+
+  .add-promesse-container h2 {
+    font-size: 1.6rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  button.submit-btn,
+  button.submit-retourr {
+    font-size: 0.9rem;
+    padding: 10px 12px;
   }
 }

@@ -38,6 +38,7 @@ import AddManLead from './components/admin/leads/addManLead';
 import NotFoundPage from './components/utils/NotFoundPage';
 import ListeResLeads from './components/responsable_vente/leads/ListResLeads';
 import LeadsStats from './components/Dashboard/LeadsStats';
+import EditLead from './components/commerciales/commercialeLeads/EditLead';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -64,6 +65,8 @@ function App() {
 
      <Route path="/commerciale" element={<CommercialeRoute element={<CommercialeHome />} />} />
 <Route path="/commerciale/leads" element={<CommercialeRoute element={<ListLeads />} />} />
+<Route path="/edit-lead/:id" element={<CommercialeRoute element={<EditLead/>} />} />
+
 <Route path="/add-lead" element={<CommercialeRoute element={<AddLead />} />} />
 <Route path="/commerciale/promesses" element={<CommercialeRoute element={<ListPromesse />} />} />
 <Route path="/add-promesse" element={<CommercialeRoute element={<AddPromesse />} />} />

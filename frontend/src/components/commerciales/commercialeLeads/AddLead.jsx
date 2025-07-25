@@ -3,6 +3,7 @@ import { createLead } from "../../services/leadsService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import '../../css/AddLead.css';
+import Navbar from "../../Navbar/Navbar";
 
 const decodeJWT = (token) => {
   try {
@@ -81,6 +82,8 @@ const AddLead = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="add-lead-container">
       <h2>Ajouter un Lead</h2>
       <form onSubmit={handleSubmit}>
@@ -173,6 +176,7 @@ const AddLead = () => {
   </button>
       </form>
     </div>
+    </>
   );
 };
 

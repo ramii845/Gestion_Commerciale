@@ -168,7 +168,7 @@ const ListeVentes = () => {
       <div className="liste-ventes-container">
         <div className="liste-ventes-header">
           <h2 style={{ textAlign: "center", flexGrow: 1 }}>Mes ventes</h2>
-          <button style={{ alignSelf: "flex-start" }} onClick={handleAddRow}>
+          <button className="btn-ajout-ventes" onClick={handleAddRow}>
             Ajouter
           </button>
         </div>
@@ -264,8 +264,8 @@ const ListeVentes = () => {
       <td>-</td>
       <td>-</td>
       <td>
-        <button onClick={handleAdd}>Enregistrer</button>
-        <button onClick={handleCancel}>Annuler</button>
+        <button className="enregister" onClick={handleAdd}>Enregistrer</button>
+        <button  className="anuuler"onClick={handleCancel}>Annuler</button>
       </td>
     </tr>
   )}

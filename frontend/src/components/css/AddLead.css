@@ -1,63 +1,186 @@
-/* Import Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+/* Import Google Font - Poppins for a modern look */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+/* Basic reset for consistent box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+  color: #4a5568; /* Softer dark gray for body text */
+  background-color: #f8fafc; /* Very light, clean background */
+  display: flex; /* Ensure body takes full height for centering */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full viewport height */
+  padding: 20px; /* Add some padding around the form */
+}
 
 .add-lead-container {
-  max-width: 600px;
-  margin: 3rem auto;
-  padding: 2rem;
+  max-width: 700px; /* Adjusted max-width to better fit the screenshot's proportions */
+  width: 100%; /* Ensure it takes full width up to max-width */
+  margin: auto; /* Center horizontally */
+  padding: 2.5rem 3.5rem; /* More generous horizontal padding */
   background-color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Softer, deeper shadow */
+  border-radius: 16px; /* More rounded corners */
+  border: 1px solid #e2e8f0; /* Subtle border */
 }
 
 .add-lead-container h2 {
   text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 24px;
-  font-weight: 600;
-  color: #333;
+  margin-bottom: 2.5rem; /* More space below title */
+  font-size: 2.2rem; /* Larger, more prominent title */
+  font-weight: 700; /* Bold title */
+  color: #1a202c; /* Deep, professional dark color */
+  letter-spacing: -0.02em; /* Tighter letter spacing */
 }
 
 .add-lead-container form {
-  display: flex;
-  flex-direction: column;
+  display: grid; /* Use CSS Grid for a more organized layout */
+  grid-template-columns: max-content 1fr; /* Labels take content width, inputs take remaining */
+  gap: 1.5rem 2rem; /* Vertical and horizontal gap between grid items */
+  align-items: center; /* Vertically align items in the grid */
 }
 
 .add-lead-container label {
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #333;
+  font-weight: 600; /* Semi-bold labels */
+  color: #2d3748; /* Darker label color */
+  font-size: 0.95rem; /* Slightly smaller label font */
+  text-align: left; /* Ensure labels are left-aligned */
+  padding-right: 10px; /* Small gap between label and input */
 }
 
 .add-lead-container input,
 .add-lead-container select {
-  padding: 10px 12px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  transition: border-color 0.3s;
+  padding: 12px 15px; /* More padding */
+  font-size: 1rem; /* Standard font size */
+  border-radius: 8px; /* Rounded input fields */
+  border: 1px solid #cbd5e1; /* Light grey border */
+  outline: none; /* Remove default outline */
+  color: #4a5568;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  width: 100%; /* Ensure inputs take full width of their grid column */
+  background-color: #ffffff; /* Explicit white background */
+}
+
+.add-lead-container input::placeholder {
+  color: #a0aec0; /* Lighter placeholder text */
 }
 
 .add-lead-container input:focus,
 .add-lead-container select:focus {
-  border-color: #007bff;
-  outline: none;
+  border-color: #2563eb; /* Blue border on focus */
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); /* Subtle blue glow on focus */
 }
 
-.add-lead-container button {
-  margin-top: 2rem;
-  padding: 12px;
-  font-size: 16px;
-  background-color: #007bff;
+/* Specific styling for datetime-local to ensure consistent appearance */
+input[type="datetime-local"] {
+  appearance: none; /* Remove default browser styling */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Style for buttons */
+.add-lead-container button[type="submit"] {
+  background-color: #2563eb; /* Vibrant blue for primary action */
   color: white;
+  padding: 14px 28px; /* More generous padding for a prominent button */
+  font-size: 1.1rem; /* Larger font size */
+  font-weight: 600; /* Semi-bold text */
   border: none;
-  border-radius: 8px;
+  border-radius: 10px; /* More rounded button */
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  grid-column: 1 / span 2; /* Span both columns */
+  margin-top: 2rem; /* Space above submit button */
+  justify-self: center; /* Center the submit button */
+  width: 100%; /* Full width for submit button */
+  max-width: 300px; /* Max width for submit button */
 }
 
-.add-lead-container button:hover {
-  background-color: #0056b3;
+.add-lead-container button[type="submit"]:hover {
+  background-color: #1d4ed8; /* Slightly darker blue on hover */
+  transform: translateY(-1px);
+}
+
+.add-lead-container button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* Style for the "Retour" link/button */
+.submit-retour {
+  background: none; /* No background */
+  color: #2563eb; /* Blue text color */
+  border: none; /* No border */
+  padding: 0; /* No padding */
+  font-size: 1rem; /* Standard font size */
+  font-weight: 500; /* Medium font weight */
+  cursor: pointer;
+  text-decoration: none; /* Remove underline */
+  transition: color 0.2s ease;
+  grid-column: 1 / span 2; /* Span both columns */
+  margin-top: 1.5rem; /* Space below submit button */
+  justify-self: center; /* Center the return button */
+  width: auto; /* Auto width */
+}
+
+.submit-retour:hover {
+  color: #1d4ed8; /* Darker blue on hover */
+  text-decoration: underline; /* Underline on hover */
+}
+
+/* Remove arrows on number input for all browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .add-lead-container {
+    padding: 1.5rem;
+    margin: 20px; /* Adjust margin for smaller screens */
+  }
+
+  .add-lead-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .add-lead-container form {
+    grid-template-columns: 1fr; /* Single column layout on small screens */
+    gap: 1rem; /* Reduced gap */
+  }
+
+  .add-lead-container button[type="submit"],
+  .submit-retour {
+    max-width: 100%; /* Full width buttons on small screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .add-lead-container {
+    padding: 1rem;
+  }
+
+  .add-lead-container h2 {
+    font-size: 1.6rem;
+  }
+
+  .add-lead-container input,
+  .add-lead-container select,
+  .add-lead-container button {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
 }

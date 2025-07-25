@@ -1,0 +1,176 @@
+/* Import Google Font - Poppins for a modern look */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+
+
+.edit-lead-container {
+  max-width: 700px;
+  width: 100%;
+  margin: 40px auto 0; /* 40px en haut, auto horizontalement, 0 en bas */
+  padding: 2.5rem 3.5rem;
+  background-color: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.edit-lead-title {
+  text-align: center;
+  margin-bottom: 2.5rem; /* Consistent space below title */
+  font-size: 2.2rem; /* Consistent title font size */
+  font-weight: 700; /* Consistent title font weight */
+  color: #1a202c; /* Consistent title color */
+  letter-spacing: -0.02em; /* Consistent letter spacing */
+}
+
+.edit-lead-form {
+  display: grid; /* Use CSS Grid for a more organized layout */
+  grid-template-columns: max-content 1fr; /* Labels take content width, inputs take remaining */
+  gap: 1.5rem 2rem; /* Vertical and horizontal gap between grid items */
+  align-items: center; /* Vertically align items in the grid */
+}
+
+.edit-lead-form label {
+  font-weight: 600; /* Semi-bold labels */
+  color: #2d3748; /* Darker label color */
+  font-size: 0.95rem; /* Slightly smaller label font */
+  text-align: left; /* Ensure labels are left-aligned */
+  padding-right: 10px; /* Small gap between label and input */
+}
+
+.edit-lead-form input,
+.edit-lead-form select {
+  padding: 12px 15px; /* More padding */
+  font-size: 1rem; /* Standard font size */
+  border-radius: 8px; /* Rounded input fields */
+  border: 1px solid #cbd5e1; /* Light grey border */
+  outline: none; /* Remove default outline */
+  color: #4a5568;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  width: 100%; /* Ensure inputs take full width of their grid column */
+  background-color: #ffffff; /* Explicit white background */
+}
+
+.edit-lead-form input::placeholder {
+  color: #a0aec0; /* Lighter placeholder text */
+}
+
+.edit-lead-form input:focus,
+.edit-lead-form select:focus {
+  border-color: #2563eb; /* Blue border on focus */
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); /* Subtle blue glow on focus */
+}
+
+/* Specific styling for datetime-local to ensure consistent appearance */
+input[type="datetime-local"] {
+  appearance: none; /* Remove default browser styling */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Button Group for "Enregistrer" and "Annuler" */
+.button-group {
+  grid-column: 1 / span 2; /* Span both columns */
+  display: flex;
+  justify-content: center; /* Center buttons horizontally */
+  gap: 1.5rem; /* Space between buttons */
+  margin-top: 2rem; /* Space above the button group */
+}
+
+.button-group button {
+  padding: 14px 28px; /* More generous padding for prominent buttons */
+  font-size: 1.1rem; /* Larger font size */
+  font-weight: 600; /* Semi-bold text */
+  border: none;
+  border-radius: 10px; /* More rounded buttons */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease, border-color 0.3s ease, color 0.3s ease;
+  width: auto; /* Allow buttons to size based on content */
+  min-width: 120px; /* Ensure a minimum width for buttons */
+}
+
+.submit-btn {
+  background-color: #2563eb; /* Vibrant blue for primary action */
+  color: white;
+}
+
+.submit-btn:hover {
+  background-color: #1d4ed8; /* Slightly darker blue on hover */
+  transform: translateY(-1px);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+.cancel-btn {
+  background-color: #ffffff; /* White background for cancel button */
+  color: #4a5568; /* Dark gray text */
+  border: 1px solid #cbd5e1; /* Light gray border */
+}
+
+.cancel-btn:hover {
+  background-color: #f0f4f8; /* Light gray background on hover */
+  border-color: #a0aec0; /* Darker border on hover */
+  transform: translateY(-1px);
+}
+
+.cancel-btn:active {
+  transform: translateY(0);
+}
+
+/* Remove arrows on number input for all browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .edit-lead-container {
+    padding: 1.5rem;
+    margin: 20px; /* Adjust margin for smaller screens */
+  }
+
+  .edit-lead-title {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .edit-lead-form {
+    grid-template-columns: 1fr; /* Single column layout on small screens */
+    gap: 1rem; /* Reduced gap */
+  }
+
+  .button-group {
+    flex-direction: column; /* Stack buttons vertically on small screens */
+    gap: 1rem;
+  }
+
+  .button-group button {
+    width: 100%; /* Full width buttons on small screens */
+    max-width: 300px; /* Limit max width even when full width */
+    margin: 0 auto; /* Center buttons when stacked */
+  }
+}
+
+@media (max-width: 480px) {
+  .edit-lead-container {
+    padding: 1rem;
+  }
+
+  .edit-lead-title {
+    font-size: 1.6rem;
+  }
+
+  .edit-lead-form input,
+  .edit-lead-form select,
+  .button-group button {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+}

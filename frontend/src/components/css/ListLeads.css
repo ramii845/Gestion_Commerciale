@@ -1,70 +1,294 @@
+/* Basic reset for consistent box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.6;
+  color: #4a5568; /* Softer dark gray for body text */
+  background-color: #f8fafc; /* Very light, clean background */
+}
+
 .liste-leads-container {
-  padding: 80px;
-  max-width: 1100px;
-  margin: auto;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  padding: 40px; /* Reduced padding for a tighter, more contained look */
+  max-width: 1800px; /* Slightly wider container for more table space */
+  margin: 60px auto; /* Adjusted top margin to push content down, centered horizontally */
+  background: #ffffff;
+  border-radius: 16px; /* More rounded corners */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Softer, deeper shadow */
+  border: 1px solid #e2e8f0; /* Subtle border */
 }
 
 .liste-leads-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Distribute items with space between */
   align-items: center;
-  margin-bottom: 20px;
-  flex-direction: row-reverse;
+  margin-bottom: 30px; /* More space below header */
+  /* No flex-direction change needed, default row is fine for space-between */
 }
 
 .titleLeads {
-  font-size: 28px;
-  font-weight: 600;
-  color: #333;
-  text-align: center;
-  flex: 1;
+  font-size: 2.2rem; /* Larger, more prominent title */
+  font-weight: 700; /* Bold title */
+  color: #1a202c; /* Deep, professional dark color */
+  text-align: center; /* Center the title */
+  flex-grow: 1; /* Allow title to take available space */
+  order: 2; /* Place title in the middle */
 }
 
 .btn-ajout-leads {
-  background-color: #007bff;
+  background-color: #2563eb; /* Vibrant blue for primary action */
   color: white;
-  padding: 10px 16px;
-  border-radius: 8px;
+  padding: 12px 24px; /* More generous padding */
+  border-radius: 10px; /* More rounded button */
   border: none;
   cursor: pointer;
-  font-size: 15px;
-  transition: background-color 0.3s ease;
-  margin-right: auto;
+  font-size: 1rem; /* Standard font size */
+  font-weight: 600; /* Semi-bold text */
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  display: flex; /* For icon and text alignment if icons were used */
+  align-items: center;
+  gap: 8px; /* Space between icon and text */
+  order: 1; /* Place button on the left */
 }
 
 .btn-ajout-leads:hover {
-  background-color: #0056b3;
+  background-color: #1d4ed8; /* Slightly darker blue on hover */
+  transform: translateY(-1px); /* Subtle lift effect */
+}
+
+.btn-ajout-leads:active {
+  transform: translateY(0); /* Press effect */
 }
 
 .filter-container-nom {
-  margin-bottom: 20px;
-  width: 60%;
-  margin-left: auto;
-  margin-right: auto;
+  margin-bottom: 30px; /* More space below filter */
+  display: flex; /* Use flex for centering input */
+  justify-content: center; /* Center the input */
 }
 
 .filter-container-nom input {
   width: 100%;
-  padding: 8px;
-  font-size: 14px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  max-width: 400px; /* Max width for the filter input */
+  padding: 10px 15px; /* More padding */
+  font-size: 1rem;
+  border-radius: 8px; /* Rounded input field */
+  border: 1px solid #cbd5e1; /* Light grey border */
+  outline: none; /* Remove default outline */
+  color: #4a5568;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-.liste-leads-table td .btn-modf {
-  background-color: #ffc107;
-  color: #000;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 6px;
+.filter-container-nom input::placeholder {
+  color: #a0aec0; /* Lighter placeholder text */
+}
+
+.filter-container-nom input:focus {
+  border-color: #2563eb; /* Blue border on focus */
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); /* Subtle blue glow on focus */
+}
+
+.liste-leads-table {
+  width: 100%;
+  border-collapse: collapse; /* Collapse borders for a cleaner look */
+  margin-bottom: 30px; /* Space below table */
+  background-color: #ffffff;
+  border-radius: 12px; /* Rounded corners for the table container */
+  overflow: hidden; /* Ensures rounded corners apply to content */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Subtle shadow for the table */
+}
+
+.liste-leads-table thead {
+  background-color: #f7fafc; /* Light header background */
+}
+
+.liste-leads-table th {
+  padding: 15px 20px; /* More padding for headers */
+  text-align: left;
+  font-size: 0.85rem; /* Slightly smaller font for headers */
+  font-weight: 600; /* Semi-bold headers */
+  color: #718096; /* Muted color for headers */
+  text-transform: uppercase; /* Uppercase for professionalism */
+  letter-spacing: 0.05em; /* Spaced out letters */
+  border-bottom: 1px solid #edf2f7; /* Light border below headers */
+}
+
+.liste-leads-table tbody tr {
+  border-bottom: 1px solid #edf2f7; /* Light border between rows */
+  transition: background-color 0.2s ease;
+}
+
+.liste-leads-table tbody tr:last-child {
+  border-bottom: none; /* No border on the last row */
+}
+
+.liste-leads-table tbody tr:hover {
+  background-color: #f0f4f8; /* Light hover effect for rows */
+}
+
+.liste-leads-table td {
+  padding: 12px 20px; /* Padding for table cells */
+  font-size: 0.95rem; /* Slightly larger font for cell content */
+  color: #4a5568; /* Darker text for cell content */
+  vertical-align: middle; /* Vertically align content */
+}
+
+.liste-leads-table td:last-child {
+  text-align: center; /* Center action button in the cell */
+}
+
+/* Modifier button design */
+.liste-leads-table td button[name="btn5"] {
+  background-color: #ffffff; /* White background */
+  color: #2563eb; /* Blue text */
+  padding: 8px 16px; /* Padding for button */
+  border: 1px solid #2563eb; /* Blue border */
+  border-radius: 8px; /* Rounded button */
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.1s ease;
 }
 
-.liste-leads-table td .btn-modf:hover {
-  background-color: #e0a800;
+.liste-leads-table td button[name="btn5"]:hover {
+  background-color: #2563eb; /* Blue background on hover */
+  color: white; /* White text on hover */
+  transform: translateY(-1px); /* Subtle lift effect */
+}
+
+.liste-leads-table td button[name="btn5"]:active {
+  transform: translateY(0); /* Press effect */
+}
+
+.empty-row {
+  text-align: center;
+  padding: 40px 20px; /* More padding for empty state */
+  color: #718096;
+  font-style: italic;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px; /* Space between pagination elements */
+  margin-top: 30px; /* Space above pagination */
+}
+
+.pagination button {
+  background-color: #e2e8f0; /* Light background for pagination buttons */
+  color: #4a5568;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #cbd5e1; /* Darker on hover */
+  transform: translateY(-1px);
+}
+
+.pagination button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pagination span {
+  font-size: 1rem;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .liste-leads-container {
+    padding: 30px;
+    margin: 40px auto;
+  }
+  .liste-leads-table {
+    overflow-x: auto; /* Enable horizontal scroll for table on smaller screens */
+    display: block; /* Make table a block element for overflow */
+    white-space: nowrap; /* Prevent text wrapping in cells */
+  }
+  .liste-leads-table thead,
+  .liste-leads-table tbody,
+  .liste-leads-table th,
+  .liste-leads-table td,
+  .liste-leads-table tr {
+    display: table-cell; /* Reset to table-cell for horizontal scroll */
+  }
+}
+
+@media (max-width: 768px) {
+  .liste-leads-container {
+    padding: 20px;
+    margin: 30px auto;
+  }
+  .liste-leads-header {
+    flex-direction: column; /* Stack header elements */
+    align-items: center; /* Center items when stacked */
+    gap: 15px;
+  }
+  .titleLeads {
+    font-size: 1.8rem;
+    text-align: center; /* Ensure title is centered */
+    width: 100%; /* Full width for title */
+    order: 1; /* Title first when stacked */
+  }
+  .btn-ajout-leads {
+    width: 100%; /* Full width button */
+    justify-content: center;
+    order: 2; /* Button second when stacked */
+  }
+  .filter-container-nom {
+    margin-bottom: 25px;
+  }
+  .filter-container-nom input {
+    max-width: 100%; /* Full width for filter input */
+  }
+  .liste-leads-table th,
+  .liste-leads-table td {
+    padding: 10px 15px; /* Reduced padding for smaller screens */
+    font-size: 0.8rem;
+  }
+  .liste-leads-table td:last-child {
+    text-align: center; /* Center action button on small screens */
+  }
+  .liste-leads-table td button[name="btn5"] {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+  .pagination {
+    flex-direction: column; /* Stack pagination elements */
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .liste-leads-container {
+    padding: 15px;
+    margin: 20px auto;
+  }
+  .titleLeads {
+    font-size: 1.6rem;
+  }
+  .liste-leads-table th,
+  .liste-leads-table td {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+  }
+  .liste-leads-table td button[name="btn5"] {
+    padding: 5px 8px;
+    font-size: 0.7rem;
+  }
 }

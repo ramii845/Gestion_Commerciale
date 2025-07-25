@@ -165,7 +165,7 @@ const ListeLeads = () => {
     : "-"}
 </td>
                   <td>
-                    <button onClick={() => navigate(`/edit-lead/${lead.id}`)}>Modifier</button>
+                    <button name="btn5" onClick={() => navigate(`/edit-lead/${lead.id}`)}>Modifier</button>
                   </td>
                 </tr>
               ))

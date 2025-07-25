@@ -83,7 +83,7 @@ const ListResPromesse = () => {
       <div className="list-promesse-container" >
         <div className="list-promesse-header" >
           <h2 className="list-promesse-title">Liste des promesses</h2>
-             <button onClick={() => navigate('/add-promesse-man')}>Ajouter</button>
+             <button className="ajouter" onClick={() => navigate('/add-promesse-man')}>Ajouter</button>
         </div>
 
         <div style={{ marginBottom: 15 }}>

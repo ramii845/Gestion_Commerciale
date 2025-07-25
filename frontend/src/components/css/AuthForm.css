@@ -1,3 +1,56 @@
+/* Basic reset for consistent box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.5;
+  color: #334155; /* Darker text for readability */
+}
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f4f8; /* Softer, light background */
+  padding: 20px;
+}
+
+.auth-form-container {
+  background-color: #fff;
+  padding: 35px 45px; /* More generous padding */
+  border-radius: 16px; /* Slightly more rounded corners */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Softer, larger shadow */
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #e2e8f0; /* Subtle border */
+}
+
+.auth-title {
+  text-align: center;
+  margin-bottom: 30px; /* Increased margin */
+  color: #1e40af; /* A modern, deep blue */
+  font-size: 2rem; /* Larger title */
+  font-weight: 700; /* Bold title */
+}
+
+.input-group {
+  margin-bottom: 25px; /* Increased margin between groups */
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #475569; /* Slightly darker label color */
+}
+
 .input-wrapper {
   display: flex;
   align-items: center;
@@ -6,75 +59,75 @@
 
 .input-wrapper input {
   flex: 1;
-  padding: 8px 12px 8px 30px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 12px 15px 12px 40px; /* More padding, space for icon */
+  border: 1px solid #cbd5e1; /* Light grey border */
+  border-radius: 8px; /* Rounded input fields */
+  outline: none; /* Remove default outline */
+  font-size: 1rem;
+  color: #334155;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  width: 100%; /* Ensure input takes full width */
+}
+
+.input-wrapper input:focus {
+  border-color: #3b82f6; /* Blue border on focus */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25); /* Subtle blue glow on focus */
 }
 
 .icon-left {
-  pointer-events: none; /* Laisse les clics passer à travers l'icône */
+  pointer-events: none; /* Allows clicks to pass through the icon */
   position: absolute;
-  left: 10px;
-  color: #999;
-  font-size: 1rem;
+  left: 15px; /* Adjusted position */
+  color: #64748b; /* Muted icon color */
+  font-size: 1.2rem; /* Slightly larger icon */
 }
 
+.icon-toggle {
+  position: absolute;
+  right: 15px; /* Adjusted position */
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #64748b; /* Muted icon color */
+  font-size: 1.2rem; /* Slightly larger icon */
+  transition: color 0.2s ease-in-out;
+}
 
 .icon-toggle:hover {
-  color: #0c6b84;
-}
-.auth-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f7f9fc;
-  padding: 20px;
+  color: #1e40af; /* Matches primary button/title color on hover */
 }
 
-.auth-form-container {
-  background-color: #fff;
-  padding: 30px 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-}
-
-.auth-title {
-  text-align: center;
-  margin-bottom: 25px;
-  color: #0c6b84;
-}
-
-.input-group {
-  margin-bottom: 20px;
-}
-
-.input-wrapper input {
-  width: 100%;
-}
-/* Supprimer les flèches sur les input type number */
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+/* Remove arrows on input type number for all browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
 .button1 {
   display: block;
-  margin: 2rem auto 0 auto; /* top auto bottom auto => centré horizontalement */
-  padding: 12px 24px;
-  font-size: 16px;
-  background-color: #007bff;
+  margin: 30px auto 0 auto; /* Centered horizontally, increased top margin */
+  padding: 14px 28px; /* More padding for a larger button */
+  font-size: 18px; /* Larger font size */
+  background-color: #1e40af; /* Modern blue button */
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px; /* More rounded button */
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease-in-out, transform 0.1s ease-in-out;
+  width: 100%; /* Button takes full width */
 }
 
 .button1:hover {
-  background-color: #0056b3;
+  background-color: #1d4ed8; /* Slightly darker blue on hover */
+  transform: translateY(-1px); /* Subtle lift effect */
+}
+
+.button1:active {
+  transform: translateY(0); /* Press effect */
 }
 
 

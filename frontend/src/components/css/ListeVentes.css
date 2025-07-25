@@ -1,75 +1,218 @@
-.liste-ventes-container {
-  margin-top: 100px;
-  padding: 0 20px;
+/* Basic reset for consistent box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
-
-.liste-ventes-header {
+.btn-ajout-ventes {
+  background-color: #2563eb;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.1s ease;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  position: relative;
+  gap: 8px;
+}
+.btn-ajout-ventes:hover {
+  background-color: #1d4ed8; /* Slightly darker blue on hover */
+  transform: translateY(-1px); /* Subtle lift effect */
 }
 
-/* Bouton Ajouter à gauche */
-.liste-ventes-header button {
-  position: absolute;
-  left: 0;
-}
-
-/* Titre centré */
-.liste-ventes-header h2 {
-  margin: 0 auto;
-  text-align: center;
-  width: 100%;
-  max-width: 300px; /* ajuste selon besoin */
-  pointer-events: none; /* pour que le clic ne passe pas sur le titre */
+.btn-ajout-ventes:active {
+  transform: translateY(0); /* Press effect */
 }
 
 .filter-container {
-  margin-bottom: 15px;
+  margin-bottom: 30px; /* More space below filter */
+  display: flex; /* Use flex for centering input */
+  justify-content: center; /* Center the input */
 }
 
 .filter-container input {
-  padding: 6px;
-  width: 200px;
+  width: 100%;
+  max-width: 400px; /* Max width for the filter input */
+  padding: 10px 15px; /* More padding */
+  font-size: 1rem;
+  border-radius: 8px; /* Rounded input field */
+  border: 1px solid #cbd5e1; /* Light grey border */
+  outline: none; /* Remove default outline */
+  color: #4a5568;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.filter-container input::placeholder {
+  color: #a0aec0; /* Lighter placeholder text */
+}
+
+.filter-container input:focus {
+  border-color: #2563eb; /* Blue border on focus */
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); /* Subtle blue glow on focus */
 }
 
 .liste-ventes-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: collapse; /* Collapse borders for a cleaner look */
+  margin-bottom: 30px; /* Space below table */
+  background-color: #ffffff;
+  border-radius: 12px; /* Rounded corners for the table container */
+  overflow: hidden; /* Ensures rounded corners apply to content */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Subtle shadow for the table */
 }
 
-.liste-ventes-table th,
-.liste-ventes-table td {
-  border-bottom: 1px solid #ccc;
-  padding: 8px;
+.liste-ventes-table thead {
+  background-color: #f7fafc; /* Light header background */
+}
+
+.liste-ventes-table th {
+  padding: 15px 20px; /* More padding for headers */
   text-align: left;
+  font-size: 0.85rem; /* Slightly smaller font for headers */
+  font-weight: 600; /* Semi-bold headers */
+  color: #718096; /* Muted color for headers */
+  text-transform: uppercase; /* Uppercase for professionalism */
+  letter-spacing: 0.05em; /* Spaced out letters */
+  border-bottom: 1px solid #edf2f7; /* Light border below headers */
+}
+
+.liste-ventes-table tbody tr {
+  border-bottom: 1px solid #edf2f7; /* Light border between rows */
+  transition: background-color 0.2s ease;
+}
+
+.liste-ventes-table tbody tr:last-child {
+  border-bottom: none; /* No border on the last row */
+}
+
+.liste-ventes-table tbody tr:hover {
+  background-color: #f0f4f8; /* Light hover effect for rows */
+}
+
+.liste-ventes-table td {
+  padding: 12px 20px; /* Padding for table cells */
+  font-size: 0.95rem; /* Slightly larger font for cell content */
+  color: #4a5568; /* Darker text for cell content */
+  vertical-align: middle; /* Vertically align content */
+}
+
+/* Input/Select within table cells for editing */
+.liste-ventes-table td input,
+.liste-ventes-table td select {
+  padding: 8px 10px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.liste-ventes-table td input:focus,
+.liste-ventes-table td select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* Buttons within table cells (Enregistrer, Annuler, Modifier) */
+.liste-ventes-table td .enregister,
+.liste-ventes-table td .anuuler,
+.liste-ventes-table td .btn-modf {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.1s ease;
+  margin: 0 4px; /* Small margin between buttons */
+}
+
+.liste-ventes-table td .enregister {
+  background-color: #22c55e; /* Green for save */
+  color: white;
+  border: 1px solid #22c55e;
+}
+
+.liste-ventes-table td .enregister:hover {
+  background-color: #16a34a;
+  transform: translateY(-1px);
+}
+
+.liste-ventes-table td .anuuler {
+  background-color: #ef4444; /* Red for cancel */
+  color: white;
+  border: 1px solid #ef4444;
+}
+
+.liste-ventes-table td .anuuler:hover {
+  background-color: #dc2626;
+  transform: translateY(-1px);
+}
+
+.liste-ventes-table td .btn-modf {
+  background-color: #ffffff; /* White background for modify */
+  color: #2563eb; /* Blue text */
+  border: 1px solid #2563eb; /* Blue border */
+}
+
+.liste-ventes-table td .btn-modf:hover {
+  background-color: #2563eb; /* Blue background on hover */
+  color: white; /* White text on hover */
+  transform: translateY(-1px);
+}
+
+.liste-ventes-table td .btn-modf:active {
+  transform: translateY(0);
 }
 
 .empty-row {
   text-align: center;
-  padding: 20px;
+  padding: 40px 20px; /* More padding for empty state */
+  color: #718096;
+  font-style: italic;
 }
 
 .pagination {
-  margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 15px; /* Space between pagination elements */
+  margin-top: 30px; /* Space above pagination */
 }
 
 .pagination button {
-  padding: 6px 12px;
+  background-color: #e2e8f0; /* Light background for pagination buttons */
+  color: #4a5568;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #cbd5e1; /* Darker on hover */
+  transform: translateY(-1px);
 }
 
 .pagination button:disabled {
+  opacity: 0.6;
   cursor: not-allowed;
-  opacity: 0.5;
+  transform: none;
 }
 
+.pagination span {
+  font-size: 1rem;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+/* Status-based row colors (more muted/professional) */
 /* Couleurs de ligne selon le statut */
 .statut-prospection {
   background-color: rgb(0, 128, 111); /* cyan clair */
@@ -79,10 +222,10 @@
 }
 
 .statut-devis {
-  background-color: rgb(100, 15, 237); /* bleu très clair */
+  background-color: rgb(15, 237, 226);/* bleu très clair */
 }
 .statut-devis:hover {
-  background-color: rgb(100, 15, 237); /* bleu très clair */
+  background-color: rgb(15, 237, 226); /* bleu très clair */
 }
 
 .statut-commande {
@@ -125,3 +268,122 @@
 }
 
 
+/* Ensure hover effect still works over status colors */
+.liste-ventes-table tbody tr.statut-prospection:hover,
+.liste-ventes-table tbody tr.statut-devis:hover,
+.liste-ventes-table tbody tr.statut-commande:hover,
+.liste-ventes-table tbody tr.statut-facturation:hover,
+.liste-ventes-table tbody tr.statut-livraison:hover,
+.liste-ventes-table tbody tr.statut-blocage:hover,
+.liste-ventes-table tbody tr.statut-relance:hover {
+  filter: brightness(95%); /* Slightly darken on hover */
+}
+
+/* Remove arrows on number input for all browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .liste-ventes-container {
+    padding: 30px;
+    margin: 40px auto;
+  }
+  .liste-ventes-table {
+    overflow-x: auto; /* Enable horizontal scroll for table on smaller screens */
+    display: block; /* Make table a block element for overflow */
+    white-space: nowrap; /* Prevent text wrapping in cells */
+  }
+  .liste-ventes-table thead,
+  .liste-ventes-table tbody,
+  .liste-ventes-table th,
+  .liste-ventes-table td,
+  .liste-ventes-table tr {
+    display: table-cell; /* Reset to table-cell for horizontal scroll */
+  }
+}
+
+@media (max-width: 768px) {
+  .liste-ventes-container {
+    padding: 20px;
+    margin: 30px auto;
+  }
+  .liste-ventes-header {
+    flex-direction: column; /* Stack header elements */
+    align-items: center; /* Center items when stacked */
+    gap: 15px;
+  }
+  .titleVentes {
+    font-size: 1.8rem;
+    text-align: center; /* Ensure title is centered */
+    width: 100%; /* Full width for title */
+    order: 1; /* Title first when stacked */
+  }
+  .btn-ajout-ventes {
+    width: 100%; /* Full width button */
+    justify-content: center;
+    order: 2; /* Button second when stacked */
+  }
+  .filter-container {
+    margin-bottom: 25px;
+  }
+  .filter-container input {
+    max-width: 100%; /* Full width for filter input */
+  }
+  .liste-ventes-table th,
+  .liste-ventes-table td {
+    padding: 10px 15px; /* Reduced padding for smaller screens */
+    font-size: 0.8rem;
+  }
+  .liste-ventes-table td input,
+  .liste-ventes-table td select {
+    padding: 6px 8px;
+    font-size: 0.8rem;
+  }
+  .liste-ventes-table td .enregister,
+  .liste-ventes-table td .anuuler,
+  .liste-ventes-table td .btn-modf {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    margin: 0 2px;
+  }
+  .empty-row {
+    padding: 20px;
+  }
+  .pagination {
+    flex-direction: column; /* Stack pagination elements */
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .liste-ventes-container {
+    padding: 15px;
+    margin: 20px auto;
+  }
+  .titleVentes {
+    font-size: 1.6rem;
+  }
+  .liste-ventes-table th,
+  .liste-ventes-table td {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+  }
+  .liste-ventes-table td input,
+  .liste-ventes-table td select {
+    padding: 5px 6px;
+    font-size: 0.75rem;
+  }
+  .liste-ventes-table td .enregister,
+  .liste-ventes-table td .anuuler,
+  .liste-ventes-table td .btn-modf {
+    padding: 5px 8px;
+    font-size: 0.7rem;
+  }
+}

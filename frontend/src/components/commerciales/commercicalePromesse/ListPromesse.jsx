@@ -86,7 +86,7 @@ const ListPromesse = () => {
       <div className="list-promesse-container" >
         <div className="list-promesse-header" >
           <h2 className="list-promesse-title">Liste des promesses</h2>
-             <button onClick={() => navigate('/add-promesse')}>Ajouter</button>
+             <button className="ajouter" onClick={() => navigate('/add-promesse')}>Ajouter</button>
         </div>
 
         <div style={{ marginBottom: 15 }}>
@@ -96,7 +96,7 @@ const ListPromesse = () => {
             id="filterMatricule"
             value={filterMatricule}
             onChange={e => { setPage(1); setFilterMatricule(e.target.value); }}
-            placeholder="matricule"
+            placeholder="Matricule"
             style={{ padding: 6, width: 200 }}
           />
         </div>

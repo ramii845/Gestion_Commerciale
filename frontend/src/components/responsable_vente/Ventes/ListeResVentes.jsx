@@ -264,8 +264,8 @@ useEffect(() => {
       <td>-</td>
       <td>-</td>
       <td>
-        <button onClick={handleAdd}>Enregistrer</button>
-        <button onClick={handleCancel}>Annuler</button>
+      <button className="enregister" onClick={handleAdd}>Enregistrer</button>
+        <button  className="anuuler"onClick={handleCancel}>Annuler</button>
       </td>
     </tr>
   )}
