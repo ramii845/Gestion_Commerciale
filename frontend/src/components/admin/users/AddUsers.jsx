@@ -188,6 +188,13 @@ const AddUser = () => {
             <button className="adduser-button" type="submit" disabled={uploading}>
               {uploading ? 'Upload en cours...' : 'Ajouter'}
             </button>
+                      <button
+    className="submit-retour"
+    type="button"
+    onClick={() => navigate('/list')}
+  >
+    Retour
+  </button>
           </form>
         </div>
         <ToastContainer />

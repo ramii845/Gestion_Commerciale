@@ -171,6 +171,13 @@ const EditUser = () => {
         <button type="submit" className="edit-button" disabled={uploading}>
           Enregistrer
         </button>
+                           <button
+    className="submit-retourr"
+    type="button"
+    onClick={() => navigate('/list')}
+  >
+    Retour
+  </button>
       </form>
     </div>
     </>

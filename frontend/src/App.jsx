@@ -39,6 +39,7 @@ import NotFoundPage from './components/utils/NotFoundPage';
 import ListeResLeads from './components/responsable_vente/leads/ListResLeads';
 import LeadsStats from './components/Dashboard/LeadsStats';
 import EditLead from './components/commerciales/commercialeLeads/EditLead';
+import EditLeadRes from './components/responsable_vente/leads/EditLeadRes';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -82,6 +83,7 @@ function App() {
 <Route path="/responsable/promesses" element={<ResponsableVenteRoute element={<ListResPromesse />} />} />
 <Route path="/add-promesse-res" element={<ResponsableVenteRoute element={<AddResPromesse />} />} />
 <Route path="/add-lead-res" element={<ResponsableVenteRoute element={<AddResLead />} />} />
+<Route path="/edit-lead-res/:id" element={<ResponsableVenteRoute element={<EditLeadRes />} />} />
 <Route path="/responsable/leads" element={<ResponsableVenteRoute element={<ListeResLeads />} />} />
  
           {/* Manager*/}
