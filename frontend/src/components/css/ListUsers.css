@@ -1,37 +1,213 @@
+/* Basic reset for consistent box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.6;
+  color: #4a5568; /* Softer dark gray for body text */
+  background-color: #f8fafc; /* Very light, clean background */
+}
+
 .user-list-container {
-  padding: 10rem;
-  max-width: 1000px;
-  margin: auto;
+  padding: 30px; /* Adjusted padding to match screenshot */
+  max-width: 800px; /* Adjusted max-width for better table display */
+  margin: 60px auto; /* Adjusted top margin, centered horizontally */
+  background: #ffffff;
+  border-radius: 16px; /* More rounded corners */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Softer, deeper shadow */
+  border: 1px solid #e2e8f0; /* Subtle border */
+}
+
+.user-list-header {
+  display: flex;
+  flex-direction: column; /* Stack title and actions */
+  align-items: center;
+  margin-bottom: 30px;
+  gap: 20px; /* Space between title and actions */
 }
 
 .title {
-  text-align: center;
-  color: #0c6b84;
-  margin-bottom: 1.5rem;
+  font-size: 2.2rem; /* Larger, more prominent title */
+  font-weight: 700; /* Bold title */
+  color: #1a202c; /* Deep, professional dark color, matching screenshot */
+  text-align: center; /* Center the title */
+  width: 100%; /* Ensure title takes full width */
 }
 
 .user-list-actions {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  gap: 1rem;
-  flex-wrap: wrap;
+  justify-content: space-between; /* Space between add button and search input */
+  align-items: center;
+  width: 100%; /* Take full width of container */
+  gap: 15px; /* Space between elements */
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }
 
 .user-list-actions input {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  flex: 1;
-  min-width: 200px;
+  padding: 10px 15px; /* More padding */
+  font-size: 1rem;
+  border-radius: 8px; /* Rounded input field */
+  border: 1px solid #cbd5e1; /* Light grey border */
+  outline: none; /* Remove default outline */
+  color: #4a5568;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  width: 100%; /* Ensure input takes full width of its container */
 }
 
-.btn {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
+.user-list-actions input::placeholder {
+  color: #a0aec0; /* Lighter placeholder text */
+}
+
+.user-list-actions input:focus {
+  border-color: #2563eb; /* Blue border on focus */
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); /* Subtle blue glow on focus */
+}
+
+/* Table styling */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.user-table thead {
+  background-color: #f7fafc;
+}
+
+.user-table th {
+  padding: 15px 20px;
+  text-align: left;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #edf2f7;
+}
+
+/* Specific styling for the Actions header */
+.user-table th.actions-header {
+  width: 120px; /* Adjusted width to fit buttons better */
+  min-width: 100px;
+  padding: 10px 10px; /* Reduced padding */
+  text-align: center; /* Center the text */
+}
+
+.user-table tbody tr {
+  border-bottom: 1px solid #edf2f7;
+  transition: background-color 0.2s ease;
+}
+
+.user-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.user-table tbody tr:hover {
+  background-color: #f0f4f8;
+}
+
+.user-table td {
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  color: #4a5568;
+  vertical-align: middle;
+}
+
+.user-table td:last-child {
+  text-align: center; /* Center actions column */
+}
+
+.empty-msg {
+  text-align: center;
+  padding: 40px 20px;
+  color: #718096;
+  font-style: italic;
+}
+
+/* Pagination styling */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.pagination button {
+  background-color: #ffffff; /* White background for pagination buttons */
+  color: #4a5568; /* Dark grey text color */
+  padding: 8px 15px;
+  border: 1px solid #cbd5e1; /* Light grey border */
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.1s ease, border-color 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #f0f4f8; /* Light hover effect */
+  border-color: #a0aec0; /* Darker border on hover */
+  transform: translateY(-1px);
+}
+
+.pagination button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  background-color: #e2e8f0; /* Muted background for disabled */
+  color: #a0aec0; /* Muted text for disabled */
+  border-color: #e2e8f0;
+}
+
+.pagination span {
+  font-size: 1rem;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+/* Custom button styles */
+.btn {
+  padding: 6px; /* Base padding for icon-only buttons */
+  border-radius: 6px;
+  border: 1px solid #e2e8f0; /* Subtle border for all action buttons */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow for all action buttons */
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease, color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center; /* Center icon/text */
+  width: 32px; /* Fixed width for square buttons */
+  height: 32px; /* Fixed height for square buttons */
+  background-color: #ffffff; /* Default white background for action buttons */
+}
+
+.btn:hover {
+  background-color: #f0f4f8; /* Light hover effect for all action buttons */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Specific styles for "Ajouter" button */
+.btn.add {
+  background-color: #ffffff; /* White background as per screenshot */
+  color: #1a202c; /* Dark text color */
+  padding: 8px 16px; /* Larger padding for text button */
+  width: auto; /* Auto width for text button */
+  height: auto; /* Auto height for text button */
+  gap: 6px; /* Space between icon and text */
 }
 
 .btn.add {
@@ -39,60 +215,99 @@
   color: white;
 }
 
+/* Icon color for "Ajouter" button */
+
+/* Specific styles for "Modifier" button */
 .btn.edit {
-  background-color: #ffc107;
-  color: black;
-  margin-right: 5px;
+  background-color: #f9ad16; /* Orange icon color from screenshot */
 }
 
+/* Specific styles for "Supprimer" button */
 .btn.delete {
-  background-color: #dc3545;
-  color: white;
+  background-color: rgb(255, 81, 0); /* Muted grey icon color from screenshot */
 }
 
-.user-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1rem;
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .user-list-container {
+    padding: 30px;
+    margin: 40px auto;
+  }
+  .user-table {
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+  }
+  .user-table thead,
+  .user-table tbody,
+  .user-table th,
+  .user-table td,
+  .user-table tr {
+    display: table-cell;
+  }
 }
 
-.user-table th,
-.user-table td {
-  padding: 12px;
-  border: 1px solid #ddd;
-  text-align: center;
+@media (max-width: 768px) {
+  .user-list-container {
+    padding: 20px;
+    margin: 30px auto;
+  }
+  .title {
+    font-size: 1.8rem;
+    text-align: center;
+    width: 100%;
+  }
+  .user-list-actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .user-list-actions input {
+    max-width: 100%;
+  }
+  .btn.add {
+    width: 100%;
+    justify-content: center;
+  }
+  .user-table th,
+  .user-table td {
+    padding: 10px 15px;
+    font-size: 0.8rem;
+  }
+  .user-table th.actions-header {
+    width: auto; /* Reset width for smaller screens if needed */
+    padding: 10px 10px;
+  }
+  .empty-msg {
+    padding: 20px;
+  }
+  .pagination {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 
-.user-photo {
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.empty-msg {
-  text-align: center;
-  font-style: italic;
-  color: #888;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-}
-
-.pagination button {
-  padding: 6px 12px;
-  border: none;
-  background-color: #0c6b84;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.pagination button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+@media (max-width: 480px) {
+  .user-list-container {
+    padding: 15px;
+    margin: 20px auto;
+  }
+  .title {
+    font-size: 1.6rem;
+  }
+  .user-table th,
+  .user-table td {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+  }
+  .btn.add {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+  .btn.edit,
+  .btn.delete {
+    width: 28px; /* Smaller buttons for very small screens */
+    height: 28px;
+    padding: 4px;
+  }
 }

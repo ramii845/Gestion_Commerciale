@@ -88,7 +88,7 @@ const handleDelete = (id) => {
 
       <div className="user-list-actions">
         <button className="btn add" onClick={() => navigate("/add-user")}>
-          ➕ Ajouter
+          Ajouter
         </button>
 
         <input
