@@ -42,3 +42,12 @@ export const updatePromesse = async (id, data) => {
 export const deletePromesse = async (id) => {
   return await axios.delete(`${API_BASE_URL}/${id}`);
 };
+
+
+
+
+// services/promesseService.js
+export const getHistogrammePromesses = async () => {
+  const res = await axios.get(`${API_BASE_URL}/getHistogrammePromesses`);
+  return res.data;
+};

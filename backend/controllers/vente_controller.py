@@ -92,6 +92,65 @@ async def get_ventes_paginated(
         "ventes": ventes
     }
 
+@vente_router.get("/getHistogrammeVentes")
+async def getHistogrammeVentes():
+    pipeline = [
+        {
+            "$match": {
+                "user_id": {"$type": "string", "$regex": "^[a-fA-F0-9]{24}$"}
+            }
+        },
+        {
+            "$addFields": {
+                "user_id_object": {"$toObjectId": "$user_id"}
+            }
+        },
+        {
+            "$lookup": {
+                "from": "users",
+                "localField": "user_id_object",
+                "foreignField": "_id",
+                "as": "user"
+            }
+        },
+        {"$unwind": "$user"},
+        {
+            "$group": {
+                "_id": {
+                    "nom": "$user.nom",
+                    "month": {"$month": "$_id"},
+                    "year": {"$year": "$_id"}
+                },
+                "total": {"$sum": 1}
+            }
+        },
+        {
+            "$group": {
+                "_id": "$_id.nom",
+                "data": {
+                    "$push": {
+                        "month": "$_id.month",
+                        "year": "$_id.year",
+                        "total": "$total"
+                    }
+                }
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "nom": "$_id",
+                "data": 1
+            }
+        }
+    ]
+
+    try:
+        results = await db.ventes.aggregate(pipeline).to_list(length=None)
+        return results
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur serveur : {str(e)}")
+
 @vente_router.get("/{vente_id}", response_model=Vente)
 async def get_vente_by_id(vente_id: str):
     vente = await db.ventes.find_one({"_id": ObjectId(vente_id)})
@@ -127,3 +186,5 @@ async def delete_vente(vente_id: str):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Vente non trouvée")
     return {"message": "Vente supprimée avec succès"}
+
+

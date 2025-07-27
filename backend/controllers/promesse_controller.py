@@ -80,6 +80,65 @@ async def get_promesses_paginated(
         "total_promesses": total,
         "promesses": promesses
     }
+@promesse_router.get("/getHistogrammePromesses")
+async def getHistogrammePromesses():
+    pipeline = [
+        {
+            "$match": {
+                "user_id": {"$type": "string", "$regex": "^[a-fA-F0-9]{24}$"}
+            }
+        },
+        {
+            "$addFields": {
+                "user_id_object": {"$toObjectId": "$user_id"}
+            }
+        },
+        {
+            "$lookup": {
+                "from": "users",
+                "localField": "user_id_object",
+                "foreignField": "_id",
+                "as": "user"
+            }
+        },
+        {"$unwind": "$user"},
+        {
+            "$group": {
+                "_id": {
+                    "nom": "$user.nom",
+                    "month": {"$month": "$_id"},
+                    "year": {"$year": "$_id"}
+                },
+                "total": {"$sum": 1}
+            }
+        },
+        {
+            "$group": {
+                "_id": "$_id.nom",
+                "data": {
+                    "$push": {
+                        "month": "$_id.month",
+                        "year": "$_id.year",
+                        "total": "$total"
+                    }
+                }
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "nom": "$_id",
+                "data": 1
+            }
+        }
+    ]
+
+    try:
+        results = await db.promesses.aggregate(pipeline).to_list(length=None)
+        return results
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur serveur : {str(e)}")
+
 
 @promesse_router.get("/{promesse_id}", response_model=Promesse)
 async def get_promesse_by_id(promesse_id: str):
@@ -116,4 +175,6 @@ async def delete_promesse(promesse_id: str):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Promesse non trouvée")
     return {"message": "Promesse supprimée avec succès"}
+
+
 

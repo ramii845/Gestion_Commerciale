@@ -43,3 +43,11 @@ export const getPaginatedVentes = async (
     }
   });
 };
+
+
+// services/venteService.js
+export const getHistogrammeVentes = async () => {
+  const res = await axios.get(`${API_BASE_URL}/getHistogrammeVentes`);
+  return res.data;
+};
+
