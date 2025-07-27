@@ -133,25 +133,7 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* Diagramme circulaire */}
-      <div className="chart-section">
-        <PieChart width={400} height={300}>
-          <Pie
-            data={pieData}
-            cx="50%"
-            cy="50%"
-            outerRadius={100}
-            dataKey="value"
-            nameKey="name"
-            label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-          >
-            {pieData.map((_, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-          <Tooltip formatter={(value) => value} />
-        </PieChart>
-      </div>
+     
 
       {/* Histogrammes par utilisateur (pour leads uniquement ici, filtrage mois possible) */}
       <h2 className="section-title">📈 Histogrammes par Utilisateur (Leads)</h2>
@@ -181,7 +163,7 @@ export default function Dashboard() {
                   />
                   <Tooltip content={renderCustomTooltip} />
                   <Legend verticalAlign="top" height={36} />
-                  <Bar dataKey="total" name="Total Leads" fill="#6366F1" />
+                  <Bar dataKey="total" name="Leads affectés" fill="#6366F1" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
