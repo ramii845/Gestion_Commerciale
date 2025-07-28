@@ -39,6 +39,8 @@ const ListeResVentes = () => {
   const [editingId, setEditingId] = useState(null);
   const [newVente, setNewVente] = useState(null);
   const [modelesDisponibles, setModelesDisponibles] = useState([]);
+  const [filterStatut, setFilterStatut] = useState("");
+
 
 
   useEffect(() => {
@@ -69,16 +71,17 @@ const ListeResVentes = () => {
 
 const fetchVentes = async () => {
   try {
-    const res = await getPaginatedVentes(page, 14, "", filterMatricule);
-    setVentes(res.data.ventes);  // pas de filtre user_id ici
+    const res = await getPaginatedVentes(page, 14, filterStatut, filterMatricule);
+    setVentes(res.data.ventes);
     setTotalPages(res.data.total_pages);
   } catch {
     toast.error("Erreur chargement ventes");
   }
 };
+
 useEffect(() => {
   fetchVentes();
-}, [page, filterMatricule]);
+}, [page, filterMatricule, filterStatut]);
 
 
 
@@ -174,7 +177,23 @@ useEffect(() => {
         </div>
 
         <div className="filter-container">
-
+           <select
+    value={filterStatut}
+    onChange={(e) => {
+      setFilterStatut(e.target.value);
+      setPage(1); // Remet la pagination à la page 1 quand on filtre
+    }}
+  >
+    <option value="">Tous statuts</option>
+    <option value="Prospection">Prospection</option>
+    <option value="Devis">Devis</option>
+    <option value="Commande">Commande</option>
+    <option value="Facturation">Facturation</option>
+    <option value="Livraison">Livraison</option>
+    <option value="Blocage">Blocage</option>
+    <option value="Relance">Relance</option>
+  </select>
+      
         </div>
 
         <table className="liste-ventes-table">
@@ -241,7 +260,8 @@ useEffect(() => {
       <td>
         <input name="commentaire" value={newVente.commentaire} onChange={(e) => handleChange(e, "new")} />
       </td>
-      <td>
+      
+      <td className={getStatutClass(v.statut)}>
         <select name="statut" value={newVente.statut} onChange={(e) => handleChange(e, "new")}>
           <option value="">--</option>
           <option>Prospection</option>
@@ -256,14 +276,14 @@ useEffect(() => {
       <td>-</td>
       <td>-</td>
       <td>
-      <button className="enregister" onClick={handleAdd}>Enregistrer</button>
+        <button className="enregister" onClick={handleAdd}>Enregistrer</button>
         <button  className="anuuler"onClick={handleCancel}>Annuler</button>
       </td>
     </tr>
   )}
   {ventes.length > 0 ? (
     ventes.map((v) => (
-      <tr key={v.id} className={getStatutClass(v.statut)}>
+      <tr key={v.id} >
         <td>{usersMap[v.user_id] || "Inconnu"}</td>
         {editingId === v.id ? (
           <>
@@ -310,7 +330,7 @@ useEffect(() => {
             <td>
               <input name="commentaire" value={v.commentaire} onChange={(e) => handleChange(e, v.id)} />
             </td>
-            <td>
+            <td className={getStatutClass(v.statut)}>
               <select name="statut" value={v.statut} onChange={(e) => handleChange(e, v.id)}>
                 <option value="">--</option>
                 <option>Prospection</option>
@@ -358,7 +378,7 @@ useEffect(() => {
             <td>{v.matricule}</td>
             <td>{v.matriculation}</td>
             <td>{v.commentaire || "-"}</td>
-                 <td className={getStatutClass(v.statut)}>{v.statut || "-"}</td>  {/* <-- ici */}
+            <td className={getStatutClass(v.statut)}>{v.statut || "-"}</td>  {/* <-- ici */}
             <td>
               {v.date_creation
                 ? new Date(v.date_creation).toLocaleString("fr-FR", {

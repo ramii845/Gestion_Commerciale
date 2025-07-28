@@ -39,6 +39,8 @@ const ListeManVentes = () => {
   const [editingId, setEditingId] = useState(null);
   const [newVente, setNewVente] = useState(null);
   const [modelesDisponibles, setModelesDisponibles] = useState([]);
+  const [filterStatut, setFilterStatut] = useState("");
+
 
 
   useEffect(() => {
@@ -69,16 +71,17 @@ const ListeManVentes = () => {
 
 const fetchVentes = async () => {
   try {
-    const res = await getPaginatedVentes(page, 14, "", filterMatricule);
-    setVentes(res.data.ventes);  // pas de filtre user_id ici
+    const res = await getPaginatedVentes(page, 14, filterStatut, filterMatricule);
+    setVentes(res.data.ventes);
     setTotalPages(res.data.total_pages);
   } catch {
     toast.error("Erreur chargement ventes");
   }
 };
+
 useEffect(() => {
   fetchVentes();
-}, [page, filterMatricule]);
+}, [page, filterMatricule, filterStatut]);
 
 
 
@@ -174,6 +177,22 @@ useEffect(() => {
         </div>
 
         <div className="filter-container">
+           <select
+    value={filterStatut}
+    onChange={(e) => {
+      setFilterStatut(e.target.value);
+      setPage(1); // Remet la pagination à la page 1 quand on filtre
+    }}
+  >
+    <option value="">Tous statuts</option>
+    <option value="Prospection">Prospection</option>
+    <option value="Devis">Devis</option>
+    <option value="Commande">Commande</option>
+    <option value="Facturation">Facturation</option>
+    <option value="Livraison">Livraison</option>
+    <option value="Blocage">Blocage</option>
+    <option value="Relance">Relance</option>
+  </select>
       
         </div>
 
