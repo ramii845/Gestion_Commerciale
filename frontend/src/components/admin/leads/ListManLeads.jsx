@@ -30,15 +30,19 @@ const ListeManVentes = () => {
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    // Chargement des utilisateurs
     const fetchUsers = async () => {
       try {
         const res = await getUsersPaginated(1, 1000);
         const usersData = res.data.users || res.data;
+
         const map = {};
         usersData.forEach((u) => {
-          map[u.id || u._id] = u.nom;
+          map[u.id || u._id] = {
+            nom: u.nom,
+            photo: u.photo
+          };
         });
+
         setUsersMap(map);
       } catch {
         toast.error("Erreur chargement utilisateurs");
@@ -48,7 +52,6 @@ const ListeManVentes = () => {
   }, []);
 
   useEffect(() => {
-    // Décodage token JWT pour récupérer userId
     const token = localStorage.getItem("token");
     if (token) {
       const decoded = decodeJWT(token);
@@ -82,12 +85,22 @@ const ListeManVentes = () => {
         <h2 style={{ textAlign: "center" }}>Mes ventes</h2>
 
         {/* Filtre par statut */}
-        <div className="filter-container">
+        <div className="filter-container" style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
           <select
             value={filterStatut}
             onChange={(e) => {
               setFilterStatut(e.target.value);
-              setPage(1); // Reset page à 1 quand filtre change
+              setPage(1);
+            }}
+            style={{
+              padding: "8px 12px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+              backgroundColor: "#f8f8f8",
+              fontSize: "14px",
+              color: "#333",
+              minWidth: "180px",
+              textAlign: "center"
             }}
           >
             <option value="">Tous statuts</option>
@@ -105,6 +118,7 @@ const ListeManVentes = () => {
         <table className="liste-ventes-table">
           <thead>
             <tr>
+              <th>Image</th>
               <th>Commercial</th>
               <th>Client</th>
               <th>Téléphone</th>
@@ -121,7 +135,31 @@ const ListeManVentes = () => {
             {ventes.length > 0 ? (
               ventes.map((v) => (
                 <tr key={v.id}>
-                  <td>{usersMap[v.user_id] || "Inconnu"}</td>
+                <td>
+  {usersMap[v.user_id]?.photo ? (
+    <img
+      src={usersMap[v.user_id].photo.startsWith("http")
+        ? usersMap[v.user_id].photo
+        : `/uploads/${usersMap[v.user_id].photo}`
+      }
+      alt="utilisateur"
+      style={{
+        width: "32px",
+        height: "32px",
+        borderRadius: "50%",
+        objectFit: "cover"
+      }}
+    />
+  ) : (
+    <div style={{
+      width: "32px",
+      height: "32px",
+      borderRadius: "50%",
+      backgroundColor: "#ccc"
+    }} />
+  )}
+</td>
+<td>{usersMap[v.user_id]?.nom || "Inconnu"}</td>
                   <td>{v.nom_client}</td>
                   <td>{v.tel_client}</td>
                   <td>{v.marque}</td>
@@ -136,7 +174,7 @@ const ListeManVentes = () => {
                           month: "2-digit",
                           year: "numeric",
                           hour: "2-digit",
-                          minute: "2-digit",
+                          minute: "2-digit"
                         })
                       : "-"}
                   </td>
@@ -147,7 +185,7 @@ const ListeManVentes = () => {
                           month: "2-digit",
                           year: "numeric",
                           hour: "2-digit",
-                          minute: "2-digit",
+                          minute: "2-digit"
                         })
                       : "-"}
                   </td>

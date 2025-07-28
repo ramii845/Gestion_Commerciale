@@ -33,22 +33,26 @@ const ListPromesse = () => {
    const navigate = useNavigate();
 
   // Charger utilisateurs au montage (pas besoin à chaque page)
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const usersResponse = await getUsersPaginated(1, 1000);
-        const usersData = usersResponse.data.users || usersResponse.data;
-        const map = {};
-        usersData.forEach((u) => {
-          map[u.id || u._id] = u.nom;
-        });
-        setUsersMap(map);
-      } catch (error) {
-        toast.error("Erreur chargement utilisateurs");
-      }
-    };
-    fetchUsers();
-  }, []);
+    // Récupération des utilisateurs
+   useEffect(() => {
+      const fetchUsers = async () => {
+        try {
+          const res = await getUsersPaginated(1, 1000);
+          const usersData = res.data.users || res.data;
+          const map = {};
+          usersData.forEach((u) => {
+            map[u.id || u._id] = {
+              nom: u.nom,
+              photo: u.photo // ou u.image selon ton backend
+            };
+          });
+          setUsersMap(map);
+        } catch (error) {
+          toast.error("Erreur chargement utilisateurs");
+        }
+      };
+      fetchUsers();
+    }, []);
 
   // Charger userId du token au montage
   useEffect(() => {
@@ -104,6 +108,7 @@ const ListPromesse = () => {
         <table>
   <thead>
   <tr>
+   <th>Image</th>
     <th>Commercial</th>
     <th>Marque</th>
     <th>Modèle</th>
@@ -119,7 +124,23 @@ const ListPromesse = () => {
             {promesses.length > 0 ? (
               promesses.map((promesse) => (
                 <tr key={promesse.id || promesse._id}>
-                  <td>{usersMap[promesse.user_id] || "Inconnu"}</td>
+<td>
+                    {usersMap[promesse.user_id]?.photo ? (
+                      <img
+                        src={usersMap[promesse.user_id].photo}
+                        alt="user"
+                        style={{
+                          width: "35px",
+                          height: "35px",
+                          borderRadius: "50%",
+                          objectFit: "cover"
+                        }}
+                      />
+                    ) : (
+                      "Pas de photo"
+                    )}
+                  </td>
+              <td>{usersMap[promesse.user_id]?.nom || "Inconnu"}</td>
                   <td>{promesse.marque}</td>
                   <td>{promesse.modele}</td>
                   <td>{promesse.matricule}</td>

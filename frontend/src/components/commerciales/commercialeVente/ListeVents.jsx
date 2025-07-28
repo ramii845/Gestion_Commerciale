@@ -48,8 +48,11 @@ const ListeVentes = () => {
         const usersData = res.data.users || res.data;
         const map = {};
         usersData.forEach((u) => {
-          map[u.id || u._id] = u.nom;
-        });
+  map[u.id || u._id] = {
+    nom: u.nom,
+    photo: u.photo,
+  };
+});
         setUsersMap(map);
       } catch {
         toast.error("Erreur chargement utilisateurs");
@@ -187,7 +190,8 @@ const ListeVentes = () => {
 
         <table className="liste-ventes-table">
           <thead>
-            <tr>
+            <tr> 
+               <th>Image</th>
               <th>Commercial</th>
               <th>Client</th>
               <th>Téléphone</th>
@@ -233,7 +237,7 @@ const ListeVentes = () => {
                     name="matricule"
                     value={newVente.matricule}
                     onChange={(e) => handleChange(e, "new")}
-                    disabled={newVente.statut !== "Commande"}
+                    disabled={newVente.statut !== "Livraison"}
                   />
                 </td>
                 <td>
@@ -241,7 +245,7 @@ const ListeVentes = () => {
                     name="matriculation"
                     value={newVente.matriculation}
                     onChange={(e) => handleChange(e, "new")}
-                    disabled={newVente.statut !== "Commande"}
+                    disabled={newVente.statut !== "Livraison"}
                   />
                 </td>
                 <td>
@@ -271,7 +275,26 @@ const ListeVentes = () => {
             {ventes.length > 0 ? (
               ventes.map((v) => (
                 <tr key={v.id}>
-                  <td>{usersMap[v.user_id] || "Inconnu"}</td>
+                  <td>
+  {usersMap[v.user_id]?.photo ? (
+    <img
+      src={usersMap[v.user_id].photo.startsWith("http")
+        ? usersMap[v.user_id].photo
+        : `/uploads/${usersMap[v.user_id].photo}`
+      }
+      alt="Commercial"
+      style={{ width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover" }}
+    />
+  ) : (
+    <div style={{
+      width: "40px",
+      height: "40px",
+      borderRadius: "50%",
+      backgroundColor: "#ccc"
+    }} />
+  )}
+</td>
+                     <td>{usersMap[v.user_id]?.nom || "Inconnu"}</td>
                   {editingId === v.id ? (
                     <>
                       <td><input name="nom_client" value={v.nom_client} onChange={(e) => handleChange(e, v.id)} /></td>
@@ -375,7 +398,7 @@ const ListeVentes = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={12} className="empty-row">Aucune vente trouvée.</td>
+                <td colSpan={13} className="empty-row">Aucune vente trouvée.</td>
               </tr>
             )}
           </tbody>

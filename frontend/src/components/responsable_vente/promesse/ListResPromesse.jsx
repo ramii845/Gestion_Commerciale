@@ -39,8 +39,11 @@ const ListResPromesse = () => {
         const usersResponse = await getUsersPaginated(1, 1000);
         const usersData = usersResponse.data.users || usersResponse.data;
         const map = {};
-        usersData.forEach((u) => {
-          map[u.id || u._id] = u.nom;
+             usersData.forEach((u) => {
+          map[u.id || u._id] = {
+            nom: u.nom,
+            photo: u.photo // ou u.image selon ton backend
+          };
         });
         setUsersMap(map);
       } catch (error) {
@@ -101,6 +104,7 @@ const ListResPromesse = () => {
         <table>
   <thead>
   <tr>
+    <th>Image</th>
     <th>Commercial</th>
     <th>Marque</th>
     <th>Modèle</th>
@@ -116,7 +120,28 @@ const ListResPromesse = () => {
             {promesses.length > 0 ? (
               promesses.map((promesse) => (
                 <tr key={promesse.id || promesse._id}>
-                  <td>{usersMap[promesse.user_id] || "Inconnu"}</td>
+                  <td>
+    {usersMap[promesse.user_id]?.photo ? (
+      <img
+        src={usersMap[promesse.user_id].photo}
+        alt="photo utilisateur"
+        style={{
+          width: 32,
+          height: 32,
+          borderRadius: "50%",
+          objectFit: "cover"
+        }}
+      />
+    ) : (
+      <div style={{
+        width: 32,
+        height: 32,
+        borderRadius: "50%",
+        backgroundColor: "#ccc"
+      }} />
+    )}
+  </td>
+                   <td>{usersMap[promesse.user_id]?.nom || "Inconnu"}</td>
                   <td>{promesse.marque}</td>
                   <td>{promesse.modele}</td>
                   <td>{promesse.matricule}</td>

@@ -35,14 +35,17 @@ const ListeLeads = () => {
   const navigate = useNavigate();
 
   // Récupération des utilisateurs
-  useEffect(() => {
+ useEffect(() => {
     const fetchUsers = async () => {
       try {
         const res = await getUsersPaginated(1, 1000);
         const usersData = res.data.users || res.data;
         const map = {};
         usersData.forEach((u) => {
-          map[u.id || u._id] = u.nom;
+          map[u.id || u._id] = {
+            nom: u.nom,
+            photo: u.photo // ou u.image selon ton backend
+          };
         });
         setUsersMap(map);
       } catch (error) {
@@ -112,6 +115,7 @@ const ListeLeads = () => {
         <table className="liste-leads-table">
           <thead>
             <tr>
+              <th>Image</th>
               <th>Commercial</th>
               <th>Date Création</th>
               <th>Nom Client</th>
@@ -128,7 +132,24 @@ const ListeLeads = () => {
             {leads.length > 0 ? (
               leads.map((lead) => (
                 <tr key={lead.id}>
-                  <td>{usersMap[lead.user_id] || "Inconnu"}</td>
+                  <td>
+                    {usersMap[lead.user_id]?.photo ? (
+                      <img
+                        src={usersMap[lead.user_id].photo}
+                        alt="user"
+                        style={{
+                          width: "35px",
+                          height: "35px",
+                          borderRadius: "50%",
+                          objectFit: "cover"
+                        }}
+                      />
+                    ) : (
+                      "Pas de photo"
+                    )}
+                  </td>
+              <td>{usersMap[lead.user_id]?.nom || "Inconnu"}</td>
+
            <td>{lead.date_creation ? new Date(lead.date_creation).toLocaleString("fr-FR", {
   day: '2-digit',
   month: '2-digit',

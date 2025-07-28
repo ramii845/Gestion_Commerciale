@@ -29,7 +29,7 @@ const modelesParMarque = {
   Autre: ['Autre']
 };
 
-const ListeResVentes = () => {
+const ListResPromesse = () => {
   const [ventes, setVentes] = useState([]);
   const [usersMap, setUsersMap] = useState({});
   const [filterMatricule, setFilterMatricule] = useState("");
@@ -49,8 +49,11 @@ const ListeResVentes = () => {
         const res = await getUsersPaginated(1, 1000);
         const usersData = res.data.users || res.data;
         const map = {};
-        usersData.forEach((u) => {
-          map[u.id || u._id] = u.nom;
+            usersData.forEach((u) => {
+          map[u.id || u._id] = {
+            nom: u.nom,
+            photo: u.photo // ou u.image selon ton backend
+          };
         });
         setUsersMap(map);
       } catch {
@@ -199,6 +202,7 @@ useEffect(() => {
         <table className="liste-ventes-table">
           <thead>
             <tr>
+              <th>Image</th>
               <th>Commercial</th>
               <th>Client</th>
               <th>Téléphone</th>
@@ -261,7 +265,7 @@ useEffect(() => {
         <input name="commentaire" value={newVente.commentaire} onChange={(e) => handleChange(e, "new")} />
       </td>
       
-      <td className={getStatutClass(v.statut)}>
+      <td >
         <select name="statut" value={newVente.statut} onChange={(e) => handleChange(e, "new")}>
           <option value="">--</option>
           <option>Prospection</option>
@@ -284,7 +288,28 @@ useEffect(() => {
   {ventes.length > 0 ? (
     ventes.map((v) => (
       <tr key={v.id} >
-        <td>{usersMap[v.user_id] || "Inconnu"}</td>
+          <td>
+    {usersMap[v.user_id]?.photo ? (
+      <img
+        src={usersMap[v.user_id].photo}
+        alt="photo utilisateur"
+        style={{
+          width: 32,
+          height: 32,
+          borderRadius: "50%",
+          objectFit: "cover"
+        }}
+      />
+    ) : (
+      <div style={{
+        width: 32,
+        height: 32,
+        borderRadius: "50%",
+        backgroundColor: "#ccc"
+      }} />
+    )}
+  </td>
+                   <td>{usersMap[v.user_id]?.nom || "Inconnu"}</td>
         {editingId === v.id ? (
           <>
             <td>
@@ -316,7 +341,7 @@ useEffect(() => {
                 name="matricule"
                 value={v.matricule}
                 onChange={(e) => handleChange(e, v.id)}
-                disabled={v.statut !== "Commande"}
+                disabled={v.statut !== "Livraison"}
               />
             </td>
             <td>
@@ -324,7 +349,7 @@ useEffect(() => {
                 name="matriculation"
                 value={v.matriculation}
                 onChange={(e) => handleChange(e, v.id)}
-                disabled={v.statut !== "Commande"}
+                disabled={v.statut !== "Livraison"}
               />
             </td>
             <td>
@@ -412,7 +437,7 @@ useEffect(() => {
     ))
   ) : (
     <tr>
-      <td colSpan={12} className="empty-row">
+      <td colSpan={13} className="empty-row">
         Aucune vente trouvée.
       </td>
     </tr>
@@ -431,4 +456,4 @@ useEffect(() => {
   );
 };
 
-export default ListeResVentes;
+export default ListResPromesse;
