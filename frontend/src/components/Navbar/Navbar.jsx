@@ -97,7 +97,7 @@ const Navbar = () => {
         <div className="navbar-linksc">
         </div>
         <div className="navbar-user" ref={menuRef}>
-          <span className="user-name">{nom}</span>
+          <span className="user-namee">{nom}</span>
           <img
             src={photo || "https://res.cloudinary.com/ditzf19gl/image/upload/v1752069664/euxgou6ysoifehj1lxxb.jpg"}
             alt="Profil"

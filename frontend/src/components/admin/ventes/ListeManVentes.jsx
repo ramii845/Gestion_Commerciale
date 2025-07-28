@@ -174,15 +174,7 @@ useEffect(() => {
         </div>
 
         <div className="filter-container">
-          <input
-            type="text"
-            placeholder="Filtrer par matricule"
-            value={filterMatricule}
-            onChange={(e) => {
-              setPage(1);
-              setFilterMatricule(e.target.value);
-            }}
-          />
+      
         </div>
 
         <table className="liste-ventes-table">
@@ -249,7 +241,8 @@ useEffect(() => {
       <td>
         <input name="commentaire" value={newVente.commentaire} onChange={(e) => handleChange(e, "new")} />
       </td>
-      <td>
+      
+      <td className={getStatutClass(v.statut)}>
         <select name="statut" value={newVente.statut} onChange={(e) => handleChange(e, "new")}>
           <option value="">--</option>
           <option>Prospection</option>
@@ -271,7 +264,7 @@ useEffect(() => {
   )}
   {ventes.length > 0 ? (
     ventes.map((v) => (
-      <tr key={v.id} className={getStatutClass(v.statut)}>
+      <tr key={v.id} >
         <td>{usersMap[v.user_id] || "Inconnu"}</td>
         {editingId === v.id ? (
           <>
@@ -318,7 +311,7 @@ useEffect(() => {
             <td>
               <input name="commentaire" value={v.commentaire} onChange={(e) => handleChange(e, v.id)} />
             </td>
-            <td>
+            <td className={getStatutClass(v.statut)}>
               <select name="statut" value={v.statut} onChange={(e) => handleChange(e, v.id)}>
                 <option value="">--</option>
                 <option>Prospection</option>
@@ -366,7 +359,7 @@ useEffect(() => {
             <td>{v.matricule}</td>
             <td>{v.matriculation}</td>
             <td>{v.commentaire || "-"}</td>
-            <td>{v.statut || "-"}</td>
+            <td className={getStatutClass(v.statut)}>{v.statut || "-"}</td>  {/* <-- ici */}
             <td>
               {v.date_creation
                 ? new Date(v.date_creation).toLocaleString("fr-FR", {
