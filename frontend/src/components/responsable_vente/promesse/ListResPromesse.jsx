@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import '../../css/ListPromesses.css';
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
+import { FaEdit } from "react-icons/fa";
 
 const decodeJWT = (token) => {
   try {
@@ -113,6 +114,7 @@ const ListResPromesse = () => {
     <th>Société</th>
     <th>Service concerné</th>
     <th>Frais</th>
+    <th>Actions</th>
   </tr>
 </thead>
 
@@ -149,6 +151,11 @@ const ListResPromesse = () => {
           <td>{promesse.societe || '-'}</td>
            <td>{promesse.service_concerne || '-'}</td>
                  <td>{promesse.frais} DT</td>
+                   <button className="btnEdit"
+            onClick={() => navigate(`/edit-res-promesse/${promesse.id || promesse._id}`)}
+          >
+            <FaEdit/>
+          </button>
 
                 </tr>
               ))

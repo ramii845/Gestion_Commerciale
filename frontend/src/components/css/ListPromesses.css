@@ -275,6 +275,86 @@ input[type="number"] {
     gap: 10px;
   }
 }
+.btnEdit {
+  background-color: #ffffff;
+  color: #2563eb;
+  padding: 8px 16px;
+  border: 1px solid #2563eb;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.1s ease;
+  display: block;
+  margin: auto; /* centre horizontalement */
+}
+
+
+ .btnEdit:hover {
+  background-color: #2563eb; /* fond bleu au hover */
+  color: white; /* texte blanc au hover */
+  transform: translateY(-1px); /* effet léger levé */
+}
+
+ .btnEdit:active {
+  transform: translateY(0); /* effet pressé */
+}
+.btnDelete {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btnConfirm {
+  background-color: #dc2626;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btnCancel {
+  background-color: #6b7280;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+
+
 
 @media (max-width: 480px) {
   .list-promesse-container {

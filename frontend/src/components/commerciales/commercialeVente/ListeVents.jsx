@@ -4,6 +4,7 @@ import { getUsersPaginated } from "../../services/authService";
 import { toast } from "react-toastify";
 import Navbar from "../../Navbar/Navbar";
 import "../../css/ListeVentes.css";
+import { FaEdit } from "react-icons/fa";
 
 const decodeJWT = (token) => {
   try {
@@ -390,7 +391,9 @@ const ListeVentes = () => {
                           : "-"}
                       </td>
                       <td>
-                        <button className="btn-modf" onClick={() => handleEdit(v.id)}>Modifier</button>
+                                <button className="btn-modf" onClick={() => handleEdit(v.id)} title="Modifier">
+                       <FaEdit/>
+                     </button>
                       </td>
                     </>
                   )}

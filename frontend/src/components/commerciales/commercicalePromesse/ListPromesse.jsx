@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import '../../css/ListPromesses.css';
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
+import { FaEdit } from "react-icons/fa";
 
 const decodeJWT = (token) => {
   try {
@@ -117,6 +118,7 @@ const ListPromesse = () => {
     <th>Société</th>
     <th>Service concerné</th>
     <th>Frais</th>
+    <th>Actions</th>
   </tr>
 </thead>
 
@@ -148,12 +150,19 @@ const ListPromesse = () => {
           <td>{promesse.societe || '-'}</td>
            <td>{promesse.service_concerne || '-'}</td>
                  <td>{promesse.frais} DT</td>
+                   <td>
+          <button className="btnEdit"
+            onClick={() => navigate(`/edit-promesse/${promesse.id || promesse._id}`)}
+          >
+           <FaEdit/>
+          </button>
+        </td>
 
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={8} style={{ textAlign: "center", padding: "20px" }}>
+                <td colSpan={9} style={{ textAlign: "center", padding: "20px" }}>
                   Aucune promesse trouvée.
                 </td>
               </tr>

@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
 import '../../css/ListLeads.css'
+import { FaEdit } from "react-icons/fa";
 
 
 // Fonction pour décoder le token JWT
@@ -194,7 +195,10 @@ useEffect(() => {
     : "-"}
 </td>
                   <td>
-                    <button name="btn5" onClick={() => navigate(`/edit-lead-res/${lead.id}`)}>Modifier</button>
+                    <button name="btn5" onClick={() => navigate(`/edit-lead-res/${lead.id}`)}>
+<FaEdit/>
+
+                    </button>
                   </td>
                 </tr>
               ))

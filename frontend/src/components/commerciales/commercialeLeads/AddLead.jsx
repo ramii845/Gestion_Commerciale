@@ -22,6 +22,20 @@ const decodeJWT = (token) => {
   }
 };
 
+// Fonction pour formater la date au format yyyy-MM-ddTHH:mm (local)
+const getLocalDateTimeString = () => {
+  const now = new Date();
+  const pad = (n) => n.toString().padStart(2, '0');
+
+  const year = now.getFullYear();
+  const month = pad(now.getMonth() + 1);
+  const day = pad(now.getDate());
+  const hours = pad(now.getHours());
+  const minutes = pad(now.getMinutes());
+
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+};
+
 const AddLead = () => {
   const navigate = useNavigate();
 
@@ -32,7 +46,6 @@ const AddLead = () => {
     telephone: "",
     marque: "",
     date_creation: "",
-    date_traitement: "",
     relance: ""
   });
 
@@ -44,17 +57,25 @@ const AddLead = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.nom_client || !formData.besoin || !formData.date_creation || !formData.date_traitement || !formData.marque || !formData.relance) {
+    if (
+      !formData.nom_client ||
+      !formData.besoin ||
+      !formData.date_creation ||
+      !formData.marque ||
+      !formData.relance
+    ) {
       toast.error("Veuillez remplir tous les champs obligatoires.");
       return;
     }
 
-    if (new Date(formData.date_traitement) <= new Date(formData.date_creation)) {
+    const dateTraitementSystem = getLocalDateTimeString();
+
+    if (new Date(dateTraitementSystem) <= new Date(formData.date_creation)) {
       toast.warning("La date de traitement doit être postérieure à la date de création.");
       return;
     }
 
-    if (new Date(formData.relance) <= new Date(formData.date_traitement)) {
+    if (new Date(formData.relance) <= new Date(dateTraitementSystem)) {
       toast.warning("La date de relance doit être postérieure à la date de traitement.");
       return;
     }
@@ -72,6 +93,7 @@ const AddLead = () => {
       await createLead({
         ...formData,
         user_id,
+        date_traitement: dateTraitementSystem,  // Date système locale ici
       });
 
       toast.success("Lead ajouté avec succès !");
@@ -83,99 +105,92 @@ const AddLead = () => {
 
   return (
     <>
-    <Navbar/>
-    <div className="add-lead-container">
-      <h2>Ajouter un Lead</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Date de création*</label>
-        <input
-          type="datetime-local"
-          name="date_creation"
-          value={formData.date_creation}
-          onChange={handleChange}
-          required
-        />
+      <Navbar />
+      <div className="add-lead-container">
+        <h2>Ajouter un Lead</h2>
+        <form onSubmit={handleSubmit}>
+          <label>Date de création*</label>
+          <input
+            type="datetime-local"
+            name="date_creation"
+            value={formData.date_creation}
+            onChange={handleChange}
+            required
+          />
 
-        <label>Nom Client*</label>
-        <input
-          type="text"
-          name="nom_client"
-          value={formData.nom_client}
-          onChange={handleChange}
-          required
-        />
+          <label>Nom Client*</label>
+          <input
+            type="text"
+            name="nom_client"
+            value={formData.nom_client}
+            onChange={handleChange}
+            required
+          />
 
-        <label>Telephone*</label>
-        <input
-          type="number"  min="19999999" max="99999999" minLength={8} maxLength={8}
-          name="telephone"
-          value={formData.telephone}
-          onChange={handleChange}
-          required
-        />
+          <label>Téléphone*</label>
+          <input
+            type="number"
+            min="19999999"
+            max="99999999"
+            name="telephone"
+            value={formData.telephone}
+            onChange={handleChange}
+            required
+          />
 
-        <label>Marque*</label>
-        <select
-          name="marque"
-          value={formData.marque}
-          onChange={handleChange}
-          required
-        >
-          <option value="">-- Choisir une marque --</option>
-          <option value="Peugeot">Peugeot</option>
-          <option value="Citroen">Citroen</option>
-          <option value="Opel">Opel</option>
-        </select>
+          <label>Marque*</label>
+          <select
+            name="marque"
+            value={formData.marque}
+            onChange={handleChange}
+            required
+          >
+            <option value="">-- Choisir une marque --</option>
+            <option value="Peugeot">Peugeot</option>
+            <option value="Citroen">Citroen</option>
+            <option value="Opel">Opel</option>
+          </select>
 
-        <label>Besoin*</label>
-        <input
-          type="text"
-          name="besoin"
-          value={formData.besoin}
-          onChange={handleChange}
-          required
-        />
+          <label>Besoin*</label>
+          <input
+            type="text"
+            name="besoin"
+            value={formData.besoin}
+            onChange={handleChange}
+            required
+          />
 
-        <label>Date de traitement*</label>
-        <input
-          type="datetime-local"
-          name="date_traitement"
-          value={formData.date_traitement}
-          onChange={handleChange}
-          required
-        />
+          <label>Affectation</label>
+          <select
+            name="affectation"
+            value={formData.affectation}
+            onChange={handleChange}
+          >
+            <option value="Affecté">Affecté</option>
+            <option value="Non Affecté">Non Affecté</option>
+          </select>
 
-        <label>Affectation</label>
-        <select
-          name="affectation"
-          value={formData.affectation}
-          onChange={handleChange}
-        >
-          <option value="Affecté">Affecté</option>
-          <option value="Non Affecté">Non Affecté</option>
-        </select>
+          <label>Relance*</label>
+          <input
+            type="datetime-local"
+            name="relance"
+            value={formData.relance}
+            onChange={handleChange}
+            required
+          />
 
-        <label>Relance*</label>
-        <input
-          type="datetime-local"
-          name="relance"
-          value={formData.relance}
-          onChange={handleChange}
-          required
-        />
-
-        <button type="submit" style={{ marginTop: 20 }}>
-          Ajouter
-        </button>
-            <button
-    className="submit-retour"
-    type="button"
-    onClick={() => navigate('/commerciale/leads')}
-  >
-    Retour
-  </button>
-      </form>
-    </div>
+          <button type="submit" style={{ marginTop: 20 }}>
+            Ajouter
+          </button>
+          <button
+            className="submit-retour"
+            type="button"
+            onClick={() => navigate("/commerciale/leads")}
+          >
+            Retour
+          </button>
+        </form>
+      </div>
     </>
   );
 };

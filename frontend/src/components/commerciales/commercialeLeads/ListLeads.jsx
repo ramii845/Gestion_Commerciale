@@ -125,7 +125,6 @@ const ListeLeads = () => {
               <th>Date Traitement</th>
               <th>Affectation</th>
               <th>Relance</th>
-              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -185,9 +184,7 @@ const ListeLeads = () => {
       })
     : "-"}
 </td>
-                  <td>
-                    <button name="btn5" onClick={() => navigate(`/edit-lead/${lead.id}`)}>Modifier</button>
-                  </td>
+                
                 </tr>
               ))
             ) : (

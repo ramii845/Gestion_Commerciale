@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getPaginatedVentes, addVente, updateVente } from "../../services/venteService";
+import { getPaginatedVentes, addVente, updateVente,deleteVente  } from "../../services/venteService";
 import { getUsersPaginated } from "../../services/authService";
 import { toast } from "react-toastify";
 import Navbar from "../../Navbar/Navbar";
 import "../../css/ListeVentes.css";
+import { FaEdit, FaTrash } from "react-icons/fa";
+
 
 const decodeJWT = (token) => {
   try {
@@ -40,6 +42,9 @@ const ListeManVentes = () => {
   const [newVente, setNewVente] = useState(null);
   const [modelesDisponibles, setModelesDisponibles] = useState([]);
   const [filterStatut, setFilterStatut] = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
+const [venteToDelete, setVenteToDelete] = useState(null);
+
 
 
 
@@ -167,6 +172,29 @@ useEffect(() => {
 
   const onPrev = () => setPage((p) => Math.max(p - 1, 1));
   const onNext = () => setPage((p) => Math.min(p + 1, totalPages));
+  const confirmDelete = (vente) => {
+  setVenteToDelete(vente);
+  setShowConfirm(true);
+};
+const cancelDelete = () => {
+  setVenteToDelete(null);
+  setShowConfirm(false);
+};
+
+const handleDelete = async () => {
+  if (!venteToDelete) return;
+  try {
+    await deleteVente(venteToDelete.id);
+    toast.success("Vente supprimée avec succès !");
+    setVentes((prev) => prev.filter((v) => v.id !== venteToDelete.id));
+  } catch {
+    toast.error("Erreur lors de la suppression");
+  } finally {
+    setVenteToDelete(null);
+    setShowConfirm(false);
+  }
+};
+
 
   return (
     <>
@@ -214,7 +242,7 @@ useEffect(() => {
               <th>Statut</th>
               <th>Date création</th>
               <th>Date modification</th>
-              <th>Action</th>
+              <th>Actions</th>
             </tr>
           </thead>
          <tbody>
@@ -427,10 +455,17 @@ useEffect(() => {
                 : "-"}
             </td>
             <td>
-              <button className="btn-modf" onClick={() => handleEdit(v.id)}>
-                Modifier
-              </button>
+               <div className="action-buttons">
+              <button className="btn-modf" onClick={() => handleEdit(v.id)} title="Modifier">
+  <FaEdit />
+</button>
+<button className="btnDelete" onClick={() => confirmDelete(v)} title="Supprimer">
+  <FaTrash />
+</button>
+</div>
+
             </td>
+ 
           </>
         )}
       </tr>
@@ -445,6 +480,18 @@ useEffect(() => {
 </tbody>
 
         </table>
+                   {showConfirm && (
+  <div className="modal-overlay">
+    <div className="modal-confirm">
+      <h3>Confirmer la suppression</h3>
+      <p>Voulez-vous vraiment supprimer cette vente ?</p>
+      <div className="modal-buttons">
+        <button className="btnCancel" onClick={cancelDelete}>Annuler</button>
+        <button className="btnConfirm" onClick={handleDelete}>Supprimer</button>
+      </div>
+    </div>
+  </div>
+)}
 
         <div className="pagination">
           <button onClick={onPrev} disabled={page === 1}>←</button>

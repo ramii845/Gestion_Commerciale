@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { getPaginatedVentes } from "../../services/venteService";
+import { getPaginatedLeads, deleteLead } from "../../services/leadsService";
 import { getUsersPaginated } from "../../services/authService";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
-import "../../css/ListeVentes.css";
+import '../../css/ListLeads.css'
+import { FaTrash } from "react-icons/fa";
 
+// Fonction pour décoder le token JWT
 const decodeJWT = (token) => {
   try {
     const base64Url = token.split(".")[1];
@@ -16,25 +19,29 @@ const decodeJWT = (token) => {
         .join("")
     );
     return JSON.parse(jsonPayload);
-  } catch {
+  } catch (e) {
+    console.error("Erreur décodage JWT :", e);
     return null;
   }
 };
 
-const ListeManVentes = () => {
-  const [ventes, setVentes] = useState([]);
+const ListeManLeads = () => {
+  const [leads, setLeads] = useState([]);
   const [usersMap, setUsersMap] = useState({});
-  const [filterStatut, setFilterStatut] = useState("");
+  const [filterNomClient, setFilterNomClient] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [userId, setUserId] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [leadToDelete, setLeadToDelete] = useState(null);
+  const navigate = useNavigate();
 
+  // Récupération des utilisateurs
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const res = await getUsersPaginated(1, 1000);
         const usersData = res.data.users || res.data;
-
         const map = {};
         usersData.forEach((u) => {
           map[u.id || u._id] = {
@@ -42,15 +49,15 @@ const ListeManVentes = () => {
             photo: u.photo
           };
         });
-
         setUsersMap(map);
-      } catch {
+      } catch (error) {
         toast.error("Erreur chargement utilisateurs");
       }
     };
     fetchUsers();
   }, []);
 
+  // Décodage token JWT
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -59,21 +66,56 @@ const ListeManVentes = () => {
     }
   }, []);
 
+  // Charger les leads
   useEffect(() => {
-    if (!userId) return;
-
-    const fetchVentes = async () => {
+    const fetchLeads = async () => {
       try {
-        const res = await getPaginatedVentes(page, 14, filterStatut);
-        setVentes(res.data.ventes);
+        const res = await getPaginatedLeads(
+          page,
+          8,
+          filterNomClient,
+          "", // besoin
+          "", // affectation
+          "", // date_creation
+          ""  // userId non utilisé ici
+        );
+
+        setLeads(res.data.leads);
         setTotalPages(res.data.total_pages);
-      } catch {
-        toast.error("Erreur chargement ventes");
+      } catch (error) {
+        toast.error("Erreur chargement des leads");
       }
     };
 
-    fetchVentes();
-  }, [page, filterStatut, userId]);
+    fetchLeads();
+  }, [page, filterNomClient]);
+
+  // Ouvrir modale confirmation
+  const confirmDelete = (lead) => {
+    setLeadToDelete(lead);
+    setShowConfirm(true);
+  };
+
+  // Annuler suppression
+  const cancelDelete = () => {
+    setLeadToDelete(null);
+    setShowConfirm(false);
+  };
+
+  // Confirmer suppression
+  const handleDelete = async () => {
+    if (!leadToDelete) return;
+    try {
+      await deleteLead(leadToDelete.id);
+      toast.success("Lead supprimé avec succès !");
+      setLeads((prev) => prev.filter((lead) => lead.id !== leadToDelete.id));
+    } catch (error) {
+      toast.error("Erreur lors de la suppression du lead");
+    } finally {
+      setLeadToDelete(null);
+      setShowConfirm(false);
+    }
+  };
 
   const onPrev = () => setPage((p) => Math.max(p - 1, 1));
   const onNext = () => setPage((p) => Math.min(p + 1, totalPages));
@@ -81,141 +123,140 @@ const ListeManVentes = () => {
   return (
     <>
       <Navbar />
-      <div className="liste-ventes-container">
-        <h2 style={{ textAlign: "center" }}>Mes ventes</h2>
-
-        {/* Filtre par statut */}
-        <div className="filter-container" style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
-          <select
-            value={filterStatut}
-            onChange={(e) => {
-              setFilterStatut(e.target.value);
-              setPage(1);
-            }}
-            style={{
-              padding: "8px 12px",
-              border: "1px solid #ccc",
-              borderRadius: "6px",
-              backgroundColor: "#f8f8f8",
-              fontSize: "14px",
-              color: "#333",
-              minWidth: "180px",
-              textAlign: "center"
-            }}
-          >
-            <option value="">Tous statuts</option>
-            <option value="Prospection">Prospection</option>
-            <option value="Devis">Devis</option>
-            <option value="Commande">Commande</option>
-            <option value="Facturation">Facturation</option>
-            <option value="Livraison">Livraison</option>
-            <option value="Blocage">Blocage</option>
-            <option value="Relance">Relance</option>
-          </select>
+      <div className="liste-leads-container">
+        <div className="liste-leads-header">
+          <h2 className="titleLeads">Mes Leads</h2>
+          <button className="btn-ajout-leads" onClick={() => navigate("/add-lead-res")}>
+            Ajouter
+          </button>
         </div>
 
-        {/* Table des ventes */}
-        <table className="liste-ventes-table">
+        <div className="filter-container-nom">
+          <input
+            type="text"
+            placeholder="Filtrer par nom du client"
+            value={filterNomClient}
+            onChange={(e) => {
+              setPage(1);
+              setFilterNomClient(e.target.value);
+            }}
+          />
+        </div>
+
+        <table className="liste-leads-table">
           <thead>
             <tr>
               <th>Image</th>
               <th>Commercial</th>
-              <th>Client</th>
+              <th>Date Création</th>
+              <th>Nom Client</th>
               <th>Téléphone</th>
               <th>Marque</th>
-              <th>Modèle</th>
-              <th>Matricule</th>
-              <th>Commentaire</th>
-              <th>Statut</th>
-              <th>Date création</th>
-              <th>Date modification</th>
+              <th>Besoin</th>
+              <th>Date Traitement</th>
+              <th>Affectation</th>
+              <th>Relance</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {ventes.length > 0 ? (
-              ventes.map((v) => (
-                <tr key={v.id}>
-                <td>
-  {usersMap[v.user_id]?.photo ? (
-    <img
-      src={usersMap[v.user_id].photo.startsWith("http")
-        ? usersMap[v.user_id].photo
-        : `/uploads/${usersMap[v.user_id].photo}`
-      }
-      alt="utilisateur"
-      style={{
-        width: "32px",
-        height: "32px",
-        borderRadius: "50%",
-        objectFit: "cover"
-      }}
-    />
-  ) : (
-    <div style={{
-      width: "32px",
-      height: "32px",
-      borderRadius: "50%",
-      backgroundColor: "#ccc"
-    }} />
-  )}
-</td>
-<td>{usersMap[v.user_id]?.nom || "Inconnu"}</td>
-                  <td>{v.nom_client}</td>
-                  <td>{v.tel_client}</td>
-                  <td>{v.marque}</td>
-                  <td>{v.modele}</td>
-                  <td>{v.matricule || "-"}</td>
-                  <td>{v.commentaire || "-"}</td>
-                  <td>{v.statut || "-"}</td>
+            {leads.length > 0 ? (
+              leads.map((lead) => (
+                <tr key={lead.id}>
                   <td>
-                    {v.date_creation
-                      ? new Date(v.date_creation).toLocaleString("fr-FR", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit"
-                        })
-                      : "-"}
+                    {usersMap[lead.user_id]?.photo ? (
+                      <img
+                        src={usersMap[lead.user_id].photo.startsWith("http")
+                          ? usersMap[lead.user_id].photo
+                          : `/uploads/${usersMap[lead.user_id].photo}`
+                        }
+                        alt="utilisateur"
+                        style={{
+                          width: "32px",
+                          height: "32px",
+                          borderRadius: "50%",
+                          objectFit: "cover"
+                        }}
+                      />
+                    ) : (
+                      <div style={{
+                        width: "32px",
+                        height: "32px",
+                        borderRadius: "50%",
+                        backgroundColor: "#ccc"
+                      }} />
+                    )}
                   </td>
+                  <td>{usersMap[lead.user_id]?.nom || "Inconnu"}</td>
+                  <td>{lead.date_creation ? new Date(lead.date_creation).toLocaleString("fr-FR", {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  }) : "-"}</td>
+                  <td>{lead.nom_client}</td>
+                  <td>{lead.telephone}</td>
+                  <td>{lead.marque}</td>
+                  <td>{lead.besoin}</td>
+                  <td>{lead.date_traitement ? new Date(lead.date_traitement).toLocaleString("fr-FR", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  }) : "-"}</td>
+                  <td>{lead.affectation}</td>
+                  <td>{lead.relance ? new Date(lead.relance).toLocaleString("fr-FR", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  }) : "-"}</td>
                   <td>
-                    {v.date_modification
-                      ? new Date(v.date_modification).toLocaleString("fr-FR", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit"
-                        })
-                      : "-"}
+                    <button
+                      className="btnDelete"
+                      onClick={() => confirmDelete(lead)}
+                    >
+                      <FaTrash/>
+                    </button>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={10} style={{ textAlign: "center" }}>
-                  Aucune vente trouvée.
+                <td colSpan={11} className="empty-row">
+                  Aucun lead trouvé.
                 </td>
               </tr>
             )}
           </tbody>
         </table>
 
-        {/* Pagination */}
         <div className="pagination">
-          <button onClick={onPrev} disabled={page === 1}>
-            ←
-          </button>
-          <span>
-            {page} / {totalPages}
-          </span>
-          <button onClick={onNext} disabled={page === totalPages}>
-            →
-          </button>
+          <button onClick={onPrev} disabled={page === 1}>←</button>
+          <span>{page} / {totalPages}</span>
+          <button onClick={onNext} disabled={page === totalPages}>→</button>
         </div>
       </div>
+
+      {/* Modale de confirmation */}
+      {showConfirm && (
+        <div className="modal-overlay">
+          <div className="modal-confirm">
+            <h3>Confirmer la suppression</h3>
+            <p>Voulez-vous vraiment supprimer ce lead ?</p>
+            <div className="modal-buttons">
+                <button className="btnConfirm" onClick={handleDelete}>Supprimer</button>
+              <button className="btnCancel" onClick={cancelDelete}>Annuler</button>
+            
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
 
-export default ListeManVentes;
+export default ListeManLeads;

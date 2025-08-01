@@ -171,6 +171,82 @@ body {
   color: #718096;
   font-style: italic;
 }
+/* Overlay fond sombre */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Contenu modale */
+.modal-confirm {
+  background: white;
+  padding: 25px 30px;
+  border-radius: 8px;
+  width: 320px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.25);
+  text-align: center;
+}
+
+/* Boutons modale */
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.btnCancel, .btnConfirm {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.btnCancel {
+  background-color: #bbb;
+  color: #333;
+}
+
+.btnCancel:hover {
+  background-color: #999;
+}
+
+.btnConfirm {
+  background-color: #d9534f;
+  color: white;
+}
+
+.btnConfirm:hover {
+  background-color: #c9302c;
+}
+
+/* Bouton Supprimer dans la table */
+.btnDelete {
+  background-color: #d9534f;
+  border: none;
+  padding: 6px 12px;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: background-color 0.3s ease;
+}
+
+.btnDelete:hover {
+  background-color: #c9302c;
+}
+
 
 .pagination {
   display: flex;

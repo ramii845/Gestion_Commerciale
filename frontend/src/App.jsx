@@ -41,6 +41,9 @@ import LeadsStats from './components/Dashboard/LeadsStats';
 import EditLead from './components/commerciales/commercialeLeads/EditLead';
 import EditLeadRes from './components/responsable_vente/leads/EditLeadRes';
 import Dashboard from './components/Dashboard/Dashboard';
+import EditPromesse from './components/commerciales/commercicalePromesse/EditPromesse';
+import EditResPromesse from './components/responsable_vente/promesse/EditResPromesse';
+import EditManPromesse from './components/admin/promesse/EditManPromesse';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -72,6 +75,9 @@ function App() {
 <Route path="/add-lead" element={<CommercialeRoute element={<AddLead />} />} />
 <Route path="/commerciale/promesses" element={<CommercialeRoute element={<ListPromesse />} />} />
 <Route path="/add-promesse" element={<CommercialeRoute element={<AddPromesse />} />} />
+<Route path="/edit-promesse/:id" element={<CommercialeRoute element={<EditPromesse/>} />} />
+
+
 <Route path="/commerciale/ventes" element={<CommercialeRoute element={<ListeVentes />} />} />
 <Route path="/add-vente" element={<CommercialeRoute element={<AddVente />} />} />
 <Route path="/edit-vente/:id" element={<CommercialeRoute element={<EditVente />} />} />
@@ -83,6 +89,7 @@ function App() {
 <Route path="/edit-vente-res/:id" element={<ResponsableVenteRoute element={<EditResVente />} />} />
 <Route path="/responsable/promesses" element={<ResponsableVenteRoute element={<ListResPromesse />} />} />
 <Route path="/add-promesse-res" element={<ResponsableVenteRoute element={<AddResPromesse />} />} />
+<Route path="/edit-Res-promesse/:id" element={<ResponsableVenteRoute element={<EditResPromesse/>} />} />
 <Route path="/add-lead-res" element={<ResponsableVenteRoute element={<AddResLead />} />} />
 <Route path="/edit-lead-res/:id" element={<ResponsableVenteRoute element={<EditLeadRes />} />} />
 <Route path="/responsable/leads" element={<ResponsableVenteRoute element={<ListeResLeads />} />} />
@@ -101,6 +108,7 @@ function App() {
 
 <Route path="/manager/promesses" element={<ManagerRoute element={<ListManPromesse />} />} />
 <Route path="/add-promesse-man" element={<ManagerRoute element={<AddManPromesse />} />} />
+<Route path="/edit-man-promesse/:id" element={<ManagerRoute element={<EditManPromesse/>} />} />
 
 <Route path="/manager/leads" element={<ManagerRoute element={<ListManLeads />} />} />
 <Route path="/add-lead-man" element={<ManagerRoute element={<AddManLead />} />} />

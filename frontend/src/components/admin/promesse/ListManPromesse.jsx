@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { getPaginatedPromesses } from "../../services/promesseService";
+import {
+  getPaginatedPromesses,
+  deletePromesse,
+} from "../../services/promesseService";
 import { getUsersPaginated } from "../../services/authService";
 import { toast } from "react-toastify";
-import '../../css/ListPromesses.css';
+import "../../css/ListPromesses.css";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 const decodeJWT = (token) => {
   try {
@@ -23,26 +27,28 @@ const decodeJWT = (token) => {
   }
 };
 
-const ListResPromesse = () => {
+const ListManPromesse = () => {
   const [promesses, setPromesses] = useState([]);
   const [usersMap, setUsersMap] = useState({});
   const [filterMatricule, setFilterMatricule] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [userId, setUserId] = useState(null);
-   const navigate = useNavigate();
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [selectedPromesseId, setSelectedPromesseId] = useState(null);
 
-  // Charger utilisateurs au montage (pas besoin à chaque page)
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const usersResponse = await getUsersPaginated(1, 1000);
         const usersData = usersResponse.data.users || usersResponse.data;
         const map = {};
-            usersData.forEach((u) => {
+        usersData.forEach((u) => {
           map[u.id || u._id] = {
             nom: u.nom,
-            photo: u.photo // ou u.image selon ton backend
+            photo: u.photo,
           };
         });
         setUsersMap(map);
@@ -53,7 +59,6 @@ const ListResPromesse = () => {
     fetchUsers();
   }, []);
 
-  // Charger userId du token au montage
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -62,99 +67,146 @@ const ListResPromesse = () => {
     }
   }, []);
 
-  // Charger promesses à chaque changement page ou filtre ou userId
- useEffect(() => {
-  const fetchPromesses = async () => {
+  useEffect(() => {
+    const fetchPromesses = async () => {
+      try {
+        const res = await getPaginatedPromesses(page, 7, "", "", filterMatricule);
+        setPromesses(res.data.promesses);
+        setTotalPages(res.data.total_pages);
+      } catch (error) {
+        toast.error("Erreur chargement promesses");
+      }
+    };
+
+    fetchPromesses();
+  }, [page, filterMatricule]);
+
+  const onPrev = () => setPage((p) => Math.max(p - 1, 1));
+  const onNext = () => setPage((p) => Math.min(p + 1, totalPages));
+
+  const handleDeleteClick = (id) => {
+    setSelectedPromesseId(id);
+    setShowConfirmModal(true);
+  };
+
+  const confirmDelete = async () => {
     try {
-      const res = await getPaginatedPromesses(page, 7, "", "", filterMatricule);
-      setPromesses(res.data.promesses);
-      setTotalPages(res.data.total_pages);
+      await deletePromesse(selectedPromesseId);
+      toast.success("Promesse supprimée !");
+      setPromesses((prev) =>
+        prev.filter((p) => (p.id || p._id) !== selectedPromesseId)
+      );
     } catch (error) {
-      toast.error("Erreur chargement promesses");
+      toast.error("Erreur lors de la suppression");
+    } finally {
+      setShowConfirmModal(false);
+      setSelectedPromesseId(null);
     }
   };
 
-  fetchPromesses();
-}, [page, filterMatricule]);
-  // Pagination controls
-  const onPrev = () => setPage(p => Math.max(p - 1, 1));
-  const onNext = () => setPage(p => Math.min(p + 1, totalPages));
+  const cancelDelete = () => {
+    setShowConfirmModal(false);
+    setSelectedPromesseId(null);
+  };
 
   return (
     <>
       <Navbar />
-      <div className="list-promesse-container" >
-        <div className="list-promesse-header" >
+      <div className="list-promesse-container">
+        <div className="list-promesse-header">
           <h2 className="list-promesse-title">Liste des promesses</h2>
-             <button className="ajouter" onClick={() => navigate('/add-promesse-man')}>Ajouter</button>
+          <button className="ajouter" onClick={() => navigate("/add-promesse-man")}>
+            Ajouter
+          </button>
         </div>
 
         <div style={{ marginBottom: 15 }}>
-          <label htmlFor="filterMatricule" style={{ marginRight: 10, fontWeight: "600" }}></label>
           <input
             type="text"
-            id="filterMatricule"
             value={filterMatricule}
-            onChange={e => { setPage(1); setFilterMatricule(e.target.value); }}
+            onChange={(e) => {
+              setPage(1);
+              setFilterMatricule(e.target.value);
+            }}
             placeholder="matricule"
             style={{ padding: 6, width: 200 }}
           />
         </div>
 
         <table>
-  <thead>
-  <tr>
-        <th>Image</th> 
-    <th>Commercial</th>
-    <th>Marque</th>
-    <th>Modèle</th>
-    <th>Matricule</th>
-    <th>Promesse</th>
-    <th>Société</th>
-    <th>Service concerné</th>
-    <th>Frais</th>
-  </tr>
-</thead>
-
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Commercial</th>
+              <th>Marque</th>
+              <th>Modèle</th>
+              <th>Matricule</th>
+              <th>Promesse</th>
+              <th>Société</th>
+              <th>Service concerné</th>
+              <th>Frais</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
           <tbody>
             {promesses.length > 0 ? (
               promesses.map((promesse) => (
                 <tr key={promesse.id || promesse._id}>
-                   <td>
-    {usersMap[promesse.user_id]?.photo ? (
-      <img
-        src={usersMap[promesse.user_id].photo}
-        alt="photo utilisateur"
-        style={{
-          width: 32,
-          height: 32,
-          borderRadius: "50%",
-          objectFit: "cover"
-        }}
-      />
-    ) : (
-      <div style={{
-        width: 32,
-        height: 32,
-        borderRadius: "50%",
-        backgroundColor: "#ccc"
-      }} />
-    )}
-  </td>
-                   <td>{usersMap[promesse.user_id]?.nom || "Inconnu"}</td>
+                  <td>
+                    {usersMap[promesse.user_id]?.photo ? (
+                      <img
+                        src={usersMap[promesse.user_id].photo}
+                        alt="photo utilisateur"
+                        style={{
+                          width: 32,
+                          height: 32,
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          width: 32,
+                          height: 32,
+                          borderRadius: "50%",
+                          backgroundColor: "#ccc",
+                        }}
+                      />
+                    )}
+                  </td>
+                  <td>{usersMap[promesse.user_id]?.nom || "Inconnu"}</td>
                   <td>{promesse.marque}</td>
                   <td>{promesse.modele}</td>
                   <td>{promesse.matricule}</td>
                   <td>{promesse.promesse}</td>
-          <td>{promesse.societe || '-'}</td>
-           <td>{promesse.service_concerne || '-'}</td>
-                 <td>{promesse.frais} DT</td>
+                  <td>{promesse.societe || "-"}</td>
+                  <td>{promesse.service_concerne || "-"}</td>
+                  <td>{promesse.frais} DT</td>
+                  <td>
+                     <div className="action-buttons">
+                    <button
+                      className="btnEdit"
+                      onClick={() =>
+                        navigate(`/edit-man-promesse/${promesse.id || promesse._id}`)
+                      }
+                    >
+                    <FaEdit/>
+                    </button>
 
+                    <button
+                      className="btnDelete"
+                      onClick={() => handleDeleteClick(promesse.id || promesse._id)}
+                    >
+                      <FaTrash/>
+                    </button>
+                    </div>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={9} style={{ textAlign: "center", padding: "20px" }}>
+                <td colSpan={10} style={{ textAlign: "center", padding: "20px" }}>
                   Aucune promesse trouvée.
                 </td>
               </tr>
@@ -162,14 +214,38 @@ const ListResPromesse = () => {
           </tbody>
         </table>
 
-        <div className="pagination" >
-          <button onClick={onPrev} disabled={page === 1}>←</button>
-          <span>{page} / {totalPages}</span>
-          <button onClick={onNext} disabled={page === totalPages}>→</button>
+        <div className="pagination">
+          <button onClick={onPrev} disabled={page === 1}>
+            ←
+          </button>
+          <span>
+            {page} / {totalPages}
+          </span>
+          <button onClick={onNext} disabled={page === totalPages}>
+            →
+          </button>
         </div>
       </div>
+
+      {showConfirmModal && (
+        <div className="modal-overlay">
+         <div className="modal-confirm">
+
+            <h3>Confirmation</h3>
+            <p>Voulez-vous vraiment supprimer cette promesse ?</p>
+            <div className="modal-actions">
+              <button className="btnConfirm" onClick={confirmDelete}>
+                Oui, supprimer
+              </button>
+              <button className="btnCancel" onClick={cancelDelete}>
+                Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
 
-export default ListResPromesse;
+export default ListManPromesse;
