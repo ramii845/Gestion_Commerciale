@@ -94,7 +94,7 @@ const EditUser = () => {
       cin,
       role,
       photo: photo || "",
-      motdepasse: "", // obligatoire pour éviter 422
+      motdepasse: "", 
     };
 
     try {

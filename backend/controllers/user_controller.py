@@ -93,7 +93,17 @@ async def get_users():
 
 @user_router.put("/{user_id}", response_model=dict)
 async def update_user(user_id: str, user: User):
-    result = await db.users.update_one({"_id": get_objectid(user_id)}, {"$set": user.dict()})
+    user_data = user.dict()
+
+    # On supprime motdepasse pour ne pas le modifier
+    if "motdepasse" in user_data:
+        user_data.pop("motdepasse")
+
+    result = await db.users.update_one(
+        {"_id": get_objectid(user_id)},
+        {"$set": user_data}
+    )
+
     if result.modified_count == 0:
         raise HTTPException(status_code=404, detail="User not found")
     return {"message": "User updated successfully"}
