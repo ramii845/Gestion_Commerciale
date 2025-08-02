@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import Navbar from "../../Navbar/Navbar";
 import "../../css/ListeVentes.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import SidebarMenuAdmin from "../SidebarMenuAdmin";
 
 
 const decodeJWT = (token) => {
@@ -199,6 +200,7 @@ const handleDelete = async () => {
   return (
     <>
       <Navbar />
+       <SidebarMenuAdmin/>
       <div className="liste-ventes-container">
         <div className="liste-ventes-header">
           <h2 style={{ textAlign: "center", flexGrow: 1 }}>Mes ventes</h2>

@@ -89,7 +89,7 @@ const Navbar = () => {
     }
   }}
 >
-  Accueil
+  {/* Acceuil */}
 </span>
       </div>
       {/* CE CONTENEUR EST CRUCIAL POUR LE POSITIONNEMENT ET L'ESPACEMENT */}

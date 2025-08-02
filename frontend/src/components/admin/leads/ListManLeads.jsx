@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
 import '../../css/ListLeads.css'
 import { FaTrash } from "react-icons/fa";
+import SidebarMenuAdmin from "../SidebarMenuAdmin";
 
 // Fonction pour décoder le token JWT
 const decodeJWT = (token) => {
@@ -123,6 +124,7 @@ const ListeManLeads = () => {
   return (
     <>
       <Navbar />
+       <SidebarMenuAdmin/>
       <div className="liste-leads-container">
         <div className="liste-leads-header">
           <h2 className="titleLeads">Mes Leads</h2>

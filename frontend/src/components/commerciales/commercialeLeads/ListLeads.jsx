@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
 import '../../css/ListLeads.css'
+import SidebarMenuCommercial from "../SidebarMenuCommercial";
 
 
 // Fonction pour décoder le token JWT
@@ -92,6 +93,7 @@ const ListeLeads = () => {
   return (
     <>
       <Navbar />
+      <SidebarMenuCommercial/>
       <div className="liste-leads-container">
         <div className="liste-leads-header">
           <h2 className="titleLeads">Mes Leads</h2>

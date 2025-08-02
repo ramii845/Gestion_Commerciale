@@ -9,6 +9,7 @@ import "../../css/ListPromesses.css";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import SidebarMenuAdmin from "../SidebarMenuAdmin";
 
 const decodeJWT = (token) => {
   try {
@@ -112,6 +113,7 @@ const ListManPromesse = () => {
   return (
     <>
       <Navbar />
+       <SidebarMenuAdmin/>
       <div className="list-promesse-container">
         <div className="list-promesse-header">
           <h2 className="list-promesse-title">Liste des promesses</h2>

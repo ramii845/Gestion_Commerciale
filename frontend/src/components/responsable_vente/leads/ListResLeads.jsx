@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
 import '../../css/ListLeads.css'
 import { FaEdit } from "react-icons/fa";
+import SidebarMenuResponsable from "../SidebarMenuResponsable";
 
 
 // Fonction pour décoder le token JWT
@@ -94,6 +95,7 @@ useEffect(() => {
   return (
     <>
       <Navbar />
+        <SidebarMenuResponsable/>
       <div className="liste-leads-container">
         <div className="liste-leads-header">
           <h2 className="titleLeads">Mes Leads</h2>

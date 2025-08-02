@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import Navbar from "../../Navbar/Navbar";
 import "../../css/ListeVentes.css";
 import { FaEdit } from "react-icons/fa";
+import SidebarMenuResponsable from "../SidebarMenuResponsable";
 
 const decodeJWT = (token) => {
   try {
@@ -172,6 +173,7 @@ useEffect(() => {
   return (
     <>
       <Navbar />
+      <SidebarMenuResponsable/>
       <div className="liste-ventes-container">
         <div className="liste-ventes-header">
           <h2 style={{ textAlign: "center", flexGrow: 1 }}>Mes ventes</h2>

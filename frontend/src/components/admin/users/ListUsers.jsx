@@ -10,6 +10,7 @@ import "../../css/ListUsers.css";
 import Navbar from "../../Navbar/Navbar";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import SidebarMenuAdmin from "../SidebarMenuAdmin";
 
 const ListUsers = () => {
   const [users, setUsers] = useState([]);
@@ -82,6 +83,7 @@ const handleDelete = (id) => {
   return (
     <>
    <Navbar/>
+    <SidebarMenuAdmin/>
     <div className="user-list-container">
       <ToastContainer />
       <h2 className="title">Liste des utilisateurs</h2>

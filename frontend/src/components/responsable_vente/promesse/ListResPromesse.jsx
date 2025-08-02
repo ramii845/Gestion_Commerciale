@@ -6,6 +6,7 @@ import '../../css/ListPromesses.css';
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
 import { FaEdit } from "react-icons/fa";
+import SidebarMenuResponsable from "../SidebarMenuResponsable";
 
 const decodeJWT = (token) => {
   try {
@@ -84,6 +85,7 @@ const ListResPromesse = () => {
   return (
     <>
       <Navbar />
+        <SidebarMenuResponsable/>
       <div className="list-promesse-container" >
         <div className="list-promesse-header" >
           <h2 className="list-promesse-title">Liste des promesses</h2>
