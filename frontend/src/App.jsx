@@ -44,6 +44,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import EditPromesse from './components/commerciales/commercicalePromesse/EditPromesse';
 import EditResPromesse from './components/responsable_vente/promesse/EditResPromesse';
 import EditManPromesse from './components/admin/promesse/EditManPromesse';
+import ListeArchiveVentes from './components/admin/ventes/ListArchiveVentes';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -112,6 +113,8 @@ function App() {
 
 <Route path="/manager/leads" element={<ManagerRoute element={<ListManLeads />} />} />
 <Route path="/add-lead-man" element={<ManagerRoute element={<AddManLead />} />} />
+<Route path="/manager/archives" element={<ManagerRoute element={<ListeArchiveVentes/>} />} />
+
 
 <Route path="/stat" element={<LeadsStats/>}  />
 

@@ -182,9 +182,15 @@ async def update_vente(vente_id: str, data: Vente):
 
 @vente_router.delete("/{vente_id}")
 async def delete_vente(vente_id: str):
-    result = await db.ventes.delete_one({"_id": ObjectId(vente_id)})
-    if result.deleted_count == 0:
+    vente = await db.ventes.find_one({"_id": ObjectId(vente_id)})
+    if not vente:
         raise HTTPException(status_code=404, detail="Vente non trouvée")
-    return {"message": "Vente supprimée avec succès"}
+
+    vente["date_archivage"] = datetime.utcnow()
+    await db.archive_ventes.insert_one(vente)
+    await db.ventes.delete_one({"_id": ObjectId(vente_id)})
+
+    return {"message": "Vente archivée et supprimée avec succès"}
+
 
 

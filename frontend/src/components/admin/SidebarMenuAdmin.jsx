@@ -10,6 +10,7 @@ const SidebarMenuAdmin = () => {
     { icon: "fas fa-user-plus",  path: "/manager/leads" },
     { icon: "fas fa-file-signature", path: "/manager/promesses" },
     { icon: "fas fa-users",  path: "/list" },
+    { icon: "fas fa-archive", path: "/manager/archives" },
   ];
 
   return (
