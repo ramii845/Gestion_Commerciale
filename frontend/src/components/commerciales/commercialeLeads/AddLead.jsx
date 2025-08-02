@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import '../../css/AddLead.css';
 import Navbar from "../../Navbar/Navbar";
+import SidebarMenuCommercial from "../SidebarMenuCommercial";
 
 const decodeJWT = (token) => {
   try {
@@ -106,6 +107,7 @@ const AddLead = () => {
   return (
     <>
       <Navbar />
+       <SidebarMenuCommercial/>
       <div className="add-lead-container">
         <h2>Ajouter un Lead</h2>
         <form onSubmit={handleSubmit}>

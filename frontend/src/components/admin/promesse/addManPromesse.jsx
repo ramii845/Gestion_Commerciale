@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { createPromesse } from "../../services/promesseService";
 import '../../css/AddPromesse.css';
 import Navbar from "../../Navbar/Navbar";
+import SidebarMenuAdmin from "../SidebarMenuAdmin";
 
 const 
 AddManPromesse = () => {
@@ -120,7 +121,8 @@ AddManPromesse = () => {
 
   return (
     <>
-    <Navbar/>
+      <Navbar />
+       <SidebarMenuAdmin/>
     <div className="add-promesse-container" >
       <h2>Ajouter une promesse</h2>
       <form onSubmit={handleSubmit}>

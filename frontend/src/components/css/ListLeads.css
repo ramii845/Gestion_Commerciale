@@ -1,370 +1,511 @@
-/* Basic reset for consistent box-sizing */
-*,
-*::before,
-*::after {
+/* src/css/ListLeads.css */
+
+/* Reset de base */
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol";
-  line-height: 1.6;
-  color: #4a5568; /* Softer dark gray for body text */
-  background-color: #f8fafc; /* Very light, clean background */
-}
-
+/* Container principal */
 .liste-leads-container {
-  padding: 40px; /* Reduced padding for a tighter, more contained look */
-  max-width: 1800px; /* Slightly wider container for more table space */
-  margin: 60px auto; /* Adjusted top margin to push content down, centered horizontally */
-  background: #ffffff;
-  border-radius: 16px; /* More rounded corners */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Softer, deeper shadow */
-  border: 1px solid #e2e8f0; /* Subtle border */
+  margin-left: 80px; /* Largeur de la sidebar */
+  margin-top: 70px; /* Hauteur de la navbar */
+  min-height: calc(100vh - 70px);
+  padding: 30px;
+  background-color: #f8fafc;
 }
 
+/* Header avec titre et bouton */
 .liste-leads-header {
   display: flex;
-  justify-content: space-between; /* Distribute items with space between */
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px; /* More space below header */
-  /* No flex-direction change needed, default row is fine for space-between */
+  margin-bottom: 30px;
+  padding: 0 10px;
 }
 
 .titleLeads {
-  font-size: 2.2rem; /* Larger, more prominent title */
-  font-weight: 700; /* Bold title */
-  color: #1a202c; /* Deep, professional dark color */
-  text-align: center; /* Center the title */
-  flex-grow: 1; /* Allow title to take available space */
-  order: 2; /* Place title in the middle */
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  flex-grow: 1;
+  text-align: center;
 }
 
+/* Bouton Ajouter */
 .btn-ajout-leads {
-  background-color: #2563eb; /* Vibrant blue for primary action */
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
   color: white;
-  padding: 12px 24px; /* More generous padding */
-  border-radius: 10px; /* More rounded button */
+  padding: 12px 24px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
-  font-size: 1rem; /* Standard font size */
-  font-weight: 600; /* Semi-bold text */
-  transition: background-color 0.3s ease, transform 0.1s ease;
-  display: flex; /* For icon and text alignment if icons were used */
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
   align-items: center;
-  gap: 8px; /* Space between icon and text */
-  order: 1; /* Place button on the left */
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .btn-ajout-leads:hover {
-  background-color: #1d4ed8; /* Slightly darker blue on hover */
-  transform: translateY(-1px); /* Subtle lift effect */
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
 }
 
 .btn-ajout-leads:active {
-  transform: translateY(0); /* Press effect */
+  transform: translateY(0);
 }
 
+/* Container de filtre */
 .filter-container-nom {
-  margin-bottom: 30px; /* More space below filter */
-  display: flex; /* Use flex for centering input */
-  justify-content: center; /* Center the input */
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
 }
 
 .filter-container-nom input {
   width: 100%;
-  max-width: 400px; /* Max width for the filter input */
-  padding: 10px 15px; /* More padding */
+  max-width: 400px;
+  padding: 12px 16px;
   font-size: 1rem;
-  border-radius: 8px; /* Rounded input field */
-  border: 1px solid #cbd5e1; /* Light grey border */
-  outline: none; /* Remove default outline */
-  color: #4a5568;
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #374151;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .filter-container-nom input::placeholder {
-  color: #a0aec0; /* Lighter placeholder text */
+  color: #9ca3af;
 }
 
 .filter-container-nom input:focus {
-  border-color: #2563eb; /* Blue border on focus */
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); /* Subtle blue glow on focus */
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+/* Tableau principal */
 .liste-leads-table {
   width: 100%;
-  border-collapse: collapse; /* Collapse borders for a cleaner look */
-  margin-bottom: 30px; /* Space below table */
+  border-collapse: separate;
+  border-spacing: 0;
   background-color: #ffffff;
-  border-radius: 12px; /* Rounded corners for the table container */
-  overflow: hidden; /* Ensures rounded corners apply to content */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Subtle shadow for the table */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
 }
 
+/* En-têtes du tableau */
 .liste-leads-table thead {
-  background-color: #f7fafc; /* Light header background */
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
 }
 
 .liste-leads-table th {
-  padding: 15px 20px; /* More padding for headers */
+  padding: 18px 16px;
   text-align: left;
-  font-size: 0.85rem; /* Slightly smaller font for headers */
-  font-weight: 600; /* Semi-bold headers */
-  color: #718096; /* Muted color for headers */
-  text-transform: uppercase; /* Uppercase for professionalism */
-  letter-spacing: 0.05em; /* Spaced out letters */
-  border-bottom: 1px solid #edf2f7; /* Light border below headers */
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: none;
+  position: relative;
 }
 
+.liste-leads-table th:first-child {
+  border-top-left-radius: 12px;
+}
+
+.liste-leads-table th:last-child {
+  border-top-right-radius: 12px;
+}
+
+/* Corps du tableau */
 .liste-leads-table tbody tr {
-  border-bottom: 1px solid #edf2f7; /* Light border between rows */
-  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #f1f5f9;
+  transition: all 0.2s ease;
 }
 
 .liste-leads-table tbody tr:last-child {
-  border-bottom: none; /* No border on the last row */
+  border-bottom: none;
 }
 
 .liste-leads-table tbody tr:hover {
-  background-color: #f0f4f8; /* Light hover effect for rows */
+  background-color: #f8fafc;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .liste-leads-table td {
-  padding: 12px 20px; /* Padding for table cells */
-  font-size: 0.95rem; /* Slightly larger font for cell content */
-  color: #4a5568; /* Darker text for cell content */
-  vertical-align: middle; /* Vertically align content */
-}
-
-.liste-leads-table td:last-child {
-  text-align: center; /* Center action button in the cell */
-}
-
-/* Modifier button design */
-.liste-leads-table td button[name="btn5"] {
-  background-color: #ffffff; /* White background */
-  color: #2563eb; /* Blue text */
-  padding: 8px 16px; /* Padding for button */
-  border: 1px solid #2563eb; /* Blue border */
-  border-radius: 8px; /* Rounded button */
-  cursor: pointer;
+  padding: 16px;
   font-size: 0.9rem;
-  font-weight: 600;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.1s ease;
+  color: #374151;
+  vertical-align: middle;
+  border-bottom: 1px solid #f1f5f9;
 }
 
-.liste-leads-table td button[name="btn5"]:hover {
-  background-color: #2563eb; /* Blue background on hover */
-  color: white; /* White text on hover */
-  transform: translateY(-1px); /* Subtle lift effect */
+/* Images utilisateur */
+.liste-leads-table td img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+  transition: all 0.2s ease;
 }
 
-.liste-leads-table td button[name="btn5"]:active {
-  transform: translateY(0); /* Press effect */
+.liste-leads-table td img:hover {
+  border-color: #3b82f6;
+  transform: scale(1.05);
 }
 
-.empty-row {
-  text-align: center;
-  padding: 40px 20px; /* More padding for empty state */
-  color: #718096;
-  font-style: italic;
-}
-/* Overlay fond sombre */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.4);
+/* Placeholder pour image manquante */
+.liste-leads-table td div[style*="border-radius: 50%"] {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 1000;
-}
-
-/* Contenu modale */
-.modal-confirm {
-  background: white;
-  padding: 25px 30px;
-  border-radius: 8px;
-  width: 320px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.25);
-  text-align: center;
-}
-
-/* Boutons modale */
-.modal-buttons {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-around;
-}
-
-.btnCancel, .btnConfirm {
-  padding: 8px 20px;
-  border: none;
-  border-radius: 5px;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: #6b7280;
   font-weight: 600;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
 }
 
-.btnCancel {
-  background-color: #bbb;
-  color: #333;
-}
-
-.btnCancel:hover {
-  background-color: #999;
-}
-
-.btnConfirm {
-  background-color: #d9534f;
-  color: white;
-}
-
-.btnConfirm:hover {
-  background-color: #c9302c;
-}
-
-/* Bouton Supprimer dans la table */
+/* Bouton de suppression */
 .btnDelete {
-  background-color: #d9534f;
-  border: none;
-  padding: 6px 12px;
+  background-color: #ef4444;
   color: white;
-  border-radius: 4px;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 12px;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 13px;
-  transition: background-color 0.3s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btnDelete:hover {
-  background-color: #c9302c;
+  background-color: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
+.btnDelete:active {
+  transform: translateY(0);
+}
 
+/* Ligne vide */
+.empty-row {
+  text-align: center;
+  padding: 40px 20px;
+  color: #9ca3af;
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+/* Pagination */
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px; /* Space between pagination elements */
-  margin-top: 30px; /* Space above pagination */
+  gap: 20px;
+  margin-top: 30px;
 }
 
 .pagination button {
-  background-color: #e2e8f0; /* Light background for pagination buttons */
-  color: #4a5568;
-  padding: 8px 15px;
-  border: none;
+  background-color: #ffffff;
+  color: #374151;
+  padding: 10px 16px;
+  border: 2px solid #e5e7eb;
   border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
-  transition: background-color 0.3s ease, transform 0.1s ease;
+  transition: all 0.2s ease;
 }
 
 .pagination button:hover:not(:disabled) {
-  background-color: #cbd5e1; /* Darker on hover */
+  background-color: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
   transform: translateY(-1px);
 }
 
 .pagination button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
 
 .pagination span {
   font-size: 1rem;
-  color: #4a5568;
-  font-weight: 500;
+  color: #374151;
+  font-weight: 600;
+  padding: 0 10px;
 }
 
-/* Responsive adjustments */
-@media (max-width: 1024px) {
+/* Modal de confirmation */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+.modal-confirm {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-confirm h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  color: #1f2937;
+  font-weight: 700;
+}
+
+.modal-confirm p {
+  margin-bottom: 25px;
+  color: #6b7280;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  gap: 15px;
+}
+
+.btnConfirm, .btnCancel {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.btnConfirm {
+  background-color: #ef4444;
+  color: white;
+}
+
+.btnConfirm:hover {
+  background-color: #dc2626;
+  transform: translateY(-1px);
+}
+
+.btnCancel {
+  background-color: #6b7280;
+  color: white;
+}
+
+.btnCancel:hover {
+  background-color: #4b5563;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
   .liste-leads-container {
-    padding: 30px;
-    margin: 40px auto;
+    margin-left: 70px;
+    padding: 25px;
   }
+  
   .liste-leads-table {
-    overflow-x: auto; /* Enable horizontal scroll for table on smaller screens */
-    display: block; /* Make table a block element for overflow */
-    white-space: nowrap; /* Prevent text wrapping in cells */
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
   }
+  
   .liste-leads-table thead,
   .liste-leads-table tbody,
   .liste-leads-table th,
   .liste-leads-table td,
   .liste-leads-table tr {
-    display: table-cell; /* Reset to table-cell for horizontal scroll */
+    display: table-cell;
   }
 }
 
 @media (max-width: 768px) {
   .liste-leads-container {
+    margin-left: 0;
+    margin-bottom: 70px; /* Espace pour la sidebar mobile */
     padding: 20px;
-    margin: 30px auto;
   }
+  
   .liste-leads-header {
-    flex-direction: column; /* Stack header elements */
-    align-items: center; /* Center items when stacked */
+    flex-direction: column;
     gap: 15px;
   }
+  
   .titleLeads {
-    font-size: 1.8rem;
-    text-align: center; /* Ensure title is centered */
-    width: 100%; /* Full width for title */
-    order: 1; /* Title first when stacked */
+    font-size: 1.5rem;
   }
+  
   .btn-ajout-leads {
-    width: 100%; /* Full width button */
+    width: 100%;
     justify-content: center;
-    order: 2; /* Button second when stacked */
   }
-  .filter-container-nom {
-    margin-bottom: 25px;
-  }
+  
   .filter-container-nom input {
-    max-width: 100%; /* Full width for filter input */
+    max-width: 100%;
   }
+  
   .liste-leads-table th,
   .liste-leads-table td {
-    padding: 10px 15px; /* Reduced padding for smaller screens */
+    padding: 12px 8px;
     font-size: 0.8rem;
   }
-  .liste-leads-table td:last-child {
-    text-align: center; /* Center action button on small screens */
+  
+  .liste-leads-table td img,
+  .liste-leads-table td div[style*="border-radius: 50%"] {
+    width: 32px;
+    height: 32px;
   }
-  .liste-leads-table td button[name="btn5"] {
-    padding: 6px 10px;
-    font-size: 0.8rem;
-  }
-  .pagination {
-    flex-direction: column; /* Stack pagination elements */
-    gap: 10px;
+  
+  .btnDelete {
+    padding: 8px 10px;
+    font-size: 0.75rem;
   }
 }
 
 @media (max-width: 480px) {
   .liste-leads-container {
     padding: 15px;
-    margin: 20px auto;
   }
+  
   .titleLeads {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
   }
+  
   .liste-leads-table th,
   .liste-leads-table td {
-    padding: 8px 10px;
+    padding: 10px 6px;
     font-size: 0.75rem;
   }
-  .liste-leads-table td button[name="btn5"] {
-    padding: 5px 8px;
-    font-size: 0.7rem;
+  
+  .liste-leads-table td img,
+  .liste-leads-table td div[style*="border-radius: 50%"] {
+    width: 28px;
+    height: 28px;
   }
+  
+  .modal-confirm {
+    padding: 20px;
+    margin: 20px;
+  }
+  
+  .modal-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* Animations d'entrée */
+.liste-leads-container {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Amélioration de l'accessibilité */
+.btnDelete:focus,
+.btn-ajout-leads:focus,
+.btnConfirm:focus,
+.btnCancel:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Scrollbar personnalisée */
+.liste-leads-table::-webkit-scrollbar {
+  height: 8px;
+}
+
+.liste-leads-table::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.liste-leads-table::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.liste-leads-table::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Styles spécifiques pour les colonnes */
+.liste-leads-table th:nth-child(1),
+.liste-leads-table td:nth-child(1) {
+  width: 60px;
+  text-align: center;
+}
+
+.liste-leads-table th:nth-child(11),
+.liste-leads-table td:nth-child(11) {
+  width: 80px;
+  text-align: center;
+}
+
+/* Amélioration des dates */
+.liste-leads-table td {
+  white-space: nowrap;
+}
+
+/* Effet de focus sur les lignes */
+.liste-leads-table tbody tr:focus-within {
+  background-color: #f0f9ff;
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
 }

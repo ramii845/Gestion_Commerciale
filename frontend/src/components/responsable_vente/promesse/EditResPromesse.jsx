@@ -4,6 +4,7 @@ import { getPromesseById, updatePromesse } from "../../services/promesseService"
 import { toast } from "react-toastify";
 import Navbar from "../../Navbar/Navbar";
 import "../../css/AddLead.css"; // tu peux réutiliser le même style
+import SidebarMenuResponsable from "../SidebarMenuResponsable";
 
 const EditResPromesse = () => {
   const { id } = useParams();
@@ -51,6 +52,7 @@ const EditResPromesse = () => {
   return (
     <>
       <Navbar />
+        <SidebarMenuResponsable/>
       <div className="add-lead-container">
         <h2>Modifier la Promesse</h2>
         <form onSubmit={handleSubmit}>

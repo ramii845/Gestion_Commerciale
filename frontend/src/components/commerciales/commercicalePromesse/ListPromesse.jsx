@@ -90,20 +90,23 @@ const ListPromesse = () => {
     <>
       <Navbar />
       <SidebarMenuCommercial/>
-      <div className="list-promesse-container" >
-        <div className="list-promesse-header" >
+  <div className="list-promesse-container">
+        <div className="list-promesse-header">
           <h2 className="list-promesse-title">Liste des promesses</h2>
-             <button className="ajouter" onClick={() => navigate('/add-promesse')}>Ajouter</button>
+          <button className="ajouter" onClick={() => navigate("/add-promesse")}>
+            Ajouter
+          </button>
         </div>
 
         <div style={{ marginBottom: 15 }}>
-          <label htmlFor="filterMatricule" style={{ marginRight: 10, fontWeight: "600" }}></label>
           <input
             type="text"
-            id="filterMatricule"
             value={filterMatricule}
-            onChange={e => { setPage(1); setFilterMatricule(e.target.value); }}
-            placeholder="Matricule"
+            onChange={(e) => {
+              setPage(1);
+              setFilterMatricule(e.target.value);
+            }}
+            placeholder="matricule"
             style={{ padding: 6, width: 200 }}
           />
         </div>

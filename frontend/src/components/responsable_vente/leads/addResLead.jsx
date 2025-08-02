@@ -81,6 +81,9 @@ const AddResLead = () => {
   };
 
   return (
+      <>
+      <Navbar />
+        <SidebarMenuResponsable/>
     <div className="add-lead-container">
       <h2>Ajouter un Lead</h2>
       <form onSubmit={handleSubmit}>
@@ -173,6 +176,7 @@ const AddResLead = () => {
   </button>
       </form>
     </div>
+    </>
   );
 };
 

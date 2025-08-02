@@ -4,6 +4,7 @@ import { getPromesseById, updatePromesse } from "../../services/promesseService"
 import { toast } from "react-toastify";
 import Navbar from "../../Navbar/Navbar";
 import "../../css/AddPromesse.css"; // même style que l'ajout
+import SidebarMenuAdmin from "../SidebarMenuAdmin";
 
 const modelesParMarque = {
   Peugeot: ['LANDTREK', 'EXPERT', 'Boxer', 'Traveller', '208', '301', '2008', '308', '3008', '508', '5008', 'Rifter', 'Partner'],
@@ -94,6 +95,7 @@ const EditManPromesse = () => {
   return (
     <>
       <Navbar />
+       <SidebarMenuAdmin/>
       <div className="add-promesse-container">
         <h2>Modifier la Promesse</h2>
         <form onSubmit={handleSubmit}>

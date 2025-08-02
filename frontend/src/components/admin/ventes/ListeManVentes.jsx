@@ -250,7 +250,30 @@ const handleDelete = async () => {
          <tbody>
   {newVente && (
     <tr>
-      <td>{usersMap[newVente.user_id]}</td>
+       <td>
+  {usersMap[newVente.user_id]?.photo ? (
+    <img
+      src={usersMap[newVente.user_id].photo}
+      alt="photo utilisateur"
+      style={{
+        width: 32,
+        height: 32,
+        borderRadius: "50%",
+        objectFit: "cover"
+      }}
+    />
+  ) : (
+    <div
+      style={{
+        width: 32,
+        height: 32,
+        borderRadius: "50%",
+        backgroundColor: "#ccc"
+      }}
+    />
+  )}
+</td>
+      <td>{usersMap[newVente.user_id]?.nom || "Inconnu"}</td>
       <td>
         <input name="nom_client" value={newVente.nom_client} onChange={(e) => handleChange(e, "new")} />
       </td>

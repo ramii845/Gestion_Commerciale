@@ -1,101 +1,346 @@
-/* EditUser.css */
+/* src/css/EditUser.css */
 
-.edit-container {
-  max-width: 450px;
-  margin: 80px auto 40px; /* augmente la marge en haut (80px au lieu de 40px) */
- padding:7rem;
+/* Import Google Font - Poppins for a modern look */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* Basic reset for consistent box-sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+  color: #4a5568;
+  background-color: #f8fafc;
+}
 
+/* Container principal */
+.edit-container {
+  margin-left: 80px; /* Largeur de la sidebar */
+  margin-top: 70px; /* Hauteur de la navbar */
+  min-height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  background-color: #f8fafc;
+}
+
+/* Réinitialisation du container */
+.edit-container {
+  max-width: 500px;
+  width: 100%;
+  margin: 80px auto 30px auto;
+  padding: 40px;
+  background-color: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+/* Titre */
 .edit-title {
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
   font-size: 1.8rem;
-  color: #007bff;
+  font-weight: 700;
+  color: #3b82f6;
+  letter-spacing: -0.02em;
 }
 
+/* Formulaire */
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Inputs et selects */
 .edit-form input[type="text"],
-.edit-form select,
-.edit-form input[type="file"] {
+.edit-form select {
   width: 100%;
-  padding: 10px 12px;
-  margin-bottom: 18px;
-  border: 1.8px solid #ccc;
-  border-radius: 5px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 2px solid #e5e7eb;
   font-size: 1rem;
-  transition: border-color 0.3s ease;
+  color: #374151;
+  background-color: #ffffff;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+  margin-bottom: 0;
 }
 
 .edit-form input[type="text"]:focus,
-.edit-form select:focus,
-.edit-form input[type="file"]:focus {
-  border-color: #3f51b5;
-  outline: none;
+.edit-form select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.edit-form input[type="text"]:hover,
+.edit-form select:hover {
+  border-color: #9ca3af;
+}
+
+/* Style spécifique pour les selects */
+.edit-form select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+/* Section photo */
+.edit-form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .edit-form label {
   font-weight: 600;
-  margin-bottom: 6px;
-  display: block;
-  color: #555;
+  color: #374151;
+  font-size: 0.95rem;
+  margin-bottom: 0;
 }
 
+/* Bouton personnalisé pour le fichier */
+.custom-file-button {
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 2px solid #e5e7eb;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-align: center;
+  width: fit-content;
+  align-self: flex-start;
+}
+
+.custom-file-button:hover {
+  background-color: #e5e7eb;
+  border-color: #9ca3af;
+}
+
+/* Texte de chargement */
+.uploading-text {
+  color: #3b82f6;
+  font-style: italic;
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0;
+}
+
+/* Aperçu de l'image */
 .edit-preview {
-  display: block;
-  margin: 10px auto 20px;
-  max-width: 150px;
-  max-height: 150px;
+  width: 120px;
+  height: 120px;
   border-radius: 8px;
   object-fit: cover;
-  border: 1px solid #ddd;
+  border: 2px solid #e5e7eb;
+  align-self: center;
+  margin: 10px 0;
+  transition: all 0.3s ease;
 }
 
-.uploading-text {
-  text-align: center;
-  color: #666;
-  font-style: italic;
-  margin-bottom: 12px;
+.edit-preview:hover {
+  border-color: #3b82f6;
+  transform: scale(1.02);
 }
 
+/* Bouton principal */
 .edit-button {
-  width: 100%;
-  padding: 12px 0;
- background-color: #007bff;
-  border: none;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
   color: white;
+  border: none;
+  padding: 14px 20px;
   font-size: 1.1rem;
-  border-radius: 6px;
+  font-weight: 600;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.edit-button:disabled {
-  background-color: #8c8cbe;
-  cursor: not-allowed;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .edit-button:hover:not(:disabled) {
-  background-color: #303f9f;
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
 }
 
-.btn-password {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #3f51b5;
-  color: white;
-  padding: 10px 16px;
+.edit-button:disabled {
+  background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Bouton Retour */
+.submit-retourr {
+  background: none;
+  color: #3b82f6;
   border: none;
-  border-radius: 6px;
-  font-size: 0.95rem;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  text-align: center;
+  margin-top: 10px;
 }
 
-.btn-password:hover {
-  background-color: #2c3e91;
+.submit-retourr:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .edit-container {
+    margin-left: 70px;
+  }
+}
+
+@media (max-width: 768px) {
+  .edit-container {
+    margin-left: 0;
+    margin-bottom: 70px; /* Espace pour la sidebar mobile */
+    padding: 30px 20px;
+    margin-top: 90px;
+    max-width: 100%;
+  }
+  
+  .edit-title {
+    font-size: 1.6rem;
+  }
+  
+  .edit-preview {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .custom-file-button {
+    width: 100%;
+    align-self: stretch;
+  }
+}
+
+@media (max-width: 480px) {
+  .edit-container {
+    padding: 25px 15px;
+    margin-top: 80px;
+  }
+  
+  .edit-title {
+    font-size: 1.4rem;
+  }
+  
+  .edit-form input[type="text"],
+  .edit-form select {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+  
+  .edit-button {
+    font-size: 1rem;
+    padding: 12px 18px;
+  }
+  
+  .edit-preview {
+    width: 90px;
+    height: 90px;
+  }
+}
+
+/* Animation d'entrée */
+.edit-container {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Amélioration de l'accessibilité */
+.edit-button:focus,
+.edit-form input:focus,
+.edit-form select:focus,
+.custom-file-button:focus,
+.submit-retourr:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* États de validation */
+.edit-form input[type="text"]:invalid {
+  border-color: #ef4444;
+}
+
+.edit-form input[type="text"]:valid {
+  border-color: #10b981;
+}
+
+/* Style pour les options des selects */
+.edit-form select option {
+  padding: 10px;
+  background-color: #ffffff;
+  color: #374151;
+}
+
+/* Amélioration du contraste */
+.edit-form input[type="text"]:focus,
+.edit-form select:focus {
+  background-color: #fefefe;
+}
+
+/* Animation pour le bouton de fichier */
+.custom-file-button:active {
+  transform: scale(0.98);
+}
+
+/* Style pour le loading state du bouton principal */
+.edit-button:disabled {
+  position: relative;
+}
+
+.edit-button:disabled::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  border: 2px solid transparent;
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Suppression des styles inutilisés */
+.btn-password {
+  display: none;
 }

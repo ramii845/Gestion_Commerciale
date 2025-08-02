@@ -4,6 +4,7 @@ import { getUserbyId, updateUser } from "../../services/authService";
 import { toast } from "react-toastify";
 import Navbar from "../../Navbar/Navbar";
 import'../../css/EditUser.css'
+import SidebarMenuAdmin from "../SidebarMenuAdmin";
 
 const uploadToCloudinary = async (file, setUploading) => {
   const data = new FormData();
@@ -107,8 +108,10 @@ const EditUser = () => {
   };
 
   return (
-    <>
-    <Navbar/>
+ <>
+
+      <Navbar />
+       <SidebarMenuAdmin/>
     <div className="edit-container">
       <h2 className="edit-title">Modifier un utilisateur</h2>
       <form className="edit-form" onSubmit={handleSubmit}>

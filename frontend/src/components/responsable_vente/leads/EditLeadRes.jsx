@@ -4,6 +4,7 @@ import { getLeadById, updateLead } from "../../services/leadsService";
 import { toast } from "react-toastify";
 import Navbar from "../../Navbar/Navbar";
 import "../../css/EditLead.css";
+import SidebarMenuResponsable from "../SidebarMenuResponsable";
 
 const EditLeadRes = () => {
   const { id } = useParams();
@@ -55,6 +56,7 @@ const EditLeadRes = () => {
   return (
     <>
       <Navbar />
+        <SidebarMenuResponsable/>
       <div className="edit-lead-container">
         <h2 className="edit-lead-title">Modifier le Lead</h2>
         <form onSubmit={handleSubmit} className="edit-lead-form">

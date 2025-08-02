@@ -1,10 +1,10 @@
+/* src/css/AddPromesse.css */
+
 /* Import Google Font - Poppins for a modern look */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 /* Basic reset for consistent box-sizing */
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
@@ -12,187 +12,295 @@ body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   line-height: 1.6;
-  color: #4a5568; /* Softer dark gray for body text */
-  background-color: #f8fafc; /* Very light, clean background */
-  display: flex; /* Ensure body takes full height for centering */
+  color: #4a5568;
+  background-color: #f8fafc;
+}
+
+/* Container principal */
+.add-promesse-container {
+  margin-left: 80px; /* Largeur de la sidebar */
+  margin-top: 70px; /* Hauteur de la navbar */
+  min-height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Full viewport height */
-  padding: 20px; /* Add some padding around the form */
+  padding: 30px;
+  background-color: #f8fafc;
 }
 
+/* Carte du formulaire */
 .add-promesse-container {
-  max-width: 700px; /* Adjusted max-width to match screenshot's proportions */
-  width: 100%; /* Ensure it takes full width up to max-width */
-  margin: auto; /* Center horizontally */
-  padding: 2.5rem 3.5rem; /* More generous horizontal padding */
+  max-width: 800px; /* Plus large pour accommoder 2 colonnes */
+  width: 100%;
+  margin: 80px auto 30px auto;
+  padding: 40px;
   background-color: #ffffff;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Softer, deeper shadow */
-  border-radius: 16px; /* More rounded corners */
-  border: 1px solid #e2e8f0; /* Subtle border */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
 }
 
+/* Titre principal */
 .add-promesse-container h2 {
   text-align: center;
-  margin-bottom: 2.5rem; /* More space below title */
-  font-size: 2.2rem; /* Larger, more prominent title */
-  font-weight: 700; /* Bold title */
-  color: #1a202c; /* Deep, professional dark color */
-  letter-spacing: -0.02em; /* Tighter letter spacing */
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: -0.02em;
 }
 
+/* Formulaire en grille 2x3 */
 .add-promesse-container form {
-  display: grid; /* Use CSS Grid for a more organized layout */
-  grid-template-columns: max-content 1fr; /* Labels take content width, inputs take remaining */
-  gap: 1.5rem 2rem; /* Vertical and horizontal gap between grid items */
-  align-items: center; /* Vertically align items in the grid */
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 colonnes égales */
+  gap: 25px 30px; /* Espacement vertical et horizontal */
+  align-items: start;
 }
 
+/* Groupes de champs (label + input) */
 .form-group {
-  /* This class wraps label and input/select */
-  display: contents; /* Makes children participate directly in the grid */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
+/* Labels */
 .form-group label {
-  font-weight: 600; /* Semi-bold labels */
-  color: #2d3748; /* Darker label color */
-  font-size: 0.95rem; /* Slightly smaller label font */
-  text-align: left; /* Ensure labels are left-aligned */
-  padding-right: 10px; /* Small gap between label and input */
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.95rem;
+  text-align: left;
 }
 
+/* Inputs et selects */
 .form-group input[type="text"],
 .form-group input[type="number"],
 .form-group select {
-  padding: 12px 15px; /* More padding */
-  font-size: 1rem; /* Standard font size */
-  border-radius: 8px; /* Rounded input fields */
-  border: 1px solid #cbd5e1; /* Light grey border */
-  outline: none; /* Remove default outline */
-  color: #4a5568;
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  width: 100%; /* Ensure inputs take full width of their grid column */
-  background-color: #ffffff; /* Explicit white background */
+  padding: 12px 16px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 2px solid #e5e7eb;
+  outline: none;
+  color: #374151;
+  background-color: #ffffff;
+  transition: all 0.2s ease-in-out;
+  width: 100%;
 }
 
 .form-group input::placeholder {
-  color: #a0aec0; /* Lighter placeholder text */
+  color: #9ca3af;
 }
 
 .form-group input:focus,
 .form-group select:focus {
-  border-color: #2563eb; /* Blue border on focus */
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); /* Subtle blue glow on focus */
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-/* Specific styling for number input to remove arrows */
+/* Style spécifique pour les selects */
+.form-group select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+/* Suppression des flèches sur les inputs number */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 input[type="number"] {
-  -moz-appearance: textfield; /* Firefox */
+  -moz-appearance: textfield;
 }
 
-/* Button Wrapper for "Ajouter la promesse" and "Retour" */
+/* Container pour les boutons */
 .button-wrapper {
-  grid-column: 1 / span 2; /* Span both columns in the grid */
+  grid-column: 1 / -1; /* Prend toute la largeur */
   display: flex;
-  flex-direction: column; /* Stack buttons vertically */
-  justify-content: center; /* Center buttons horizontally */
-  align-items: center; /* Center items within the column */
-  gap: 1rem; /* Space between stacked buttons */
-  margin-top: 2rem; /* Space above the button group */
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 30px;
 }
 
+/* Bouton principal */
 button.submit-btn {
-  background-color: #2563eb; /* Vibrant blue for primary action */
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
   color: white;
-  padding: 14px 28px; /* More generous padding for a prominent button */
-  font-size: 1.1rem; /* Larger font size */
-  font-weight: 600; /* Semi-bold text */
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  font-weight: 600;
   border: none;
-  border-radius: 10px; /* More rounded button */
+  border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.1s ease;
-  width: 100%; /* Make button take full width of its container */
-  max-width: 300px; /* Limit max width for a cleaner look */
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 250px;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 button.submit-btn:hover:not(:disabled) {
-  background-color: #1d4ed8; /* Slightly darker blue on hover */
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
 }
 
 button.submit-btn:disabled {
   background-color: #a0c5ff;
   cursor: not-allowed;
+  transform: none;
 }
 
+/* Bouton Retour */
 button.submit-retourr {
-  /* Updated class name */
-  background: none; /* No background */
-  color: #2563eb; /* Blue text color */
-  border: none; /* No border */
-  padding: 0; /* No padding */
-  font-size: 1rem; /* Standard font size */
-  font-weight: 500; /* Medium font weight */
+  background: none;
+  color: #3b82f6;
+  border: none;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  text-decoration: none; /* Remove underline */
-  transition: color 0.2s ease, text-decoration 0.2s ease; /* Add transition for underline */
-  /* No need for align-self here as parent is column and items are centered */
+  text-decoration: none;
+  transition: color 0.2s ease;
+  width: auto;
 }
 
 button.submit-retourr:hover {
-  color: #1d4ed8; /* Darker blue on hover */
-  text-decoration: underline; /* Underline on hover */
+  color: #1d4ed8;
+  text-decoration: underline;
 }
 
-/* Responsive adjustments */
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .add-promesse-container {
+    margin-left: 70px;
+    max-width: 700px;
+  }
+}
+
 @media (max-width: 768px) {
   .add-promesse-container {
-    padding: 1.5rem;
-    margin: 20px; /* Adjust margin for smaller screens */
+    margin-left: 0;
+    margin-bottom: 70px;
+    padding: 30px 20px;
+    margin-top: 90px;
+    max-width: 600px;
   }
-
-  .add-promesse-container h2 {
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-  }
-
+  
+  /* Passer à une seule colonne sur mobile */
   .add-promesse-container form {
-    grid-template-columns: 1fr; /* Single column layout on small screens */
-    gap: 1rem; /* Reduced gap */
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
-
-  .button-wrapper {
-    /* Already column, but ensure full width */
-    gap: 1rem;
+  
+  .add-promesse-container h2 {
+    font-size: 1.7rem;
+    margin-bottom: 25px;
   }
-
-  button.submit-btn,
-  button.submit-retourr {
-    width: 100%; /* Full width buttons on small screens */
-    max-width: 300px; /* Limit max width even when full width */
-    margin: 0 auto; /* Center buttons when stacked */
+  
+  button.submit-btn {
+    max-width: 100%;
   }
 }
 
 @media (max-width: 480px) {
   .add-promesse-container {
-    padding: 1rem;
+    padding: 25px 15px;
+    margin-top: 80px;
   }
-
+  
   .add-promesse-container h2 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
-
+  
   .form-group input,
-  .form-group select,
-  button.submit-btn,
-  button.submit-retourr {
+  .form-group select {
     font-size: 0.9rem;
     padding: 10px 12px;
+  }
+  
+  button.submit-btn {
+    font-size: 1rem;
+    padding: 12px 24px;
+  }
+}
+
+/* Animation d'entrée */
+.add-promesse-container {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Amélioration de l'accessibilité */
+button:focus,
+.form-group input:focus,
+.form-group select:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* États de validation */
+.form-group input:invalid {
+  border-color: #ef4444;
+}
+
+.form-group input:valid {
+  border-color: #10b981;
+}
+
+/* Hover effects pour les inputs */
+.form-group input:hover,
+.form-group select:hover {
+  border-color: #9ca3af;
+}
+
+/* Style pour les options des selects */
+.form-group select option {
+  padding: 10px;
+  background-color: #ffffff;
+  color: #374151;
+}
+
+.form-group select option:hover {
+  background-color: #f3f4f6;
+}
+
+/* Amélioration du contraste */
+.form-group input:focus,
+.form-group select:focus {
+  background-color: #fefefe;
+}
+
+/* Style pour le champ modèle qui apparaît conditionnellement */
+.form-group:has(select[name="modele"]) {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

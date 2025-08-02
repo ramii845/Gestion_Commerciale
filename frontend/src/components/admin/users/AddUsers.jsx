@@ -4,6 +4,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { signup } from '../../services/authService';
 import Navbar from '../../Navbar/Navbar';
 import '../../css/addUser.css';
+import SidebarMenuAdmin from '../SidebarMenuAdmin';
 
 const AddUser = () => {
   const navigate = useNavigate();
@@ -89,8 +90,10 @@ const AddUser = () => {
   };
 
   return (
-    <>
+ <>
+ 
       <Navbar />
+       <SidebarMenuAdmin/>
       <div className="adduser-container">
         <div className="adduser-form-wrapper">
           <form onSubmit={handleSubmit} className="adduser-form" encType="multipart/form-data">

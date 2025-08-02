@@ -128,7 +128,7 @@ const ListeManLeads = () => {
       <div className="liste-leads-container">
         <div className="liste-leads-header">
           <h2 className="titleLeads">Mes Leads</h2>
-          <button className="btn-ajout-leads" onClick={() => navigate("/add-lead-res")}>
+          <button className="btn-ajout-leads" onClick={() => navigate("/add-lead-man")}>
             Ajouter
           </button>
         </div>
