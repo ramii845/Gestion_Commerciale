@@ -6,6 +6,7 @@ import { getHistogrammeLeads } from "../services/leadsService";
 import"../css/Dashboard.css";
 import Navbar from "../Navbar/Navbar";
 import SidebarMenuCommercial from "../commerciales/SidebarMenuCommercial";
+import SidebarMenuAdmin from "../admin/SidebarMenuAdmin";
 
 const Dashboard = () => {
   const [leads, setLeads] = useState([]);
@@ -29,7 +30,7 @@ const Dashboard = () => {
   return (
     <>
       <Navbar/>
-      <SidebarMenuCommercial/>
+        <SidebarMenuAdmin/>
     <div className="dashboard-container">
       <h2 className="dashboard-title">📊 Tableau de bord</h2>
 
