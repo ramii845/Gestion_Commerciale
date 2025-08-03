@@ -54,9 +54,9 @@ export const deleteLead = async (leadId) => {
 export const getHistogrammeLeads = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/getHistogrammeLeads`);
-    return response.data; // on retourne directement les données
+    return response.data; // Retourne directement les données récupérées
   } catch (error) {
-    console.error("Erreur lors de la récupération de l'histogramme des leads :", error);
-    throw error;
+    console.error("Erreur lors de la récupération de l'histogramme des leads :", error.message);
+    throw new Error("Échec de récupération des données d'histogramme des leads.");
   }
 };

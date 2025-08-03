@@ -122,21 +122,20 @@ async def get_leads_paginated(
         "leads": leads,
     }
 
-
-
 @leads_router.get("/getHistogrammeLeads")
-async def getHistogrammeLeads():
+async def get_histogramme_leads():
     pipeline = [
         {
             "$match": {
-                "affectation": "Affecté",
-                "user_id": { "$type": "string", "$regex": "^[a-fA-F0-9]{24}$" },
-                "date_creation": { "$ne": None }
+                "user_id": {"$type": "string", "$regex": "^[a-fA-F0-9]{24}$"},
+                "date_creation": {"$ne": None}
             }
         },
         {
             "$addFields": {
-                "user_id_object": { "$toObjectId": "$user_id" }
+                "user_id_object": {"$toObjectId": "$user_id"},
+                "year": {"$year": "$date_creation"},
+                "month": {"$month": "$date_creation"}
             }
         },
         {
@@ -147,21 +146,31 @@ async def getHistogrammeLeads():
                 "as": "user"
             }
         },
-        { "$unwind": "$user" },
+        {"$unwind": "$user"},
         {
-            "$project": {
-                "date_creation": 1,
-                "user.nom": 1  # Utilise "nom" au lieu de "username"
+            "$group": {
+                "_id": {
+                    "nom": "$user.nom",
+                    "month": "$month",
+                    "year": "$year",
+                    "affectation": "$affectation"
+                },
+                "total": {"$sum": 1}
             }
         },
         {
             "$group": {
                 "_id": {
-                    "nom": "$user.nom",
-                    "month": { "$month": "$date_creation" },
-                    "year": { "$year": "$date_creation" }
+                    "nom": "$_id.nom",
+                    "month": "$_id.month",
+                    "year": "$_id.year"
                 },
-                "total": { "$sum": 1 }
+                "affectations": {
+                    "$push": {
+                        "type": "$_id.affectation",
+                        "total": "$total"
+                    }
+                }
             }
         },
         {
@@ -171,7 +180,7 @@ async def getHistogrammeLeads():
                     "$push": {
                         "month": "$_id.month",
                         "year": "$_id.year",
-                        "total": "$total"
+                        "affectations": "$affectations"
                     }
                 }
             }
@@ -187,9 +196,17 @@ async def getHistogrammeLeads():
 
     try:
         results = await db.leads.aggregate(pipeline).to_list(length=None)
+
+        # Trie les mois dans l’ordre croissant dans chaque "data"
+        for result in results:
+            result["data"].sort(key=lambda x: (x["year"], x["month"]))
+
         return results
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erreur serveur : {str(e)}")
+
+
+
 
 
 @leads_router.get("/{lead_id}", response_model=Leads)
