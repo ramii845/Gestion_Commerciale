@@ -114,11 +114,11 @@ function App() {
 <Route path="/manager/leads" element={<ManagerRoute element={<ListManLeads />} />} />
 <Route path="/add-lead-man" element={<ManagerRoute element={<AddManLead />} />} />
 <Route path="/manager/archives" element={<ManagerRoute element={<ListeArchiveVentes/>} />} />
-
+<Route path="/manager/dashboard"      element={<ManagerRoute        element={<Dashboard/>} />} />
 
 <Route path="/stat" element={<LeadsStats/>}  />
 
-<Route path="/dash" element={<Dashboard/>}  />
+
 
 
 

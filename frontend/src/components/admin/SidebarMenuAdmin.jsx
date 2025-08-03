@@ -10,6 +10,7 @@ const SidebarMenuAdmin = () => {
     { icon: "fas fa-file-signature", path: "/manager/promesses", tooltip: "Promesses" },
     { icon: "fas fa-users", path: "/list", tooltip: "Utilisateurs" },
     { icon: "fas fa-archive", path: "/manager/archives", tooltip: "Archives" },
+    { icon: "fas fa-tachometer-alt", path: "/manager/dashboard", tooltip: "Tableau de bord" },
   ];
 
   return (
