@@ -63,7 +63,19 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-left">
         <img
-          src="https://res.cloudinary.com/ditzf19gl/image/upload/v1752510721/ggijjta8xizgcx8lbgvu.png"
+          src="https://res.cloudinary.com/ditzf19gl/image/upload/v1754306720/asrrlqzfkckrmy8r4ac9.png"
+          alt="Logo"
+          className="navbar-logo"
+
+        />
+            <img
+          src="https://res.cloudinary.com/ditzf19gl/image/upload/v1754308759/x712m2cp2jgzd40oaa1f.png"
+          alt="Logo"
+          className="navbar-logo"
+
+        />
+            <img
+          src="https://res.cloudinary.com/ditzf19gl/image/upload/v1754306849/tgwx6ryvbwel9xuxwuvh.png"
           alt="Logo"
           className="navbar-logo"
 
