@@ -410,7 +410,6 @@ const handleDelete = async () => {
             </td>
             <td className={getStatutClass(v.statut)}>
               <select name="statut" value={v.statut} onChange={(e) => handleChange(e, v.id)}>
-                <option value="">--</option>
                 <option>Prospection</option>
                 <option>Devis</option>
                 <option>Commande</option>

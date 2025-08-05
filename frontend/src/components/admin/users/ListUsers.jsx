@@ -107,6 +107,7 @@ const handleDelete = (id) => {
       <table className="user-table">
         <thead>
           <tr>
+             <th>Image</th>
             <th>Nom</th>
             <th>CIN</th>
             <th>Rôle</th>
@@ -121,6 +122,19 @@ const handleDelete = (id) => {
           ) : (
             users.map((user) => (
               <tr key={user.id}>
+                 <img
+  src={user.photo}
+  alt="user"
+  style={{
+    width: "45px",
+    height: "45px",
+    borderRadius: "50%",
+    objectFit: "cover",
+    marginTop: "15px",
+    marginLeft: "35px"
+  }}
+/>
+
                 <td>{user.nom}</td>
                 <td>{user.cin}</td>
                 <td>{user.role}</td>

@@ -293,7 +293,6 @@ useEffect(() => {
       
       <td >
         <select name="statut" value={newVente.statut} onChange={(e) => handleChange(e, "new")}>
-          <option value="">--</option>
           <option>Prospection</option>
           <option>Devis</option>
           <option>Commande</option>
