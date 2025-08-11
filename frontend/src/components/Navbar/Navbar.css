@@ -2,12 +2,12 @@
 .navbar {
   width: 100%;
   height: 70px;
-  background: blue; /* Dégradé de vert */
+  background: rgba(16, 16, 17, 0.829); /* Dégradé de vert */
   display: flex;
   justify-content: space-between; /* Espacer les sections gauche, centre et droite */
   align-items: center;
   padding: 0 30px;
-  box-shadow: 0 2px 8px blue; /* Ombre plus prononcée */
+  box-shadow: 0 2px 8px rgba(1, 1, 19, 0.91); /* Ombre plus prononcée */
   position: fixed;
   top: 0;
   left: 0;
