@@ -69,13 +69,13 @@ const Navbar = () => {
 
         />
             <img
-          src="https://res.cloudinary.com/ditzf19gl/image/upload/v1754308759/x712m2cp2jgzd40oaa1f.png"
+          src="https://res.cloudinary.com/ditzf19gl/image/upload/v1754993142/m5jq4nccmrqmgasnbuoh.png"
           alt="Logo"
           className="navbar-logo"
 
         />
             <img
-          src="https://res.cloudinary.com/ditzf19gl/image/upload/v1754306849/tgwx6ryvbwel9xuxwuvh.png"
+          src="https://res.cloudinary.com/ditzf19gl/image/upload/v1754993029/elzbsuzlaz6gsqzokv0o.png"
           alt="Logo"
           className="navbar-logo"
 
