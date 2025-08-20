@@ -14,4 +14,5 @@ class Vente(BaseModel):
     date_creation: Optional[datetime] = None
     date_modification: Optional[datetime] = None
     commentaire:str=""
+    accesoire:str=""
     statut:str=""
