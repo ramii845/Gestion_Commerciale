@@ -42,6 +42,8 @@ const ListeVentes = () => {
   const [editingId, setEditingId] = useState(null);
   const [newVente, setNewVente] = useState(null);
   const [modelesDisponibles, setModelesDisponibles] = useState([]);
+  const [uploading, setUploading] = useState(false);
+
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -158,6 +160,28 @@ const ListeVentes = () => {
       toast.error("Erreur lors de l'ajout");
     }
   };
+  const uploadToCloudinary = async (file) => {
+  const data = new FormData();
+  data.append("file", file);
+  data.append("upload_preset", "iit2024G4");
+  data.append("cloud_name", "ditzf19gl");
+  setUploading(true);
+  try {
+    const res = await fetch("https://api.cloudinary.com/v1_1/ditzf19gl/image/upload", {
+      method: "POST",
+      body: data,
+    });
+    const json = await res.json();
+    setUploading(false);
+    if (json.secure_url) return json.secure_url;
+    else throw new Error("Échec de l’upload");
+  } catch (error) {
+    setUploading(false);
+    toast.error("Erreur lors de l’upload de la photo");
+    throw error;
+  }
+};
+
 
   const onPrev = () => setPage((p) => Math.max(p - 1, 1));
   const onNext = () => setPage((p) => Math.min(p + 1, totalPages));
@@ -277,8 +301,21 @@ const ListeVentes = () => {
                   />
                 </td>
                 <td>
-                  <input name="commentaire" value={newVente.commentaire} onChange={(e) => handleChange(e, "new")} />
-                </td>
+  <input 
+    type="file" 
+    accept="image/*"
+    onChange={async (e) => {
+      if (e.target.files && e.target.files[0]) {
+        const url = await uploadToCloudinary(e.target.files[0]);
+        handleChange({ target: { name: "commentaire", value: url } }, "new");
+      }
+    }}
+  />
+  {newVente.commentaire && (
+    <img src={newVente.commentaire} alt="aperçu" style={{ width: 50, height: 50, objectFit: "cover" }} />
+  )}
+</td>
+
                 <td>
   <select name="accesoire" value={newVente.accesoire} onChange={(e) => handleChange(e, "new")}>
     <option value="">--</option>
@@ -352,7 +389,22 @@ const ListeVentes = () => {
                       </td>
                       <td><input name="matricule" value={v.matricule} onChange={(e) => handleChange(e, v.id)} disabled={v.statut !== "Commande"} /></td>
                       <td><input name="matriculation" value={v.matriculation} onChange={(e) => handleChange(e, v.id)} disabled={v.statut !== "Commande"} /></td>
-                      <td><input name="commentaire" value={v.commentaire} onChange={(e) => handleChange(e, v.id)} /></td>
+                <td>
+  <input 
+    type="file" 
+    accept="image/*"
+    onChange={async (e) => {
+      if (e.target.files && e.target.files[0]) {
+        const url = await uploadToCloudinary(e.target.files[0]);
+        handleChange({ target: { name: "commentaire", value: url } }, v.id);
+      }
+    }}
+  />
+  {v.commentaire && (
+    <img src={v.commentaire} alt="aperçu" style={{ width: 50, height: 50, objectFit: "cover" }} />
+  )}
+</td>
+
                       <td>
   <select name="accesoire" value={v.accesoire} onChange={(e) => handleChange(e, v.id)}>
     <option value="">--</option>
@@ -408,7 +460,12 @@ const ListeVentes = () => {
                       <td>{v.modele}</td>
                       <td>{v.matricule}</td>
                       <td>{v.matriculation}</td>
-                      <td>{v.commentaire || "-"}</td>
+                     <td>
+  {v.commentaire ? (
+    <img src={v.commentaire} alt="image" style={{ width: 50, height: 50, objectFit: "cover" }} />
+  ) : "-"}
+</td>
+
                       <td>{v.accesoire || "-"}</td>
                       <td className={getStatutClass(v.statut)}>{v.statut || "-"}</td>
                       <td>
