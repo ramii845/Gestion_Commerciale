@@ -122,6 +122,7 @@ const ListeArchiveVentes = () => {
               <th>Matricule</th>
               <th>Matriculation</th>
               <th>Commentaire</th>
+              <th>Accesoire</th>
               <th>Statut</th>
               <th>Date création</th>
               <th>Date modification</th>
@@ -162,7 +163,25 @@ const ListeArchiveVentes = () => {
                   <td>{v.modele}</td>
                   <td>{v.matricule}</td>
                   <td>{v.matriculation}</td>
-                  <td>{v.commentaire || "-"}</td>
+                   <td style={{ textAlign: "center" }}>
+  {v.commentaire ? (
+    <a
+      href={v.commentaire}
+      target="_blank"
+      rel="noopener noreferrer"
+      title="Image commentaire"
+      className="doc-link"
+      style={{ display: "block" }}
+    >
+    Image
+
+    </a>
+  ) : (
+    "-"
+  )}
+</td>
+
+                  <td>{v.accesoire || "-"}</td>
                   <td className={getStatutClass(v.statut)}>{v.statut || "-"}</td>
                   <td>
                     {v.date_creation

@@ -29,6 +29,7 @@ const ListPromesse = () => {
   const [promesses, setPromesses] = useState([]);
   const [usersMap, setUsersMap] = useState({});
   const [filterMatricule, setFilterMatricule] = useState("");
+  const [filterMois, setFilterMois] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [userId, setUserId] = useState(null);
@@ -70,7 +71,7 @@ const ListPromesse = () => {
     if (!userId) return;
     const fetchPromesses = async () => {
       try {
-        const res = await getPaginatedPromesses(page, 7, "", "", filterMatricule);
+        const res = await getPaginatedPromesses(page, 7, "", "", filterMatricule, "", "", filterMois);
         // Filter coté backend ne filtre pas user_id, donc on filtre ici localement
         const allFiltered = res.data.promesses.filter(p => p.user_id === userId);
         setPromesses(allFiltered);
@@ -80,7 +81,7 @@ const ListPromesse = () => {
       }
     };
     fetchPromesses();
-  }, [page, filterMatricule, userId]);
+  }, [page, filterMatricule,filterMois, userId]);
 
   // Pagination controls
   const onPrev = () => setPage(p => Math.max(p - 1, 1));
@@ -109,6 +110,16 @@ const ListPromesse = () => {
             placeholder="matricule"
             style={{ padding: 6, width: 200 }}
           />
+                 <select className="filterMois"
+    value={filterMois || ""}
+    onChange={(e) => setFilterMois(e.target.value ? parseInt(e.target.value) : "")}
+    style={{ padding: 6, marginLeft: 10 }}
+  >
+    <option value="">-- Tous les mois --</option>
+    {[...Array(12).keys()].map((m) => (
+      <option key={m+1} value={m+1}>{m+1}</option>
+    ))}
+  </select>
         </div>
 
         <table>

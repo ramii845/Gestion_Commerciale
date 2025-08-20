@@ -42,6 +42,7 @@ async def get_promesses_paginated(
     matricule: Optional[str] = None,
     societe: Optional[str] = None,
     service_concerne:Optional[str] = None,
+    mois: Optional[int] = Query(None, ge=1, le=12) 
 ):
     skip = (page - 1) * limit
     query_filter = {}
@@ -55,8 +56,9 @@ async def get_promesses_paginated(
     if societe:
         query_filter["societe"] = {"$regex": societe, "$options": "i"}
     if service_concerne:
-        if service_concerne:
          query_filter["service_concerne"] = {"$regex": service_concerne, "$options": "i"}
+    if mois:
+        query_filter["$expr"] = {"$eq": [{"$month": "$date_creation"}, mois]}
 
 
     total = await db.promesses.count_documents(query_filter)

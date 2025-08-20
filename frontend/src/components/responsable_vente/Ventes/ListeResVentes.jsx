@@ -6,6 +6,8 @@ import Navbar from "../../Navbar/Navbar";
 import "../../css/ListeVentes.css";
 import { FaEdit } from "react-icons/fa";
 import SidebarMenuResponsable from "../SidebarMenuResponsable";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const decodeJWT = (token) => {
   try {
@@ -25,10 +27,9 @@ const getStatutClass = (statut) => {
   return `statut-${statut.toLowerCase()}`;
 };
 const modelesParMarque = {
-  Peugeot: ['LANDTREK', 'EXPERT', 'Boxer', 'Traveller', '208', '301', '2008', '308', '3008', '508', '5008', 'Rifter', 'Partner'],
+  Peugeot: ['LANDTREK', ,'Landtrek Simple Cabine','Landtrek double Cabine','EXPERT', 'Boxer', 'Traveller', '208', '301', '2008', '308', '3008', '508', '5008', 'Rifter', 'Partner'],
   Citroen: ['C3 POPULAIRE', 'JUMPY FOURGON', 'Berlingo', 'BERLINGO VAN', 'C4 X', 'Jumper'],
   Opel: ['Corsa', 'Astra', 'Mokka', 'Crossland', 'Grandland', 'COMBO CARGO'],
-  Autre: ['Autre']
 };
 
 const  ListeResVentes = () => {
@@ -190,6 +191,30 @@ useEffect(() => {
     throw error;
   }
 };
+const exportToExcel = () => {
+  if (ventes.length === 0) return;
+  const data = ventes.map(v => ({
+    Commercial: usersMap[v.user_id]?.nom || "Inconnu",
+    Client: v.nom_client,
+    Téléphone: v.tel_client,
+    Marque: v.marque,
+    Modèle: v.modele,
+    Matricule: v.matricule,
+    Matriculation: v.matriculation,
+    Commentaire: v.commentaire || "",
+    Accessoire: v.accesoire || "",
+    Statut: v.statut || "",
+    "Date création": v.date_creation ? new Date(v.date_creation).toLocaleString("fr-FR") : "",
+    "Date modification": v.date_modification ? new Date(v.date_modification).toLocaleString("fr-FR") : ""
+  }));
+
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Ventes");
+  const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+  const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+  saveAs(blob, "ventes.xlsx");
+};
 
 
   const onPrev = () => setPage((p) => Math.max(p - 1, 1));
@@ -205,6 +230,7 @@ useEffect(() => {
           <button className="btn-ajout-ventes" onClick={handleAddRow}>
             Ajouter
           </button>
+          <button className="btn-export" onClick={exportToExcel}>Exporter</button>
         </div>
 
         <div className="filter-container">
@@ -495,11 +521,29 @@ useEffect(() => {
             <td>{v.modele}</td>
             <td>{v.matricule}</td>
             <td>{v.matriculation}</td>
-          <td>
+<td style={{ textAlign: "center" }}>
   {v.commentaire ? (
-    <img src={v.commentaire} alt="image" style={{ width: 50, height: 50, objectFit: "cover" }} />
-  ) : "-"}
+    <a
+      href={v.commentaire}
+      target="_blank"
+      rel="noopener noreferrer"
+      title="Image commentaire"
+      className="doc-link"
+      style={{ display: "block" }}
+    >
+    Image
+
+    </a>
+  ) : (
+    "-"
+  )}
 </td>
+
+
+
+
+     
+
 
             <td>{v.accesoire || "-"}</td>
             <td className={getStatutClass(v.statut)}>{v.statut || "-"}</td>  {/* <-- ici */}

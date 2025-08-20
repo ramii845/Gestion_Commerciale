@@ -12,7 +12,7 @@ export const getAllPromesses = async () => {
 };
 
 export const getPaginatedPromesses = async (
-  page = 1, limit = 7, marque = "", modele = "", matricule = "", societe = "", service_concerne = ""
+  page = 1, limit = 7, marque = "", modele = "", matricule = "", societe = "", service_concerne = "",mois = ""
 ) => {
   return await axios.get(`${API_BASE_URL}/paginated`, {
     params: {
@@ -22,7 +22,9 @@ export const getPaginatedPromesses = async (
       modele: modele || undefined,
       matricule: matricule || undefined,
       societe: societe || undefined,
-      service_concerne: service_concerne || undefined
+      service_concerne: service_concerne || undefined,
+      mois: mois || undefined 
+      
     }
   });
 };
