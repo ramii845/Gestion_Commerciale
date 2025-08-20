@@ -135,6 +135,7 @@ useEffect(() => {
       nom_client: "",
       tel_client: "",
       commentaire: "",
+      accesoire:"",
       statut: "",
       date_creation: new Date().toISOString(),
       user_id: userId
@@ -214,6 +215,7 @@ useEffect(() => {
               <th>Matricule</th>
               <th>Matriculation</th>
               <th>Commentaire</th>
+              <th>Accessoire</th>
               <th>Statut</th>
               <th>Date création</th>
               <th>Date modification</th>
@@ -290,6 +292,14 @@ useEffect(() => {
       <td>
         <input name="commentaire" value={newVente.commentaire} onChange={(e) => handleChange(e, "new")} />
       </td>
+      <td>
+  <select name="accesoire" value={newVente.accesoire} onChange={(e) => handleChange(e, "new")}>
+    <option value="">--</option>
+    <option value="Avec accessoire">Avec accessoire</option>
+    <option value="Sans accessoire">Sans accessoire</option>
+  </select>
+</td>
+
       
       <td >
         <select name="statut" value={newVente.statut} onChange={(e) => handleChange(e, "new")}>
@@ -380,6 +390,14 @@ useEffect(() => {
             <td>
               <input name="commentaire" value={v.commentaire} onChange={(e) => handleChange(e, v.id)} />
             </td>
+            <td>
+  <select name="accesoire" value={v.accesoire} onChange={(e) => handleChange(e, v.id)}>
+    <option value="">--</option>
+    <option value="Avec accessoire">Avec accessoire</option>
+    <option value="Sans accessoire">Sans accessoire</option>
+  </select>
+</td>
+
             <td className={getStatutClass(v.statut)}>
               <select name="statut" value={v.statut} onChange={(e) => handleChange(e, v.id)}>
                 <option value="">--</option>
@@ -428,6 +446,7 @@ useEffect(() => {
             <td>{v.matricule}</td>
             <td>{v.matriculation}</td>
             <td>{v.commentaire || "-"}</td>
+            <td>{v.accesoire || "-"}</td>
             <td className={getStatutClass(v.statut)}>{v.statut || "-"}</td>  {/* <-- ici */}
             <td>
               {v.date_creation

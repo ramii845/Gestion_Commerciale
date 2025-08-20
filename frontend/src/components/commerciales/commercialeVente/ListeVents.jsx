@@ -126,6 +126,7 @@ const ListeVentes = () => {
       nom_client: "",
       tel_client: "",
       commentaire: "",
+      accesoire:"",
       statut: "",
       date_creation: new Date().toISOString(),
       user_id: userId
@@ -206,6 +207,7 @@ const ListeVentes = () => {
               <th>Statut</th>
               <th>Date création</th>
               <th>Date modification</th>
+              <th>Accessoire</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -278,6 +280,14 @@ const ListeVentes = () => {
                   <input name="commentaire" value={newVente.commentaire} onChange={(e) => handleChange(e, "new")} />
                 </td>
                 <td>
+  <select name="accesoire" value={newVente.accesoire} onChange={(e) => handleChange(e, "new")}>
+    <option value="">--</option>
+    <option value="Avec accessoire">Avec accessoire</option>
+    <option value="Sans accessoire">Sans accessoire</option>
+  </select>
+</td>
+
+                <td>
                   <select name="statut" value={newVente.statut} onChange={(e) => handleChange(e, "new")}>
                     <option>Prospection</option>
                     <option>Devis</option>
@@ -344,6 +354,14 @@ const ListeVentes = () => {
                       <td><input name="matriculation" value={v.matriculation} onChange={(e) => handleChange(e, v.id)} disabled={v.statut !== "Commande"} /></td>
                       <td><input name="commentaire" value={v.commentaire} onChange={(e) => handleChange(e, v.id)} /></td>
                       <td>
+  <select name="accesoire" value={v.accesoire} onChange={(e) => handleChange(e, v.id)}>
+    <option value="">--</option>
+    <option value="Avec accessoire">Avec accessoire</option>
+    <option value="Sans accessoire">Sans accessoire</option>
+  </select>
+</td>
+
+                      <td>
                         <select name="statut" value={v.statut} onChange={(e) => handleChange(e, v.id)}>
                           <option value="">--</option>
                           <option>Prospection</option>
@@ -391,6 +409,7 @@ const ListeVentes = () => {
                       <td>{v.matricule}</td>
                       <td>{v.matriculation}</td>
                       <td>{v.commentaire || "-"}</td>
+                      <td>{v.accesoire || "-"}</td>
                       <td className={getStatutClass(v.statut)}>{v.statut || "-"}</td>
                       <td>
                         {v.date_creation
