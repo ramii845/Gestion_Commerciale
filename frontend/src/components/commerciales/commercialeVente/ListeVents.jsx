@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getPaginatedVentes, addVente, updateVente } from "../../services/venteService";
 import { getUsersPaginated } from "../../services/authService";
+import { addObjectif, getObjectifByUser } from "../../services/objectifService";
 import { toast } from "react-toastify";
 import Navbar from "../../Navbar/Navbar";
 import "../../css/ListeVentes.css";
@@ -43,6 +44,14 @@ const ListeVentes = () => {
   const [newVente, setNewVente] = useState(null);
   const [modelesDisponibles, setModelesDisponibles] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [objectif, setObjectif] = useState({
+    peugeot: "",
+    citroen: "",
+    opel: ""
+  });
+  const [objectifExistant, setObjectifExistant] = useState(null);
+   const [loading, setLoading] = useState(true);
+  
 
 
   useEffect(() => {
@@ -208,11 +217,105 @@ const exportToExcel = () => {
 
   const onPrev = () => setPage((p) => Math.max(p - 1, 1));
   const onNext = () => setPage((p) => Math.min(p + 1, totalPages));
+ useEffect(() => {
+  if (userId) {
+    const fetchObjectif = async () => {
+      try {
+        const res = await getObjectifByUser(userId);
+        if (res.data?.objectifs?.length > 0) {
+          const obj = res.data.objectifs[0]; // prendre le premier objectif
+          setObjectifExistant(obj);
+          setObjectif({
+            peugeot: obj.peugeot,
+            citroen: obj.citroen,
+            opel: obj.opel,
+            realise_peugeot: obj.realise_peugeot,
+            realise_citroen: obj.realise_citroen,
+            realise_opel: obj.realise_opel,
+          });
+        } else {
+          setObjectifExistant(null); // aucun objectif trouvé
+        }
+      } catch (error) {
+        console.log("Pas encore d’objectif pour cet utilisateur");
+        setObjectifExistant(null);
+      } finally {
+        setLoading(false); // ⚠️ IMPORTANT
+      }
+    };
+    fetchObjectif();
+  }
+}, [userId]);
+
+
+
+const handleObjectifChange = (e) => {
+  const { name, value } = e.target;
+  setObjectif((prev) => ({ ...prev, [name]: Number(value) }));
+};
+
+const handleSaveObjectif = async () => {
+  try {
+    await addObjectif({ ...objectif, user_id: userId });
+    toast.success("Objectif ajouté avec succès !");
+    setObjectifExistant({ ...objectif, user_id: userId });
+    setObjectif({ peugeot: "", citroen: "", opel: ""});
+  } catch (err) {
+    toast.error("Erreur lors de l’ajout de l’objectif");
+  }
+};
 
   return (
     <>
       <Navbar />
       <SidebarMenuCommercial/>
+      <div className="objectif-container">
+        <div className="objectif-box">
+          <h3 className="objectif-title">🎯 Mon Objectif</h3>
+
+        {loading ? (
+  <p>Chargement...</p>
+) : !objectifExistant ? (
+  <>
+    <div className="objectif-inputs">
+      {["peugeot", "citroen", "opel"].map((marque) => (
+        <div key={marque} className="objectif-field">
+          <label>{marque.charAt(0).toUpperCase() + marque.slice(1)} :</label>
+          <input
+            type="number"
+            name={marque}
+            value={objectif[marque] || ""}
+            onChange={handleObjectifChange}
+            placeholder="0"
+          />
+        </div>
+      ))}
+    </div>
+    <button className="objectif-btn" onClick={handleSaveObjectif}>
+      Enregistrer
+    </button>
+  </>
+) : (
+  <table className="objectif-table">
+    <thead>
+      <tr>
+        <th>Marque</th>
+        <th>Objectif fixé</th>
+      </tr>
+    </thead>
+    <tbody>
+      {["peugeot", "citroen", "opel"].map((marque) => (
+        <tr key={marque}>
+          <td>{marque.charAt(0).toUpperCase() + marque.slice(1)}</td>
+          <td>{objectifExistant[marque]}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+)}
+
+        </div>
+      </div>
       <div className="liste-ventes-container">
         <div className="liste-ventes-header" style={{ display: "flex", alignItems: "center" }}>
           <h2 style={{ textAlign: "center", flexGrow: 1 }}>Mes ventes</h2>

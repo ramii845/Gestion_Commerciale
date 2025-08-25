@@ -44,6 +44,7 @@ const  ListeResVentes = () => {
   const [modelesDisponibles, setModelesDisponibles] = useState([]);
   const [filterStatut, setFilterStatut] = useState("");
   const [uploading, setUploading] = useState(false);
+  
 
 
 
@@ -220,10 +221,14 @@ const exportToExcel = () => {
   const onPrev = () => setPage((p) => Math.max(p - 1, 1));
   const onNext = () => setPage((p) => Math.min(p + 1, totalPages));
 
+
+
+
   return (
     <>
       <Navbar />
       <SidebarMenuResponsable/>
+   
       <div className="liste-ventes-container">
         <div className="liste-ventes-header">
           <h2 style={{ textAlign: "center", flexGrow: 1 }}>Mes ventes</h2>

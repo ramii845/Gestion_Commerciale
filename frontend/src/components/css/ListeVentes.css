@@ -4,11 +4,78 @@
 *, *::before, *::after {
   box-sizing: border-box;
 }
+.objectif-container {
+  display: flex;
+  justify-content: flex-start; /* à gauche mais légèrement décalé */
+  align-items: flex-start;     /* en haut */
+  padding: 2rem 0 0 4rem;      /* décalage vers la droite et un peu en haut */
+  height: 100vh;
+}
+
+.objectif-box {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 300px;               /* réduit la largeur */
+  background-color: #f9f9f9;
+}
+
+.objectif-table th,
+.objectif-table td {
+  padding: 0.2rem;      /* réduit l'espace à l'intérieur des cellules */
+  line-height: 1.2;     /* réduit l'espacement vertical du texte */
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
+}
+
+.objectif-table {
+  width: 80%;
+  border-collapse: collapse;
+  text-align: center;
+  margin: 0 auto 1rem auto;
+  max-height: 200px;    /* limite la hauteur totale du tableau si nécessaire */
+  overflow-y: auto;     /* ajoute un scroll vertical si contenu dépasse */
+  display: block;       /* nécessaire pour que max-height et overflow fonctionnent */
+}
+
+
+.objectif-btn {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.6rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.objectif-btn:hover {
+  background-color: #45a049;
+}
+/* Réduire la largeur des champs number */
+.objectif-inputs {
+  display: flex;        /* alignement en ligne */
+  gap: 10px;            /* espace entre les inputs */
+  justify-content: flex-start; /* aligne à gauche */
+  align-items: center;  /* centre verticalement si labels présents */
+  margin-bottom: 10px;
+}
+
+.objectif-inputs input[type="number"] {
+  width: 60px;       /* largeur réduite */
+  padding: 3px 5px;  /* padding intérieur */
+  font-size: 14px;   /* taille du texte */
+}
+
+
+
 
 /* Container principal */
 .liste-ventes-container {
   margin-left: 80px; /* Largeur de la sidebar */
-  margin-top: 70px; /* Hauteur de la navbar */
+  margin-top: -200px; /* Hauteur de la navbar */
   min-height: calc(100vh - 70px);
   padding: 30px;
   background-color: #f8fafc;

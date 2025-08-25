@@ -5,6 +5,7 @@ from controllers.promesse_controller import promesse_router
 from controllers.leads_controller import leads_router
 from controllers.vente_controller   import vente_router
 from controllers.archive_vente_controller import archive_router
+from controllers.objectif_controller import objectif_router 
 
 import numpy as np
 
@@ -31,6 +32,7 @@ app.include_router(promesse_router, prefix="/promesses", tags=["promesses"])
 app.include_router(leads_router, prefix="/leads", tags=["leads"])
 app.include_router(vente_router, prefix="/ventes", tags=["Ventes"])
 app.include_router(archive_router, prefix="/archives", tags=["Archives"])
+app.include_router(objectif_router, prefix="/objectifs", tags=["Objectifs"]) 
 
 
 
